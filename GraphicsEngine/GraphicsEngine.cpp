@@ -22,5 +22,5 @@ void destroyGraphicsEngine(GraphicEngine* target)
 
 void runGraphicsEngine(GraphicEngine* target)
 {
-	return target->run();
+	target->run();
 }
