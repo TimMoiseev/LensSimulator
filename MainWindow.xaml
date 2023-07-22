@@ -26,8 +26,8 @@
         </Grid>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="3*"/>
                 <RowDefinition/>
+                <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="1">
                 <StackPanel Orientation="Horizontal">

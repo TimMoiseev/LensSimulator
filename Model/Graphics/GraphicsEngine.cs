@@ -12,14 +12,13 @@ namespace LensSimulator.Model.Graphics
 {
     internal class GraphicsEngine
     {
-        public GraphicsEngine(StateUpdateHandler handler)
+        public GraphicsEngine(StateUpdateHandler eventHandler)
         {
-            state.StateUpdate += handler;
+            state.StateUpdate += eventHandler;
+            
         }
         public void runEngine()
         {
-            state.IsRunning = true;
-            state.IsError = false;
             AsyncRun();
         }
         public void stopEngne()
@@ -28,14 +27,15 @@ namespace LensSimulator.Model.Graphics
         }
         private void Run()
         {
-            Thread.Sleep(3000);
-            state.IsError = true;
+            GraphicEngineWrapper graphicEngineWrapper = new GraphicEngineWrapper();
+            graphicEngineWrapper.runEngine();
         }
         async private void AsyncRun()
         {
             await Task.Run(() => { Run(); });
         }
         public EngineState state;
+        
     }
     struct EngineState 
     {

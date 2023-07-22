@@ -31,7 +31,7 @@ namespace LensSimulator.ViewModel
 
         private void State_StateUpdate(string message)
         {
-            OnPropertyChanged("EngineState");
+            OnPropertyChanged("");
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
