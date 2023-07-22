@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LensSimulator": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
