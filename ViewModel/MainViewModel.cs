@@ -18,7 +18,8 @@ namespace LensSimulator.ViewModel
         {
             get
             {
-                if(!engine.State.IsError && engine.State.IsRunning) { return "GE Running \n"; }
+                if (!engine.State.IsError && engine.State.IsRunning) { return "GE Running \n"; }
+                else if (engine.State.IsError) { return "Error! \n"; }
                 else { return "GE Stopped \n"; }
             }
         }
