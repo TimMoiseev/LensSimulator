@@ -6,11 +6,16 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static LensSimulator.Model.Graphics.EngineState;
 
 namespace LensSimulator.Model.Graphics
 {
     internal class GraphicsEngine
     {
+        public GraphicsEngine(StateUpdateHandler handler)
+        {
+            state.StateUpdate += handler;
+        }
         public void runEngine()
         {
             state.IsRunning = true;
@@ -31,8 +36,6 @@ namespace LensSimulator.Model.Graphics
             await Task.Run(() => { Run(); });
         }
         public EngineState state;
-        
-        
     }
     struct EngineState 
     {

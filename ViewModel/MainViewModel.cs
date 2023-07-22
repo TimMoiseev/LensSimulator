@@ -25,8 +25,7 @@ namespace LensSimulator.ViewModel
         }
         public MainViewModel() 
         {
-            engine = new();
-            engine.state.StateUpdate += State_StateUpdate;
+            engine = new(State_StateUpdate);
             engine.runEngine();
         }
 

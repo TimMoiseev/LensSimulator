@@ -11,9 +11,31 @@
         <vm:MainViewModel></vm:MainViewModel>
     </Window.DataContext>
     <Grid>
-        <StackPanel>
-            <TextBlock Text="{Binding EngineState}" HorizontalAlignment="Left" Margin="255,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row ="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
 
-        </StackPanel>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="statusBar" Text="{Binding StringFormat=Engine status: {0}, Path=EngineState }"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+
     </Grid>
 </Window>
