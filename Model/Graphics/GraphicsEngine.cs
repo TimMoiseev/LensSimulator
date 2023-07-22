@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace LensSimulator.Model.Graphics
@@ -14,16 +15,26 @@ namespace LensSimulator.Model.Graphics
         {
             state.IsRunning = true;
             state.IsError = false;
+            AsyncRun();
         }
         public void stopEngne()
         {
             state.IsRunning = false;
         }
-        private EngineState state;
-        public EngineState State { get { return state; } set { } }
+        private void Run()
+        {
+            Thread.Sleep(3000);
+            state.IsError = true;
+        }
+        async private void AsyncRun()
+        {
+            await Task.Run(() => { Run(); });
+        }
+        public EngineState state;
+        
         
     }
-    struct EngineState : INotifyPropertyChanged
+    struct EngineState 
     {
         bool isError;
         bool isRunning;
@@ -33,7 +44,7 @@ namespace LensSimulator.Model.Graphics
             set 
             { 
                 isRunning = value;
-                OnPropertyChanged();
+                StateUpdate?.Invoke("IsRunning");
             }
         }
         public bool IsError
@@ -42,21 +53,16 @@ namespace LensSimulator.Model.Graphics
             set 
             { 
                 isError = value;
-                OnPropertyChanged();
+                StateUpdate?.Invoke("IsError");
             }
         }
+        public delegate void StateUpdateHandler(string message);
+        public event StateUpdateHandler StateUpdate;
         public EngineState()
         {
             isRunning = false;
             isError = false;
         }
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            if (PropertyChanged != null && !IsError)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-            }
-        }
+        
     }
 }

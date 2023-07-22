@@ -18,17 +18,21 @@ namespace LensSimulator.ViewModel
         {
             get
             {
-                if (!engine.State.IsError && engine.State.IsRunning) { return "GE Running \n"; }
-                else if (engine.State.IsError) { return "Error! \n"; }
+                if (!engine.state.IsError && engine.state.IsRunning) { return "GE Running \n"; }
+                else if (engine.state.IsError) { return "Error! \n"; }
                 else { return "GE Stopped \n"; }
             }
         }
         public MainViewModel() 
         {
-            (engine = new()).runEngine();
-            Thread.Sleep(10000);
-            engine.stopEngne();
+            engine = new();
+            engine.state.StateUpdate += State_StateUpdate;
+            engine.runEngine();
+        }
 
+        private void State_StateUpdate(string message)
+        {
+            OnPropertyChanged("EngineState");
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
