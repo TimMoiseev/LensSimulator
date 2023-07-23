@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:LensSimulator"
         xmlns:vm ="clr-namespace:LensSimulator.ViewModel"
         xmlns:rs ="clr-namespace:LensSimulator.View.SurfaceView"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.DataContext>
@@ -26,7 +27,11 @@
             </Grid>
             <Grid Grid.Column="1">
                 <rs:RenderSurface>
-                    
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Loaded">
+                            <i:InvokeCommandAction Command="{Binding SurfaceLoaded}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </rs:RenderSurface>
             </Grid>
         </Grid>

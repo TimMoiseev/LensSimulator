@@ -1,4 +1,5 @@
-﻿using LensSimulator.Model.Graphics;
+﻿using LensSimulator.Commands;
+using LensSimulator.Model.Graphics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,12 +13,13 @@ namespace LensSimulator.ViewModel
 {
     internal class MainViewModel : INotifyPropertyChanged
     {
-        private GraphicsEngine engine;
+        private GraphicsEngine? engine;
 
         public string EngineState
         {
             get
             {
+                if (engine == null) { return "GE Stopped \n"; }
                 if (!engine.state.IsError && engine.state.IsRunning) { return "GE Running \n"; }
                 else if (engine.state.IsError) { return "Error! \n"; }
                 else { return "GE Stopped \n"; }
@@ -25,8 +27,19 @@ namespace LensSimulator.ViewModel
         }
         public MainViewModel() 
         {
-            engine = new(State_StateUpdate);
-            engine.runEngine();
+            
+        }
+        private RelayCommand? surfaceLoaded = null;
+        public RelayCommand SurfaceLoaded
+        {
+            get 
+            { return surfaceLoaded ?? (surfaceLoaded = new RelayCommand(obj => 
+                {
+                    engine = new(State_StateUpdate);
+                    engine.runEngine();
+                    engine.state.IsRunning = true;
+                })); 
+            }
         }
 
         private void State_StateUpdate(string message)
