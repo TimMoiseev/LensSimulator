@@ -1,26 +1,31 @@
 #include "pch.h"
 #include "GraphicsEngine.h"
 
-GraphicEngine::GraphicEngine() {
+GraphicsEngine::GraphicsEngine() {
 
 }
 
-void GraphicEngine::run()
+GraphicsEngine::~GraphicsEngine()
+{
+
+}
+
+void GraphicsEngine::run()
 {
 
 }
 
 void* createGraphicsEngine()
 {
-	return new GraphicEngine();
+	return new GraphicsEngine();
 }
 
-void destroyGraphicsEngine(GraphicEngine* target)
+void destroyGraphicsEngine(GraphicsEngine* target)
 {
-	target->~GraphicEngine();
+	target->~GraphicsEngine();
 }
 
-void runGraphicsEngine(GraphicEngine* target)
+void runGraphicsEngine(GraphicsEngine* target)
 {
 	target->run();
 }

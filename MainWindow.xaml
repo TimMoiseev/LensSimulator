@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LensSimulator"
         xmlns:vm ="clr-namespace:LensSimulator.ViewModel"
+        xmlns:rs ="clr-namespace:LensSimulator.View.SurfaceView"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.DataContext>
@@ -22,6 +23,11 @@
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
 
+            </Grid>
+            <Grid Grid.Column="1">
+                <rs:RenderSurface>
+                    
+                </rs:RenderSurface>
             </Grid>
         </Grid>
         <Grid Grid.Row="1">
