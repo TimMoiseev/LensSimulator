@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace LensSimulator.ViewModel
 {
@@ -52,6 +53,15 @@ namespace LensSimulator.ViewModel
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+
+        private RelayCommand windowClosingCommand;
+        public ICommand WindowClosingCommand => windowClosingCommand ??= new RelayCommand(WindowClosing);
+
+        private void WindowClosing(object commandParameter)
+        {
+            engine?.stopEngne();
+
         }
     }
 }

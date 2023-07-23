@@ -24,6 +24,7 @@ namespace LensSimulator.Model.Graphics
         public void stopEngne()
         {
             state.IsRunning = false;
+            graphicEngineWrapper.Dispose();
         }
         private void Run()
         {

@@ -2,7 +2,6 @@
 #include "SurfaceWindow.h"
 
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-
     switch (msg)
     {
     case WM_CLOSE:
@@ -15,11 +14,9 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
         return DefWindowProc(hWnd, msg, wParam, lParam);
     }
     return 0;
-
 }
 
-HWND createSurfaceWindow(HINSTANCE wInstance, HWND hwndParrent)
-{
+HWND createSurfaceWindow(HINSTANCE wInstance, HWND hwndParrent) {
     auto g_hwnd = CreateWindowEx(
         CS_HREDRAW | CS_VREDRAW,
         L"AppWindowClass",
@@ -35,8 +32,7 @@ HWND createSurfaceWindow(HINSTANCE wInstance, HWND hwndParrent)
     return g_hwnd;
 }
 
-bool registerSurfaceWindowClass(HINSTANCE hInstance, const wchar_t* strClassName, WNDPROC pfnWindowProcedure)
-{
+bool registerSurfaceWindowClass(HINSTANCE hInstance, const wchar_t* strClassName, WNDPROC pfnWindowProcedure) {
     WNDCLASSEX classInfo = {};
     classInfo.cbSize = sizeof(WNDCLASSEX);
     classInfo.style = CS_HREDRAW | CS_VREDRAW;
@@ -50,25 +46,27 @@ bool registerSurfaceWindowClass(HINSTANCE hInstance, const wchar_t* strClassName
     classInfo.lpszMenuName = nullptr;
     classInfo.lpszClassName = strClassName;
     classInfo.lpfnWndProc = pfnWindowProcedure;
-
-
     return RegisterClassEx(&classInfo) != 0;;
 }
 
-void showSurfaceWindow(HWND hwnd)
-{
+void showSurfaceWindow(HWND hwnd) {
     ShowWindow(hwnd, SW_SHOWNORMAL);
 }
 
+void destroyWindow(HWND hwnd) {
+    DestroyWindow(hwnd);
+}
 
-HWND createSurfaceWindowExport(HWND hwndParrent)
-{
+void destroyWindowExport(HWND hwnd) {
+    destroyWindow(hwnd);
+}
+
+HWND createSurfaceWindowExport(HWND hwndParrent) {
     HWND handle = createSurfaceWindow(GetModuleHandle(nullptr), hwndParrent);
     return handle;
 }
 
-void showSurfaceWindowExport(HWND hwnd)
-{
+void showSurfaceWindowExport(HWND hwnd) {
     showSurfaceWindow(hwnd);
 }
 

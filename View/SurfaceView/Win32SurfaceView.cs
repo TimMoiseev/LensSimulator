@@ -34,7 +34,9 @@ namespace LensSimulator.View.SurfaceView
 
         protected override void DestroyWindowCore(HandleRef hwnd)
         {
-            
+            [DllImport("C:\\Users\\lglgl\\Documents\\GitHub\\LensSimulator\\x64\\Debug\\GraphicsEngine.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+            static extern void destroyWindowExport(IntPtr hwnd);
+            destroyWindowExport(hwnd.Handle);
         }
 
         protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LensSimulator.Model.Graphics
 {
-    internal class GraphicEngineWrapper
+    internal class GraphicEngineWrapper : IDisposable
     {
         [DllImport("C:\\Users\\lglgl\\Documents\\GitHub\\LensSimulator\\x64\\Debug\\GraphicsEngine.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         static protected extern IntPtr createGraphicsEngine();
@@ -24,12 +24,18 @@ namespace LensSimulator.Model.Graphics
         }
         ~GraphicEngineWrapper()
         {
-            if (wrapperHandle != IntPtr.Zero) { destroyGraphicsEngine(wrapperHandle); }
+            
         }
         public void runEngine()
         {
             runGraphicsEngine(wrapperHandle);
         }
+
+        public void Dispose()
+        {
+            if (wrapperHandle != IntPtr.Zero) { destroyGraphicsEngine(wrapperHandle); }
+        }
+
         protected IntPtr wrapperHandle;
     }
 }
