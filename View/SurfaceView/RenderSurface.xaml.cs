@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using static LensSimulator.Model.Graphics.EngineState;
 namespace LensSimulator.View.SurfaceView
 {
     /// <summary>
@@ -30,6 +30,7 @@ namespace LensSimulator.View.SurfaceView
         private void RenderSurface_Loaded(object sender, RoutedEventArgs e)
         {
             surfaceView = new Win32SurfaceView();
+            
             Content = surfaceView;
         }
     }

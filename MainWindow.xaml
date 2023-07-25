@@ -34,7 +34,7 @@
             <Grid Grid.Column="1">
                 <rs:RenderSurface>
                     <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Loaded">
+                        <i:EventTrigger EventName="LayoutUpdated">
                             <i:InvokeCommandAction Command="{Binding SurfaceLoaded}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>

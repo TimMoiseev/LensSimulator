@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
+using static LensSimulator.Model.Graphics.EngineState;
 namespace LensSimulator.ViewModel
 {
     internal class MainViewModel : INotifyPropertyChanged
@@ -21,8 +21,8 @@ namespace LensSimulator.ViewModel
             get
             {
                 if (engine == null) { return "GE Stopped \n"; }
-                if (!engine.state.IsError && engine.state.IsRunning) { return "GE Running \n"; }
-                else if (engine.state.IsError) { return "Error! \n"; }
+                if (!GetEngineState().IsError && GetEngineState().IsRunning) { return "GE Running \n"; }
+                else if (GetEngineState().IsError) { return "Error! \n"; }
                 else { return "GE Stopped \n"; }
             }
         }
@@ -36,9 +36,13 @@ namespace LensSimulator.ViewModel
             get 
             { return surfaceLoaded ?? (surfaceLoaded = new RelayCommand(obj => 
                 {
-                    engine = new(State_StateUpdate);
-                    engine.runEngine();
-                    engine.state.IsRunning = true;
+                    if(GetEngineState().WindowHandle != nint.Zero)
+                    {
+                        engine = new(State_StateUpdate);
+                        engine.RunEngine();
+                        GetEngineState().IsRunning = true;
+                    }
+                    
                 })); 
             }
         }
@@ -60,7 +64,7 @@ namespace LensSimulator.ViewModel
 
         private void WindowClosing(object commandParameter)
         {
-            engine?.stopEngne();
+            engine?.StopEngine();
 
         }
     }

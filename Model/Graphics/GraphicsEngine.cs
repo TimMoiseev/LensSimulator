@@ -14,16 +14,17 @@ namespace LensSimulator.Model.Graphics
     {
         public GraphicsEngine(StateUpdateHandler eventHandler)
         {
-            state.StateUpdate += eventHandler;
+
+            GetEngineState().StateUpdate += eventHandler;
             graphicEngineWrapper = new GraphicEngineWrapper();
         }
-        public void runEngine()
+        public void RunEngine()
         {
             AsyncRun();
         }
-        public void stopEngne()
+        public void StopEngine()
         {
-            state.IsRunning = false;
+            GetEngineState().IsRunning = false;
             graphicEngineWrapper.Dispose();
         }
         private void Run()
@@ -34,13 +35,16 @@ namespace LensSimulator.Model.Graphics
         {
             await Task.Run(() => { Run(); });
         }
-        public EngineState state;
+        
         private GraphicEngineWrapper graphicEngineWrapper;
     }
-    struct EngineState 
+    public sealed class EngineState 
     {
+        private static EngineState? state;
         bool isError;
         bool isRunning;
+        bool windowCreated;
+        IntPtr windowHandle;
         public bool IsRunning
         {
             get { return isRunning; }
@@ -59,9 +63,24 @@ namespace LensSimulator.Model.Graphics
                 StateUpdate?.Invoke("IsError");
             }
         }
+        public IntPtr WindowHandle
+        {
+            get { return windowHandle; }
+            set 
+            { 
+                windowHandle = value; 
+                windowCreated = true;
+                StateUpdate?.Invoke("WindowHandle");
+            }
+        }
         public delegate void StateUpdateHandler(string message);
         public event StateUpdateHandler StateUpdate;
-        public EngineState()
+        public static EngineState GetEngineState()
+        {
+            if(state == null) { state  = new EngineState(); return state; }
+            else { return state; }
+        }
+        private EngineState()
         {
             isRunning = false;
             isError = false;

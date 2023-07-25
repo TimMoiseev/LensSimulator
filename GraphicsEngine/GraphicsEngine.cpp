@@ -1,7 +1,39 @@
 #include "pch.h"
 #include "GraphicsEngine.h"
+#include "GL/glew.h"
+#include "GL/gl.h"
+#include "GLFW/glfw3.h"
+#include "glm/glm.hpp"
+#pragma comment (lib, "opengl32.lib")
+#pragma comment (lib, "glu32.lib")
 
-GraphicsEngine::GraphicsEngine() {
+
+
+void GraphicsEngine::initOpenGL()
+{
+	PIXELFORMATDESCRIPTOR pfd =
+	{
+		sizeof(PIXELFORMATDESCRIPTOR),
+		1,
+		PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,    // Флаги
+		PFD_TYPE_RGBA,        // Что-то вроде фреймбуфера. RGBA или палитра.
+		32,                   // Цветовая глубина фреймбуфера.
+		0, 0, 0, 0, 0, 0,
+		24,
+		0,
+		0,
+		0, 0, 0, 0,
+		24,                    // Количество битов для буфера глубины
+		8,                    // Количество битов для буфера трафарета
+		0,                    // Количество вспомогательных буферов в буфере кадров.
+		PFD_MAIN_PLANE,
+		0,
+		0, 0, 0
+	};
+	auto pf = ChoosePixelFormat(GetDC(hWND), &pfd);
+}
+
+GraphicsEngine::GraphicsEngine(HWND hWND) : hWND{ hWND } {
 
 }
 
@@ -12,12 +44,14 @@ GraphicsEngine::~GraphicsEngine()
 
 void GraphicsEngine::run()
 {
-
+	initOpenGL();
 }
 
-void* createGraphicsEngine()
+
+
+void* createGraphicsEngine(HWND hWND)
 {
-	return new GraphicsEngine();
+	return new GraphicsEngine(hWND);
 }
 
 void destroyGraphicsEngine(GraphicsEngine* target)

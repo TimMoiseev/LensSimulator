@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using static LensSimulator.Model.Graphics.EngineState;
 
 namespace LensSimulator.View.SurfaceView
 {
@@ -13,6 +14,7 @@ namespace LensSimulator.View.SurfaceView
     {
         private IntPtr hwndHost;
         private IntPtr hwndChild;
+        public IntPtr GetChildHandle() { return hwndChild; }
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
             hwndHost = hwndParent.Handle;
@@ -29,6 +31,7 @@ namespace LensSimulator.View.SurfaceView
             [DllImport("C:\\Users\\lglgl\\Documents\\GitHub\\LensSimulator\\x64\\Debug\\GraphicsEngine.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
             static extern void showSurfaceWindowExport(IntPtr hwnd);
             showSurfaceWindowExport(hwndChild);
+            GetEngineState().WindowHandle = hwndChild;
             return new HandleRef(this, hwndChild);
         }
 

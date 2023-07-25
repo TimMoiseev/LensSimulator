@@ -35,7 +35,7 @@ HWND createSurfaceWindow(HINSTANCE wInstance, HWND hwndParrent) {
 bool registerSurfaceWindowClass(HINSTANCE hInstance, const wchar_t* strClassName, WNDPROC pfnWindowProcedure) {
     WNDCLASSEX classInfo = {};
     classInfo.cbSize = sizeof(WNDCLASSEX);
-    classInfo.style = CS_HREDRAW | CS_VREDRAW;
+    classInfo.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     classInfo.cbClsExtra = 0;
     classInfo.cbWndExtra = 0;
     classInfo.hInstance = hInstance;
