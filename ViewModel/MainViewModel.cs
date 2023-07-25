@@ -38,9 +38,12 @@ namespace LensSimulator.ViewModel
                 {
                     if(GetEngineState().WindowHandle != nint.Zero)
                     {
-                        engine = new(State_StateUpdate);
-                        engine.RunEngine();
-                        GetEngineState().IsRunning = true;
+                        if(GetEngineState().IsRunning != true)
+                        {
+                            engine = new(State_StateUpdate);
+                            engine.RunEngine();
+                            GetEngineState().IsRunning = true;
+                        }
                     }
                     
                 })); 

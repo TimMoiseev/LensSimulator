@@ -1,11 +1,5 @@
 #include "pch.h"
 #include "GraphicsEngine.h"
-#include "GL/glew.h"
-#include "GL/gl.h"
-#include "GLFW/glfw3.h"
-#include "glm/glm.hpp"
-#pragma comment (lib, "opengl32.lib")
-#pragma comment (lib, "glu32.lib")
 
 
 
@@ -30,10 +24,29 @@ void GraphicsEngine::initOpenGL()
 		0,
 		0, 0, 0
 	};
-	auto pf = ChoosePixelFormat(GetDC(hWND), &pfd);
+	
+	
+	if (auto pf = ChoosePixelFormat(dc, &pfd)) {
+		if (SetPixelFormat(dc, pf, &pfd)) {
+			renderContext = wglCreateContext(dc);
+			bool result = wglMakeCurrent(dc, renderContext);
+		}
+	}
+	
+	
+	
 }
 
-GraphicsEngine::GraphicsEngine(HWND hWND) : hWND{ hWND } {
+void GraphicsEngine::beginMainLoop()
+{
+	while (true) {
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+		SwapBuffers(dc);
+	}
+}
+
+GraphicsEngine::GraphicsEngine(HWND hWND) : hWND{ hWND }, dc{ GetDC(hWND) } {
 
 }
 
@@ -45,6 +58,7 @@ GraphicsEngine::~GraphicsEngine()
 void GraphicsEngine::run()
 {
 	initOpenGL();
+	beginMainLoop();
 }
 
 

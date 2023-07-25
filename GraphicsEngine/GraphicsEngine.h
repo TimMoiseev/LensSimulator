@@ -1,9 +1,17 @@
 #pragma once
-
+#include "GL/glew.h"
+#include "GL/gl.h"
+#include "GLFW/glfw3.h"
+#include "glm/glm.hpp"
+#pragma comment (lib, "opengl32.lib")
+#pragma comment (lib, "glu32.lib")
 class GraphicsEngine {
 private:
 	HWND hWND;
+	HDC dc;
+	HGLRC renderContext;
 	void initOpenGL();
+	void beginMainLoop();
 public :
 	GraphicsEngine(HWND hWND);
 	~GraphicsEngine();
