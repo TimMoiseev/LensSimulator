@@ -1,10 +1,15 @@
 #pragma once
 #include "GL/glew.h"
+
 #include "GL/gl.h"
-#include "GLFW/glfw3.h"
+
 #include "glm/glm.hpp"
+#pragma comment(lib, "glew32.lib")
 #pragma comment (lib, "opengl32.lib")
-#pragma comment (lib, "glu32.lib")
+#pragma comment (lib, "glfw3dll.lib")
+
+
+
 class GraphicsEngine {
 private:
 	HWND hWND;
@@ -12,6 +17,7 @@ private:
 	HGLRC renderContext;
 	void initOpenGL();
 	void beginMainLoop();
+	GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path);
 public :
 	GraphicsEngine(HWND hWND);
 	~GraphicsEngine();
