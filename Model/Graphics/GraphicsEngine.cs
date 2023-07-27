@@ -16,7 +16,7 @@ namespace LensSimulator.Model.Graphics
         {
 
             GetEngineState().StateUpdate += eventHandler;
-            graphicEngineWrapper = new GraphicEngineWrapper();
+            
         }
         public void RunEngine()
         {
@@ -27,13 +27,14 @@ namespace LensSimulator.Model.Graphics
             GetEngineState().IsRunning = false;
             graphicEngineWrapper.Dispose();
         }
-        private void Run()
-        {
-            graphicEngineWrapper.runEngine();
-        }
+        
         async private void AsyncRun()
         {
-            await Task.Run(() => { Run(); });
+            await Task.Run(() => {
+                graphicEngineWrapper = new GraphicEngineWrapper();
+                graphicEngineWrapper.runEngine();
+
+            });
         }
         
         private GraphicEngineWrapper graphicEngineWrapper;

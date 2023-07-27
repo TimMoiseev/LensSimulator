@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "GraphicsEngine.h"
-
+#include "VertexBuffer.h"
 
 
 
@@ -8,7 +8,6 @@
 
 void GraphicsEngine::initOpenGL()
 {
-	
 	PIXELFORMATDESCRIPTOR pfd =
 	{
 		sizeof(PIXELFORMATDESCRIPTOR),
@@ -41,6 +40,7 @@ void GraphicsEngine::initOpenGL()
 			}
 		}
 	}
+
 	GLuint VertexArrayID;
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
@@ -48,7 +48,6 @@ void GraphicsEngine::initOpenGL()
 
 void GraphicsEngine::beginMainLoop()
 {
-    
     static const GLfloat g_color_buffer_data[] = {
     0.583f,  0.771f,  0.014f,
     0.609f,  0.115f,  0.436f,
@@ -126,41 +125,34 @@ void GraphicsEngine::beginMainLoop()
     1.0f,-1.0f, 1.0f
     };
 
-	GLuint vertexbuffer;
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-
-    GLuint colorbuffer;
-    glGenBuffers(1, &colorbuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
+    VertexBuffer buf(
+        g_vertex_buffer_data, 
+        g_color_buffer_data, 
+        sizeof(g_color_buffer_data) / sizeof(GLfloat),
+        true
+    );
 
     GLuint programID = LoadShaders(vertFilePath, fragFilePath);
+    glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
+    glm::mat4 View = glm::lookAt(
+        glm::vec3(4, 3, 3), // Камера находится в мировых координатах (4,3,3)
+        glm::vec3(0, 0, 0), // И направлена в начало координат
+        glm::vec3(0, 1, 0)  // "Голова" находится сверху
+    );
+    glm::mat4 Model = glm::mat4(1.0f);
+    glm::mat4 MVP = Projection * View * Model;
+    GLuint MatrixID = glGetUniformLocation(programID, "MVP");
+
+    glEnable(GL_DEPTH_TEST);
+    // Фрагмент будет выводиться только в том, случае, если он находится ближе к камере, чем предыдущий
+    glDepthFunc(GL_LESS);
+
 	while (true) {
+        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
         glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        buf.bind();
         glUseProgram(programID);
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glVertexAttribPointer(
-            0,                                // Атрибут. Здесь необязательно указывать 1, но главное, чтобы это значение совпадало с layout в шейдере..
-            3,                                // Размер
-            GL_FLOAT,                         // Тип
-            GL_FALSE,                         // Нормализован?
-            0,                                // Шаг
-            (void*)0                          // Смещение
-        );
-        glEnableVertexAttribArray(1);
-        glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-        glVertexAttribPointer(
-            1,                                // Атрибут. Здесь необязательно указывать 1, но главное, чтобы это значение совпадало с layout в шейдере..
-            3,                                // Размер
-            GL_FLOAT,                         // Тип
-            GL_FALSE,                         // Нормализован?
-            0,                                // Шаг
-            (void*)0                          // Смещение
-        );
         glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
 		glDisableVertexAttribArray(0);
 		SwapBuffers(dc);
@@ -247,11 +239,10 @@ GLuint GraphicsEngine::LoadShaders(const char* vertex_file_path, const char* fra
     glDeleteShader(FragmentShaderID);
 
     return ProgramID;
-
 }
 
 GraphicsEngine::GraphicsEngine(HWND hWND) : hWND{ hWND }, dc{ GetDC(hWND) } {
-	
+  
 }
 
 GraphicsEngine::~GraphicsEngine()
@@ -261,11 +252,8 @@ GraphicsEngine::~GraphicsEngine()
 
 void GraphicsEngine::run()
 {
-    initOpenGL();
-	beginMainLoop();
+    beginMainLoop();
 }
-
-
 
 void* createGraphicsEngine(HWND hWND)
 {
