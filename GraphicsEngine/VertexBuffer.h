@@ -3,9 +3,18 @@
 class VertexBuffer :
     public Buffer
 {
-    bool colored = false;
 public:
-    VertexBuffer(const GLfloat* data, const GLfloat* colordata, UINT16 vertexCount, bool colored);
-    void bind() override;
+    GLuint vertexBufferIndex;
+    VertexBuffer(GLuint size, const void* data);
+    const void* data;
 };
 
+enum VertexType {
+    Coordinate = 1,
+    Color = 2,
+    Normal = 4
+};
+
+inline VertexType operator|(VertexType a, VertexType b) {
+    return static_cast<VertexType>(static_cast<int>(a) | static_cast<int>(b));
+}

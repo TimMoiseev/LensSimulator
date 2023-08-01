@@ -19,8 +19,6 @@ private:
 	HDC dc;
 	HGLRC renderContext;
 	WindowSystem windowSystem{ hWND, dc };
-	
-	void initOpenGL();
 	void beginMainLoop();
 	GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path);
 	const char* vertFilePath = "C:\\Users\\lglgl\\Documents\\GitHub\\LensSimulator\\GraphicsEngine\\Shader\\shader.vert";
