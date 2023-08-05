@@ -163,11 +163,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Buffer.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GraphicsEngine.h" />
+    <ClInclude Include="GraphicsObject.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderProgramManager.h" />
+    <ClInclude Include="ShaderSystem.h" />
     <ClInclude Include="SurfaceWindow.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexBuffer.h" />
@@ -175,7 +180,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
+    <ClCompile Include="GraphicsObject.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -184,6 +191,9 @@
     </ClCompile>
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderProgramManager.cpp" />
+    <ClCompile Include="ShaderSystem.cpp" />
     <ClCompile Include="SurfaceWindow.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />

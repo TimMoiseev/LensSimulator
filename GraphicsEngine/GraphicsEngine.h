@@ -9,6 +9,14 @@
 #include <fstream>
 #include <iostream>
 #include "WindowSystem.h"
+#include "Renderer.h"
+#include "GraphicsEngine.h"
+#include "VertexBuffer.h"
+#include <sstream>
+#include "Scene.h"
+#include "Camera.h"
+#include "ShaderProgramManager.h"
+
 #pragma comment(lib, "glew32.lib")
 #pragma comment (lib, "opengl32.lib")
 #pragma comment (lib, "glfw3dll.lib")
@@ -17,14 +25,22 @@ class GraphicsEngine {
 private:
 	HWND hWND;
 	HDC dc;
-	HGLRC renderContext;
-	WindowSystem windowSystem{ hWND, dc };
-	void beginMainLoop();
-	GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path);
 	const char* vertFilePath = "C:\\Users\\lglgl\\Documents\\GitHub\\LensSimulator\\GraphicsEngine\\Shader\\shader.vert";
 	const char* fragFilePath = "C:\\Users\\lglgl\\Documents\\GitHub\\LensSimulator\\GraphicsEngine\\Shader\\shader.frag";
+	WindowSystem windowSystem{ hWND, dc };
+	Shader vertexShader = Shader(vertFilePath, GL_VERTEX_SHADER);
+	Shader fragShader = Shader(fragFilePath, GL_FRAGMENT_SHADER);
+	std::vector<Shader*> shaders{&vertexShader, &fragShader};
+	ShaderProgramManager shaderProgram{&shaders};
+	Renderer renderer;
+	Camera camera{glm::vec3(2.0,2.0,2.0)};
+	
+	void beginMainLoop();
+	
+	
 
 public :
+	/*void draw(GraphicsObject obj);*/
 	GraphicsEngine(HWND hWND);
 	~GraphicsEngine();
 	void run();

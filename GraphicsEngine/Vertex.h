@@ -8,5 +8,6 @@ public:
 	std::array<GLfloat, 3> vert;
 	std::array<GLfloat, 3> color;
 	std::array<GLfloat, 3> normal;
+	~Vertex();
 };
 

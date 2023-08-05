@@ -4,8 +4,9 @@ class VertexBuffer :
     public Buffer
 {
 public:
-    GLuint vertexBufferIndex;
+    
     VertexBuffer(GLuint size, const void* data);
+    ~VertexBuffer();
     const void* data;
 };
 
