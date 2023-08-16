@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include "Vertex.h"
-#include "Buffer.h"
 #include "VertexBuffer.h"
 #include "glm/glm.hpp"
 #include <glm/ext/matrix_clip_space.hpp>
@@ -9,16 +8,18 @@
 
 class Scene
 {
-	std::vector<Vertex> vertices;
-	VertexBuffer buff;
+protected:
+	std::vector<Vertex>* vertices = new std::vector<Vertex>();
+private:
+	VertexBuffer* buff = nullptr;
 	VertexType type;
-	
 public:
 	glm::mat4 objectMatrix = glm::mat4(1.0f); //objects translation and rotation
-	Scene(const std::vector<Vertex>& vertices, VertexType type);
-	void bindArrayAtrib();
+	Scene(VertexType type = Coordinate | Color);
+	void bindArrayAttrib();
+	virtual void update(float duration) = 0;
 	~Scene();
-	const VertexBuffer VerticesView();
+	const VertexBuffer* VerticesView();
 };
 
 

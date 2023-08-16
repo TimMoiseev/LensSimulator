@@ -1,13 +1,10 @@
 #include "pch.h"
 #include "ShaderProgramManager.h"
 
-
-
 GLuint ShaderProgramManager::getId()
 {
 	return shaderProgramId;
 }
-
 
 ShaderProgramManager::ShaderProgramManager(std::vector<Shader*>* shaders) : shaders{shaders}
 {
@@ -32,9 +29,6 @@ ShaderProgramManager::ShaderProgramManager(std::vector<Shader*>* shaders) : shad
 	else {
 		result = GL_TRUE;
 	}
-	/*for (Shader shader : shaders) {
-		shader.~Shader();
-	}*/
 	for (int i = 0; i < (*shaders).size(); i++) {
 		(*shaders)[i]->~Shader();
 	}

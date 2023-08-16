@@ -1,13 +1,13 @@
 #pragma once
-#include "Buffer.h"
-class VertexBuffer :
-    public Buffer
+class VertexBuffer
 {
+    GLuint size = 0;
+    GLuint index = 0;
 public:
-    
+    const GLuint getIndex() const { return index; };
     VertexBuffer(GLuint size, const void* data);
     ~VertexBuffer();
-    const void* data;
+    
 };
 
 enum VertexType {

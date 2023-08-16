@@ -4,7 +4,7 @@
 class Renderer
 {
 public:
-	void draw(Scene sdcene);
-	void bindVertexBuffer(const VertexBuffer& buf);
+	void draw(Scene* sdcene);
+	void bindVertexBuffer(const VertexBuffer* buf);
 };
 

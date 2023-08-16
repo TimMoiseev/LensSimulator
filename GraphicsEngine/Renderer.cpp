@@ -2,12 +2,12 @@
 #include "Renderer.h"
 
 
-void Renderer::draw(Scene sdcene)
+void Renderer::draw(Scene* sdcene)
 {
 
 }
 
-void Renderer::bindVertexBuffer(const VertexBuffer& buf)
+void Renderer::bindVertexBuffer(const VertexBuffer* buf)
 {
-	glBindBuffer(GL_ARRAY_BUFFER, buf.getIndex());
+	glBindBuffer(GL_ARRAY_BUFFER, buf->getIndex());
 }
