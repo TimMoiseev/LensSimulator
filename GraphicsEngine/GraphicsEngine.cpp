@@ -7,8 +7,8 @@
 
 void GraphicsEngine::beginMainLoop()
 {
-    Cube cube;
     
+    Cube cube;
     std::vector<std::string> uniformParameterNames;
     uniformParameterNames.push_back("cameraMatrix");
     uniformParameterNames.push_back("objectMatrix");
@@ -21,11 +21,12 @@ void GraphicsEngine::beginMainLoop()
 
 
 	while (true) {
+        shaderProgram.use();
         auto currentTime = std::chrono::high_resolution_clock::now();
         uint64_t duration = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - lastTime).count();
         lastTime = currentTime;
         cube.update((float)duration);
-        shaderProgram.use();
+        
         
         shaderSystem.bindUniformParameters("cameraMatrix");
         glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
@@ -33,11 +34,24 @@ void GraphicsEngine::beginMainLoop()
         cube.bindArrayAttrib();
         shaderSystem.bindUniformParameters("objectMatrix");
         renderer.bindVertexBuffer(cube.VerticesView());
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glDrawArrays(GL_TRIANGLES, 0, 6*3);
 		SwapBuffers(dc);
+       
 	}
 }
-
+void GLAPIENTRY
+MessageCallback(GLenum source,
+    GLenum type,
+    GLuint id,
+    GLenum severity,
+    GLsizei length,
+    const GLchar* message,
+    const void* userParam)
+{
+    fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+        (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
+        type, severity, message);
+}
 
 GraphicsEngine::GraphicsEngine(HWND hWND) : hWND{ hWND }, dc{ GetDC(hWND) } {
     GLuint VertexArrayID;
@@ -45,6 +59,9 @@ GraphicsEngine::GraphicsEngine(HWND hWND) : hWND{ hWND }, dc{ GetDC(hWND) } {
     glBindVertexArray(VertexArrayID);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+    
+    glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback(MessageCallback, 0);
 }
 
 GraphicsEngine::~GraphicsEngine()

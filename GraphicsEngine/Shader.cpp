@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Shader.h"
+#include <vector>
 
 Shader::Shader(const char* shaderCodePath, GLenum shaderType) : shaderType{shaderType}
 {
@@ -23,9 +24,9 @@ Shader::Shader(const char* shaderCodePath, GLenum shaderType) : shaderType{shade
     glGetShaderiv(shaderId, GL_COMPILE_STATUS, &Result);
     glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &InfoLogLength);
     if (InfoLogLength > 0) {
-        /*std::vector<char> VertexShaderErrorMessage(InfoLogLength + 1);
-        glGetShaderInfoLog(VertexShaderID, InfoLogLength, NULL, &VertexShaderErrorMessage[0]);
-        fprintf(stdout, "%sn", &VertexShaderErrorMessage[0]);*/
+        std::vector<char> VertexShaderErrorMessage(InfoLogLength + 1);
+        glGetShaderInfoLog(shaderId, InfoLogLength, NULL, &VertexShaderErrorMessage[0]);
+        fprintf(stdout, "%sn", &VertexShaderErrorMessage[0]);
         return;
     }
 

@@ -9,10 +9,11 @@
 class Scene
 {
 protected:
-	std::vector<Vertex>* vertices = new std::vector<Vertex>();
+	void createBuffer(std::vector<Vertex>* vertexArray);
 private:
 	VertexBuffer* buff = nullptr;
 	VertexType type;
+	
 public:
 	glm::mat4 objectMatrix = glm::mat4(1.0f); //objects translation and rotation
 	Scene(VertexType type = Coordinate | Color);

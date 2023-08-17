@@ -1,13 +1,15 @@
 #pragma once
+#include <GL/glew.h>
+#include <vector>
+#include "Vertex.h"
 class VertexBuffer
 {
     GLuint size = 0;
     GLuint index = 0;
 public:
-    const GLuint getIndex() const { return index; };
     VertexBuffer(GLuint size, const void* data);
+    GLuint getIndex() const;
     ~VertexBuffer();
-    
 };
 
 enum VertexType {

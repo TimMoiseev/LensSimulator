@@ -2,7 +2,7 @@
 #include "Renderer.h"
 
 
-void Renderer::draw(Scene* sdcene)
+void Renderer::draw(Scene* scene)
 {
 
 }

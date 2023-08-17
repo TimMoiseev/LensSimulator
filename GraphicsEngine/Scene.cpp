@@ -1,9 +1,14 @@
 #include "pch.h"
 #include "Scene.h"
 
+void Scene::createBuffer(std::vector<Vertex>* vertexArray)
+{
+	buff = new VertexBuffer((GLuint)vertexArray->size(), vertexArray->data());
+}
+
 Scene::Scene(VertexType type) : type{type}
 {
-	buff = new VertexBuffer(vertices->size(), vertices->data());
+	
 }
 
 void Scene::bindArrayAttrib()
