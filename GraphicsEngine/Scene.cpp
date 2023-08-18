@@ -1,9 +1,10 @@
 #include "pch.h"
 #include "Scene.h"
 
-void Scene::createBuffer(std::vector<Vertex>* vertexArray)
+void Scene::createBuffer(std::vector<Vertex>* vertexArray, std::vector<GLuint>* indexArray)
 {
 	buff = new VertexBuffer((GLuint)vertexArray->size(), vertexArray->data());
+	indexBuffer = new IndexBuffer(indexArray->size(), indexArray->data());
 }
 
 Scene::Scene(VertexType type) : type{type}
@@ -38,7 +39,7 @@ Scene::~Scene()
 	delete buff;
 }
 
-const VertexBuffer* Scene::VerticesView()
+const IndexBuffer* Scene::IndicesView()
 {
-	return buff;
+	return indexBuffer;
 }

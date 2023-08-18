@@ -16,6 +16,11 @@ GLuint VertexBuffer::getIndex() const
 	return index;
 }
 
+GLuint VertexBuffer::getSize() const
+{
+	return size;
+}
+
 VertexBuffer::~VertexBuffer()
 {
 	glDeleteBuffers(sizeof(Vertex) * size, &index);

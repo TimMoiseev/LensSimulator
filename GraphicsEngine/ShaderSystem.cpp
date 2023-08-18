@@ -1,20 +1,9 @@
 #include "pch.h"
 #include "ShaderSystem.h"
-void ShaderSystem::bindUniformParameters(std::string name)
+void ShaderSystem::bindUniformParameters(std::string name, GLfloat* parameterPointer)
 {
-	glUniformMatrix4fv(namesToIDs[name], 1, GL_FALSE, namesToPointers[name]);
+	glUniformMatrix4fv(glGetUniformLocation(shaderProgram->getId(), name.c_str()), 1, GL_FALSE, parameterPointer);
 }
-ShaderSystem::ShaderSystem(ShaderProgramManager* shaderProgram, std::vector<std::string> uniformParameterNames, std::vector<GLfloat*> parameterPointers) :
-	shaderProgram{ shaderProgram },
-	uniformParameterNames{ uniformParameterNames },
-	parameterPointers{ parameterPointers } {
-	/*for (int i = 0; i < uniformParameterNames.size(); i++) {
-		parameterIDs.push_back(glGetUniformLocation(shaderProgram->getId(), uniformParameterNames[i].c_str()));
-	}*/
-	for (int i = 0; i < uniformParameterNames.size(); ++i) {
-		namesToPointers.insert(std::pair<std::string, GLfloat*>(uniformParameterNames[i], parameterPointers[i]));
-	}
-	for (int i = 0; i < uniformParameterNames.size(); ++i) {
-		namesToIDs.insert(std::pair<std::string, GLuint>(uniformParameterNames[i], glGetUniformLocation(shaderProgram->getId(), uniformParameterNames[i].c_str())));
-	}
+ShaderSystem::ShaderSystem(ShaderProgramManager* shaderProgram) :
+	shaderProgram{ shaderProgram } {
 }

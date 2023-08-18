@@ -32,8 +32,10 @@ private:
 	Shader fragShader = Shader(fragFilePath, GL_FRAGMENT_SHADER);
 	std::vector<Shader*> shaders{&vertexShader, &fragShader};
 	ShaderProgramManager shaderProgram{&shaders};
-	Renderer renderer;
-	Camera camera{glm::vec3(2.0,2.0,2.0)};
+	ShaderSystem shaderSystem{&shaderProgram};
+	Camera camera{ glm::vec3(2.0,2.0,2.0) };
+	Renderer renderer{&shaderSystem};
+	
 	
 	void beginMainLoop();
 	

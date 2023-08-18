@@ -9,6 +9,7 @@ class VertexBuffer
 public:
     VertexBuffer(GLuint size, const void* data);
     GLuint getIndex() const;
+    GLuint getSize() const;
     ~VertexBuffer();
 };
 

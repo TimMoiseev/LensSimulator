@@ -9,32 +9,36 @@ void GraphicsEngine::beginMainLoop()
 {
     
     Cube cube;
-    std::vector<std::string> uniformParameterNames;
-    uniformParameterNames.push_back("cameraMatrix");
-    uniformParameterNames.push_back("objectMatrix");
-    std::vector<GLfloat*> uniformParameterPointers;
-    uniformParameterPointers.push_back(&camera.getCameraMatrix()[0][0]);
-    uniformParameterPointers.push_back(&cube.objectMatrix[0][0]);
-    ShaderSystem shaderSystem = ShaderSystem(&shaderProgram, uniformParameterNames, uniformParameterPointers);
-  
+    Cube cube2{1.1f};
+    //std::vector<std::string> uniformParameterNames;
+    //uniformParameterNames.push_back("cameraMatrix");
+    //uniformParameterNames.push_back("objectMatrix");
+    //std::vector<GLfloat*> uniformParameterPointers;
+    //uniformParameterPointers.push_back(&camera.getCameraMatrix()[0][0]);
+    //uniformParameterPointers.push_back(&cube.objectMatrix[0][0]);
+    
     auto lastTime = std::chrono::high_resolution_clock::now();
-
+    renderer.setCamera(&camera);
 
 	while (true) {
-        shaderProgram.use();
+        
         auto currentTime = std::chrono::high_resolution_clock::now();
         uint64_t duration = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - lastTime).count();
         lastTime = currentTime;
         cube.update((float)duration);
+        cube2.update(2.0*(float)duration);
+        glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        
-        shaderSystem.bindUniformParameters("cameraMatrix");
+        renderer.draw(&cube);
+        renderer.draw(&cube2);
+        /*shaderSystem.bindUniformParameters("cameraMatrix");
         glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         cube.bindArrayAttrib();
         shaderSystem.bindUniformParameters("objectMatrix");
         renderer.bindVertexBuffer(cube.VerticesView());
-        glDrawArrays(GL_TRIANGLES, 0, 6*3);
+        glDrawArrays(GL_TRIANGLES, 0, 6*3);*/
 		SwapBuffers(dc);
        
 	}
