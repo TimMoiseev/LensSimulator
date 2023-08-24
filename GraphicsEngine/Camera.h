@@ -2,9 +2,11 @@
 #include "glm/glm.hpp"
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_transform.hpp>
+#include "Primitive.h"
 using vec3 = glm::vec3;
 using mat4 = glm::mat4;
-class Camera
+class Camera:
+	public Primitive
 {
 	vec3 position;
 	vec3 target;
@@ -17,16 +19,18 @@ class Camera
 	mat4 viewMatrix;
 public:
 	Camera(
-		vec3 position = vec3(0, 1, 0),
+		vec3 position = vec3(1, 1, 1),
 		vec3 target = vec3(0, 0, 0),
 		float fovy = glm::radians(45.0f),
 		float aspect = 4.0f / 3.0f,
 		float zNear = 0.1f,
-		float zFar = 100.0f
+		float zFar = 1000.0f
 	);
-	Camera() = delete;
+	Camera();
 	Camera(Camera&) = delete;
 	Camera(Camera&&) = delete;
+	void rotate(glm::vec3 axis, GLfloat angle) override;
+	void update(float duration) override;
 	mat4 getCameraMatrix();
 };
 

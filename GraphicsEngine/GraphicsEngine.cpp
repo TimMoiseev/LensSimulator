@@ -4,43 +4,31 @@
 #include "ShaderProgramManager.h"
 #include "ShaderSystem.h"
 #include "Cube.h"
+#include "BiconvexLens.h"
 
 void GraphicsEngine::beginMainLoop()
 {
     
-    Cube cube;
-    Cube cube2{1.1f};
-    //std::vector<std::string> uniformParameterNames;
-    //uniformParameterNames.push_back("cameraMatrix");
-    //uniformParameterNames.push_back("objectMatrix");
-    //std::vector<GLfloat*> uniformParameterPointers;
-    //uniformParameterPointers.push_back(&camera.getCameraMatrix()[0][0]);
-    //uniformParameterPointers.push_back(&cube.objectMatrix[0][0]);
     
+    Cube cube2{5.5f, 1.0f, 10.0f, 0.2f};
+    BiconvexLens lens;
     auto lastTime = std::chrono::high_resolution_clock::now();
     renderer.setCamera(&camera);
 
 	while (true) {
-        
         auto currentTime = std::chrono::high_resolution_clock::now();
         uint64_t duration = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - lastTime).count();
         lastTime = currentTime;
-        cube.update((float)duration);
-        cube2.update(2.0*(float)duration);
-        glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        renderer.draw(&cube);
-        renderer.draw(&cube2);
-        /*shaderSystem.bindUniformParameters("cameraMatrix");
+        cube2.update((float)duration);
         glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        cube.bindArrayAttrib();
-        shaderSystem.bindUniformParameters("objectMatrix");
-        renderer.bindVertexBuffer(cube.VerticesView());
-        glDrawArrays(GL_TRIANGLES, 0, 6*3);*/
+    
+        renderer.draw(&cube2);
+        renderer.draw(&lens);
+        camera.update((float)duration);
+        renderer.setCamera(&camera);
 		SwapBuffers(dc);
-       
 	}
 }
 void GLAPIENTRY
@@ -65,6 +53,8 @@ GraphicsEngine::GraphicsEngine(HWND hWND) : hWND{ hWND }, dc{ GetDC(hWND) } {
     glDepthFunc(GL_LESS);
     
     glEnable(GL_DEBUG_OUTPUT);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_SRC_ALPHA);
     glDebugMessageCallback(MessageCallback, 0);
 }
 

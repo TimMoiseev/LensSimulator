@@ -33,7 +33,7 @@ private:
 	std::vector<Shader*> shaders{&vertexShader, &fragShader};
 	ShaderProgramManager shaderProgram{&shaders};
 	ShaderSystem shaderSystem{&shaderProgram};
-	Camera camera{ glm::vec3(2.0,2.0,2.0) };
+	Camera camera{ vec3(50.0, 190.0, 0.0) };
 	Renderer renderer{&shaderSystem};
 	
 	

@@ -29,7 +29,6 @@ Shader::Shader(const char* shaderCodePath, GLenum shaderType) : shaderType{shade
         fprintf(stdout, "%sn", &VertexShaderErrorMessage[0]);
         return;
     }
-
 }
 
 Shader::~Shader()

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "ShaderSystem.h"
-void ShaderSystem::bindUniformParameters(std::string name, GLfloat* parameterPointer)
+void ShaderSystem::bindUniformParameters(std::string name, const GLfloat* parameterPointer)
 {
 	glUniformMatrix4fv(glGetUniformLocation(shaderProgram->getId(), name.c_str()), 1, GL_FALSE, parameterPointer);
 }

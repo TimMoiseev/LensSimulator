@@ -14,8 +14,22 @@ Camera::Camera(
 	viewMatrix = glm::lookAt(
 		position,
 		target,
-		vec3(0.0, 1.0, 0.0));
+		vec3(1.0, 0.0, 0.0));
+	update(0.0f);
+}
+
+Camera::Camera()
+{
+}
+void Camera::rotate(glm::vec3 axis, GLfloat angle) {
+	viewMatrix = glm::rotate(viewMatrix, glm::radians(angle), axis);
+}
+void Camera::update(float duration)
+{
+
 	cameraMatrix = projectionMatrix * viewMatrix;
+	rotate(vec3(0.0, 0.0, 1.0), 0.00000001f * duration);
+
 }
 
 mat4 Camera::getCameraMatrix()

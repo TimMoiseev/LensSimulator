@@ -41,10 +41,7 @@ void ShaderProgramManager::use()
 
 ShaderProgramManager::~ShaderProgramManager()
 {
-	for (Shader* shader : *shaders) {
-		glDetachShader(shaderProgramId, shader->getID());
-		shader->~Shader();
-	}
 	glUseProgram(0);
+	
 	glDeleteProgram(this->shaderProgramId);
 }

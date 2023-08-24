@@ -17,7 +17,6 @@ private:
 	VertexType type;
 	
 public:
-	glm::mat4 objectMatrix = glm::mat4(1.0f); //objects translation and rotation
 	Scene(VertexType type = Coordinate | Color);
 	void bindArrayAttrib();
 	virtual void update(float duration) = 0;
