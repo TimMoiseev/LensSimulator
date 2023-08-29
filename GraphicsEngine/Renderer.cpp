@@ -8,7 +8,7 @@ void Renderer::setCamera(Camera* cam)
 	shaderSystem->bindUniformParameters("cameraMatrix", &cam->getCameraMatrix()[0][0]);
 }
 
-Renderer::Renderer(ShaderSystem* shaderSystem) : shaderSystem{shaderSystem}
+Renderer::Renderer(ShaderSystem* shaderSystem) : shaderSystem { shaderSystem }
 {
 	shaderSystem->shaderProgram->use();
 }
@@ -21,10 +21,10 @@ void Renderer::draw(Primitive* primitive)
 	
 	bindIndexBuffer(primitive->IndicesView());
 	glDrawElements(
-		GL_TRIANGLES,      // mode
-		primitive->IndicesView()->getSize(),    // count
-		GL_UNSIGNED_INT,   // type
-		(void*)0           // element array buffer offset
+		primitive->getGeometryType() == Scene::GeometryType::Triangles ? GL_TRIANGLES : GL_LINES,
+		primitive->IndicesView()->getSize(),
+		GL_UNSIGNED_INT,
+		(void*)0
 	);
 }
 

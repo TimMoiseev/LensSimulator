@@ -179,7 +179,9 @@
     <ClInclude Include="Cube.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GraphicsEngine.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="IndexBuffer.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Renderer.h" />
@@ -197,7 +199,9 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -214,6 +218,9 @@
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="WindowSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

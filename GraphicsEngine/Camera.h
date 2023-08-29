@@ -3,8 +3,7 @@
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include "Primitive.h"
-using vec3 = glm::vec3;
-using mat4 = glm::mat4;
+
 class Camera:
 	public Primitive
 {

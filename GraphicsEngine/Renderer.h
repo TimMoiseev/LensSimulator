@@ -15,4 +15,3 @@ public:
 	void draw(std::vector<Primitive*> primitives);
 	void bindIndexBuffer(const IndexBuffer* buf);
 };
-

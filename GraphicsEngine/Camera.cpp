@@ -8,7 +8,13 @@ Camera::Camera(
 	float aspectRatio,
 	float zNear,
 	float zFar
-) : position{ position }, target{ target }, cameraMatrix{}, fovy{ fovy }, aspect{ aspectRatio }, zNear{ zNear }, zFar{ zFar } {
+) : position{ position }, 
+target{ target }, 
+cameraMatrix{}, 
+fovy{ fovy }, 
+aspect{ aspectRatio }, 
+zNear{ zNear }, 
+zFar{ zFar } {
 	projectionMatrix = glm::perspective(fovy, aspect, zNear, zFar);
 	
 	viewMatrix = glm::lookAt(

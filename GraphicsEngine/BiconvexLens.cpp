@@ -19,8 +19,6 @@ void BiconvexLens::createModel()
 		aroundX.y * sin(glm::radians(dBeta / 2.0f)),
 		aroundX.z * sin(glm::radians(dBeta / 2.0f))
 	};
-	int i = 0;
-	int j = 0;
 	vertices->push_back(Vertex({ R, 0.0, 0.0 }, { 1.0f, 1.0f, 1.0f }));
 	auto mat4Z = quatZ.quat::operator glm::mat<4, 4, glm::f32, glm::packed_highp>();
 	auto mat4X = quatX.quat::operator glm::mat<4, 4, glm::f32, glm::packed_highp>();
@@ -50,7 +48,6 @@ void BiconvexLens::createModel()
 				indices->push_back(v + 1);
 				indices->push_back(v + 2);
 			} else {
-
 				indices->push_back(vertices->size() - uCount - 2);
 				indices->push_back(vertices->size() - 2);
 				indices->push_back(vertices->size() + 1 - 2);
@@ -71,7 +68,6 @@ void BiconvexLens::createModel()
 			}
 		}
 	}
-
 }
 
 BiconvexLens::BiconvexLens(GLfloat R, GLfloat diameter, GLfloat m, int uCount, int vCount) :

@@ -33,9 +33,8 @@ private:
 	std::vector<Shader*> shaders{&vertexShader, &fragShader};
 	ShaderProgramManager shaderProgram{&shaders};
 	ShaderSystem shaderSystem{&shaderProgram};
-	Camera camera{ vec3(50.0, 190.0, 0.0) };
+	Camera camera{ vec3(200.0, 200.0, 200.0) };
 	Renderer renderer{&shaderSystem};
-	
 	
 	void beginMainLoop();
 	

@@ -7,13 +7,14 @@ void Scene::createBuffer(std::vector<Vertex>* vertexArray, std::vector<GLuint>* 
 	indexBuffer = new IndexBuffer(indexArray->size(), indexArray->data());
 }
 
-Scene::Scene(VertexType type) : type{type}
+Scene::Scene(VertexType type, GeometryType geometryType) : type{type}, geometryType{ geometryType }
 {
 	
 }
 
 void Scene::bindArrayAttrib()
 {
+
 	if (type & Coordinate) {
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, buff->getIndex());

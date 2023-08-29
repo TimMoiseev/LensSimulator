@@ -22,7 +22,7 @@ private:
 
 public:
 	BiconvexLens(
-		GLfloat R = 60.0f, 
+		GLfloat R = 120.0f, 
 		GLfloat diameter = 60.0f, 
 		GLfloat m = 0.0f, 
 		int uCount = 128,

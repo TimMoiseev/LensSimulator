@@ -5,8 +5,6 @@
 class Primitive:
 	public Scene
 {
-
-
 public:
 	void virtual createModel() {};
 	const GLfloat* getObjectMatrix();

@@ -5,29 +5,37 @@
 #include "ShaderSystem.h"
 #include "Cube.h"
 #include "BiconvexLens.h"
+#include "Line.h"
+#include "Grid.h"
 
 void GraphicsEngine::beginMainLoop()
 {
-    
-    
-    Cube cube2{5.5f, 1.0f, 10.0f, 0.2f};
+    vec3 red = vec3(255.0f, 0.0f, 0.0f);
+    vec3 green = vec3(0.0f, 255.0f, 0.0f);
+    vec3 blue = vec3(0.0f, 0.0f, 255.0f);
+
     BiconvexLens lens;
+    Line axisX(vec3(0, 0, 0), vec3(100, 0, 0), red);
+    Line axisY(vec3(0, 0, 0), vec3(0, 100, 0), green);
+    Line axisZ(vec3(0, 0, 0), vec3(0, 0, 100), blue);
+    Grid grid(20, 20);
+
     auto lastTime = std::chrono::high_resolution_clock::now();
-    renderer.setCamera(&camera);
 
 	while (true) {
         auto currentTime = std::chrono::high_resolution_clock::now();
         uint64_t duration = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - lastTime).count();
         lastTime = currentTime;
-        
-        cube2.update((float)duration);
-        glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-        renderer.draw(&cube2);
         renderer.draw(&lens);
         camera.update((float)duration);
         renderer.setCamera(&camera);
+        renderer.draw(&grid);
+        renderer.draw(&axisX);
+        renderer.draw(&axisY);
+        renderer.draw(&axisZ);
 		SwapBuffers(dc);
 	}
 }

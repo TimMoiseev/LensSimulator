@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BiconvexLens">
+    <Position X="0.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAgAAIAEAAAAYAABAAAAAAAEAQgAUAAAEAQA=</HashCode>
+      <FileName>BiconvexLens.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Camera">
+    <Position X="2.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BBACAAAAQCAAAAAYIEAQIgAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Camera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cube">
+    <Position X="5.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAgAAAAAAAAAAAAAAAAAAAAAgAABgAQAEAAA=</HashCode>
+      <FileName>Cube.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicsEngine">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAgIBgioAAgAgAAAAAAAAgAAAAAAAAAAAAAASgQA=</HashCode>
+      <FileName>GraphicsEngine.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="windowSystem" />
+      <Field Name="shaderProgram" />
+      <Field Name="renderer" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="IndexBuffer">
+    <Position X="7.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAIAAEAABAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>IndexBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Line">
+    <Position X="4" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAABAAAAAAABAACAAAAAAAAFAAA=</HashCode>
+      <FileName>Line.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Primitive">
+    <Position X="2.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAhAAAAAAAAAQAAAAAAAQAAAAAAAAAAAAFAA=</HashCode>
+      <FileName>Primitive.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Renderer">
+    <Position X="12.25" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAIAAAIAAAAAAAAAIAAAAACAAAAAAAA=</HashCode>
+      <FileName>Renderer.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="shaderSystem" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Scene">
+    <Position X="5" Y="0.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Scene::GeometryType">
+        <TypeIdentifier>
+          <NewMemberFileName>Scene.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAGAAAAAAABAgQAAAAAAQBABAAAAAAIBAAAEAAA=</HashCode>
+      <FileName>Scene.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="buff" />
+      <Field Name="indexBuffer" />
+      <Field Name="type" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Shader">
+    <Position X="3" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAACAAAAAAAAAAQAAAAAABAAAAQACAAA=</HashCode>
+      <FileName>Shader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShaderProgramManager">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AoAIAAAAAAAAAAIAAAAAAAAAgAAAAEAABAAAAAAAAAA=</HashCode>
+      <FileName>ShaderProgramManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShaderSystem">
+    <Position X="12.25" Y="1.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAABAAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>ShaderSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Vertex">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAgQAAAAAACAAAAAAAAAAAI=</HashCode>
+      <FileName>Vertex.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VertexBuffer">
+    <Position X="7.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAIAAAAAAAIAAEAAAAAAAAAAAAAAAAAABEAA=</HashCode>
+      <FileName>VertexBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WindowSystem">
+    <Position X="14.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAIAAAAAAAAAAAAAAACgAAEAA=</HashCode>
+      <FileName>WindowSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Grid">
+    <Position X="4" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAgAAAAAAAAAAAAAAAAAgAAAAEgAAAAAEAAA=</HashCode>
+      <FileName>Grid.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="VertexType" Collapsed="true">
+    <Position X="4.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAIAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>VertexBuffer.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
