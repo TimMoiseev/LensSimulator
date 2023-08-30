@@ -70,5 +70,14 @@ namespace LensSimulator.ViewModel
             engine?.StopEngine();
 
         }
+
+        private RelayCommand addCommand1;
+        public ICommand addCommand => addCommand1 ??= new RelayCommand(add);
+
+        private void add(object commandParameter)
+        {
+            string s = "AddLensCommand";
+            engine.messageSystem.transmitMessage(s);
+        }
     }
 }

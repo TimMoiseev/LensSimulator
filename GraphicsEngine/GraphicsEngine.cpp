@@ -29,7 +29,9 @@ void GraphicsEngine::beginMainLoop()
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-        renderer.draw(&lens);
+        if (messageSystem->getCurrentMessage() == "AddLensCommand") {
+            renderer.draw(&lens);
+        }
         camera.update((float)duration);
         renderer.setCamera(&camera);
         renderer.draw(&grid);

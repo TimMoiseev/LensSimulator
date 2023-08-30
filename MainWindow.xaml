@@ -29,6 +29,9 @@
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
+                <Button Content="add" Command="{Binding addCommand}" >
+                    
+                </Button>
 
             </Grid>
             <Grid Grid.Column="1">

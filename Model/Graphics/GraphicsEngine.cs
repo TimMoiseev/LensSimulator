@@ -32,12 +32,14 @@ namespace LensSimulator.Model.Graphics
         {
             await Task.Run(() => {
                 graphicEngineWrapper = new GraphicEngineWrapper();
+                messageSystem = new MessageProcessingSystem();
                 graphicEngineWrapper.runEngine();
 
             });
         }
         
         private GraphicEngineWrapper graphicEngineWrapper;
+        public MessageProcessingSystem messageSystem;
     }
     public sealed class EngineState 
     {

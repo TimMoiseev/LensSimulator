@@ -135,6 +135,13 @@
       <FileName>Grid.h</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="MessageProcessingSystem">
+    <Position X="14.5" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAFAAAAAAABAEAAAAAA=</HashCode>
+      <FileName>MessageProcessingSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
   <Enum Name="VertexType" Collapsed="true">
     <Position X="4.75" Y="5.25" Width="1.5" />
     <TypeIdentifier>

@@ -16,7 +16,7 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "ShaderProgramManager.h"
-
+#include "MessageProcessingSystem.h"
 #pragma comment(lib, "glew32.lib")
 #pragma comment (lib, "opengl32.lib")
 #pragma comment (lib, "glfw3dll.lib")
@@ -35,7 +35,7 @@ private:
 	ShaderSystem shaderSystem{&shaderProgram};
 	Camera camera{ vec3(200.0, 200.0, 200.0) };
 	Renderer renderer{&shaderSystem};
-	
+	MessageProcessingSystem* messageSystem = MessageProcessingSystem::create();
 	void beginMainLoop();
 	
 	
