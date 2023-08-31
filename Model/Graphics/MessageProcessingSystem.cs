@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 namespace LensSimulator.Model.Graphics
 {
+    
     internal class MessageProcessingSystem
     {
+        
+
         [DllImport("C:\\Users\\lglgl\\Documents\\GitHub\\LensSimulator\\x64\\Debug\\GraphicsEngine.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         static protected extern IntPtr createMessageProcessingSystem();
         [DllImport("C:\\Users\\lglgl\\Documents\\GitHub\\LensSimulator\\x64\\Debug\\GraphicsEngine.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
-        static protected extern void reciveMessageInternal(IntPtr target,string message);
+        static protected extern void reciveMessageInternal(IntPtr target, string message);
         IntPtr handle = IntPtr.Zero;
         public MessageProcessingSystem()
         {

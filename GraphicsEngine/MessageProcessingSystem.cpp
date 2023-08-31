@@ -8,10 +8,12 @@ void MessageProcessingSystem::destroyMessageProcessingSystem(MessageProcessingSy
 {
 	target->~MessageProcessingSystem();
 }
-void MessageProcessingSystem::reciveMessage(char* message){
+void MessageProcessingSystem::reciveMessage(json message){
+	mtx.lock();
 	currentMessage = message;
+	mtx.unlock();
 }
-string MessageProcessingSystem::getCurrentMessage() {
+json MessageProcessingSystem::getCurrentMessage() {
 	return MessageProcessingSystem::currentMessage;
 }
 MessageProcessingSystem* createMessageProcessingSystem()
@@ -24,5 +26,5 @@ MessageProcessingSystem* MessageProcessingSystem::create() {
 	return &myHandle;
 }
 void reciveMessageInternal(MessageProcessingSystem* target, char* message) {
-	target->reciveMessage(message);
+	target->reciveMessage(json::parse((string)message));
 }

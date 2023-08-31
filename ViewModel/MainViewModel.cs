@@ -77,6 +77,7 @@ namespace LensSimulator.ViewModel
         private void add(object commandParameter)
         {
             string s = "AddLensCommand";
+            
             engine.messageSystem.transmitMessage(s);
         }
     }

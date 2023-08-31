@@ -2,6 +2,12 @@
 #include "SurfaceWindow.h"
 
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+    json message = {
+        {"Type", "Resize"},
+        {"Priority", 0.8f},
+        {"Width", LOWORD(lParam)},
+        {"Height", HIWORD(lParam)},
+    };
     switch (msg)
     {
     case WM_CLOSE:
@@ -9,6 +15,9 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
+        break;
+    case WM_SIZE:
+        MessageProcessingSystem::create()->reciveMessage(message);
         break;
     default:
         return DefWindowProc(hWnd, msg, wParam, lParam);

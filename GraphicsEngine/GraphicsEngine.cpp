@@ -23,15 +23,20 @@ void GraphicsEngine::beginMainLoop()
     auto lastTime = std::chrono::high_resolution_clock::now();
 
 	while (true) {
+
         auto currentTime = std::chrono::high_resolution_clock::now();
         uint64_t duration = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - lastTime).count();
         lastTime = currentTime;
+        
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-        if (messageSystem->getCurrentMessage() == "AddLensCommand") {
-            renderer.draw(&lens);
+        if ((messageSystem->getCurrentMessage())["Type"].template get<std::string>() == "Resize") {
+            glViewport(0, 0, 
+                messageSystem->getCurrentMessage()["Width"].template get<UINT>(),
+                messageSystem->getCurrentMessage()["Height"].template get<UINT>());
         }
+        renderer.draw(&lens);
+        
         camera.update((float)duration);
         renderer.setCamera(&camera);
         renderer.draw(&grid);
