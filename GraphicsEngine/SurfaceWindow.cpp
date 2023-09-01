@@ -8,6 +8,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
         {"Width", LOWORD(lParam)},
         {"Height", HIWORD(lParam)},
     };
+   
     switch (msg)
     {
     case WM_CLOSE:

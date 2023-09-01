@@ -72,7 +72,7 @@ namespace LensSimulator.ViewModel
         {
             OnOffCommand offCommand = new()
             {
-                CommandType = OnOffCommandType.Stop.ToString(),
+                CommandType = "Stop",
                 Priority = 1.0f
             };
             string json_stopCommand = JsonSerializer.Serialize(offCommand);

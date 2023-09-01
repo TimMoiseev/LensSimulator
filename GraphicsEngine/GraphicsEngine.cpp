@@ -14,7 +14,7 @@ void GraphicsEngine::beginMainLoop()
     vec3 green = vec3(0.0f, 255.0f, 0.0f);
     vec3 blue = vec3(0.0f, 0.0f, 255.0f);
 
-    BiconvexLens lens;
+    BiconvexLens* lens = new BiconvexLens();
     Line axisX(vec3(0, 0, 0), vec3(100, 0, 0), red);
     Line axisY(vec3(0, 0, 0), vec3(0, 100, 0), green);
     Line axisZ(vec3(0, 0, 0), vec3(0, 0, 100), blue);
@@ -30,8 +30,19 @@ void GraphicsEngine::beginMainLoop()
         
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        
+        renderer.draw(lens);
+        
+        camera.update((float)duration);
+        renderer.setCamera(&camera);
+        renderer.draw(&grid);
+        renderer.draw(&axisX);
+        renderer.draw(&axisY);
+        renderer.draw(&axisZ);
+		SwapBuffers(dc);
         if ((messageSystem->getCurrentMessage())["Type"].template get<std::string>() == "Resize") {
-            glViewport(0, 0, 
+            glViewport(0, 0,
                 messageSystem->getCurrentMessage()["Width"].template get<UINT>(),
                 messageSystem->getCurrentMessage()["Height"].template get<UINT>());
         }
@@ -42,17 +53,8 @@ void GraphicsEngine::beginMainLoop()
                 }
             }
         }
-        
-        renderer.draw(&lens);
-        
-        camera.update((float)duration);
-        renderer.setCamera(&camera);
-        renderer.draw(&grid);
-        renderer.draw(&axisX);
-        renderer.draw(&axisY);
-        renderer.draw(&axisZ);
-		SwapBuffers(dc);
 	}
+    destroyGraphicsEngine(this);
 }
 void GLAPIENTRY
 MessageCallback(GLenum source,

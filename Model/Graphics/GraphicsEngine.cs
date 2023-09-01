@@ -19,16 +19,11 @@ namespace LensSimulator.Model.Graphics
 
     public struct OnOffCommand
     {
-        public static string Type { get { return "OnOffCommand"; } }
+        public string Type { get { return "OnOffCommand"; } }
         public string CommandType { get; set; }
         public float Priority { get; set; }
     }
-    public enum OnOffCommandType
-    {
-        Run = 1,
-        Pause = 2,
-        Stop = 3
-    }
+    
     internal class GraphicsEngine
     {
         public GraphicsEngine(StateUpdateHandler eventHandler)
@@ -55,6 +50,7 @@ namespace LensSimulator.Model.Graphics
                 graphicEngineWrapper.runEngine();
 
             });
+            System.Windows.Application.Current.Shutdown();
         }
         
         private GraphicEngineWrapper graphicEngineWrapper;
