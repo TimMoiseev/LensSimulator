@@ -30,6 +30,7 @@ namespace LensSimulator.View.SurfaceView
 
             [DllImport("C:\\Users\\lglgl\\Documents\\GitHub\\LensSimulator\\x64\\Debug\\GraphicsEngine.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
             static extern void showSurfaceWindowExport(IntPtr hwnd);
+
             showSurfaceWindowExport(hwndChild);
             GetEngineState().WindowHandle = hwndChild;
             return new HandleRef(this, hwndChild);

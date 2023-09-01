@@ -35,6 +35,14 @@ void GraphicsEngine::beginMainLoop()
                 messageSystem->getCurrentMessage()["Width"].template get<UINT>(),
                 messageSystem->getCurrentMessage()["Height"].template get<UINT>());
         }
+        else {
+            if ((messageSystem->getCurrentMessage())["Type"].template get<std::string>() == "OnOffCommand") {
+                if ((messageSystem->getCurrentMessage())["CommandType"].template get<std::string>() == "Stop") {
+                    break;
+                }
+            }
+        }
+        
         renderer.draw(&lens);
         
         camera.update((float)duration);

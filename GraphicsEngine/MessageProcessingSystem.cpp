@@ -10,6 +10,10 @@ void MessageProcessingSystem::destroyMessageProcessingSystem(MessageProcessingSy
 }
 void MessageProcessingSystem::reciveMessage(json message){
 	mtx.lock();
+	if (currentMessage.is_null() != true) { 
+		string temp = currentMessage; 
+	};
+	currentMessage = 0;
 	currentMessage = message;
 	mtx.unlock();
 }

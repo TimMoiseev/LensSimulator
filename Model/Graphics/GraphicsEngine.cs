@@ -10,6 +10,25 @@ using static LensSimulator.Model.Graphics.EngineState;
 
 namespace LensSimulator.Model.Graphics
 {
+    //public class OnOffCommand
+    //{
+    //    private const string commandType = "OnOffCommand" 
+    //    public OnOffCommandType type;
+    //    public float priority;
+    //}
+
+    public struct OnOffCommand
+    {
+        public static string Type { get { return "OnOffCommand"; } }
+        public string CommandType { get; set; }
+        public float Priority { get; set; }
+    }
+    public enum OnOffCommandType
+    {
+        Run = 1,
+        Pause = 2,
+        Stop = 3
+    }
     internal class GraphicsEngine
     {
         public GraphicsEngine(StateUpdateHandler eventHandler)
