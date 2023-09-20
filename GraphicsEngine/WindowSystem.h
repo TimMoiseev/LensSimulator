@@ -8,8 +8,6 @@ private:
 	void createGLContext();
 	HGLRC renderContext;
 public:
-	WindowSystem();
-	
 	WindowSystem(HWND hWND, HDC dc);
 };
 

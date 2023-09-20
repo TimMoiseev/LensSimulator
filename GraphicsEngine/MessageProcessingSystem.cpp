@@ -10,14 +10,47 @@ void MessageProcessingSystem::destroyMessageProcessingSystem(MessageProcessingSy
 }
 void MessageProcessingSystem::reciveMessage(json message){
 	mtx.lock();
-	/*if (currentMessage.is_null() != true) { 
-		string temp = currentMessage; 
-	};
-	currentMessage = 0;*/
-	currentMessage = message;
+	messages.push(message);
 	mtx.unlock();
 }
+
+void MessageProcessingSystem::setStopCallback(function<void(void)> f)
+{
+	stopFunPointer = f;
+}
+
+void MessageProcessingSystem::setResizeCallback(void (*f)(int, int))
+{
+	resizeFunPointer = f;
+}
+
+bool MessageProcessingSystem::process()
+{
+
+	auto message = getCurrentMessage();
+	if (!message.empty()) {
+		if (message["Type"].template get<std::string>() == "Resize") {
+			resizeFunPointer(message["Width"].template get<UINT>(), message["Height"].template get<UINT>());
+			return true;
+		}
+		else if (message["Type"].template get<std::string>() == "OnOffCommand") {
+			if ((message["CommandType"].template get<std::string>() == "Stop") ){
+				stopFunPointer();
+			}
+		}
+	}
+	
+	return false;
+}
 json MessageProcessingSystem::getCurrentMessage() {
+	if (!messages.empty()) {
+		currentMessage = messages.front();
+		messages.pop();
+	}
+	else {
+
+	}
+	
 	return MessageProcessingSystem::currentMessage;
 }
 MessageProcessingSystem* createMessageProcessingSystem()

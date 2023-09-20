@@ -2,12 +2,7 @@
 #include "SurfaceWindow.h"
 
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-    json message = {
-        {"Type", "Resize"},
-        {"Priority", 0.8f},
-        {"Width", LOWORD(lParam)},
-        {"Height", HIWORD(lParam)},
-    };
+    
    
     switch (msg)
     {
@@ -18,7 +13,28 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
         PostQuitMessage(0);
         break;
     case WM_SIZE:
-        MessageProcessingSystem::create()->reciveMessage(message);
+    {
+        json resizeMessage = {
+        {"Type", "Resize"},
+        {"Priority", 0.8f},
+        {"Width", LOWORD(lParam)},
+        {"Height", HIWORD(lParam)},
+        };
+        MessageProcessingSystem::create()->reciveMessage(resizeMessage);
+    }
+        break;
+    case WM_MOUSEMOVE:
+    {
+        if (wParam == MK_LBUTTON) {
+            json mouseMoveMessage = {
+            {"Type", "MouseDrag"},
+            {"Priority", 0.8f},
+            {"X", GET_X_LPARAM(lParam)},
+            {"Y", GET_Y_LPARAM(lParam)},
+            };
+            MessageProcessingSystem::create()->reciveMessage(mouseMoveMessage);
+        }
+    }
         break;
     default:
         return DefWindowProc(hWnd, msg, wParam, lParam);

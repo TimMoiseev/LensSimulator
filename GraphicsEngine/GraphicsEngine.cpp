@@ -8,6 +8,10 @@
 #include "Line.h"
 #include "Grid.h"
 
+void resize(int width, int height) {
+    glViewport(0, 0, width, height);
+}
+
 void GraphicsEngine::beginMainLoop()
 {
     vec3 red = vec3(255.0f, 0.0f, 0.0f);
@@ -22,7 +26,9 @@ void GraphicsEngine::beginMainLoop()
 
     auto lastTime = std::chrono::high_resolution_clock::now();
 
-	while (true) {
+    messageSystem->setResizeCallback(resize);
+    messageSystem->setStopCallback([=]() { stopped = true; });
+	while (!stopped) {
 
         auto currentTime = std::chrono::high_resolution_clock::now();
         uint64_t duration = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - lastTime).count();
@@ -41,20 +47,16 @@ void GraphicsEngine::beginMainLoop()
         renderer.draw(&axisY);
         renderer.draw(&axisZ);
 		SwapBuffers(dc);
-        if ((messageSystem->getCurrentMessage())["Type"].template get<std::string>() == "Resize") {
-            glViewport(0, 0,
-                messageSystem->getCurrentMessage()["Width"].template get<UINT>(),
-                messageSystem->getCurrentMessage()["Height"].template get<UINT>());
-        }
-        else {
-            if ((messageSystem->getCurrentMessage())["Type"].template get<std::string>() == "OnOffCommand") {
-                if ((messageSystem->getCurrentMessage())["CommandType"].template get<std::string>() == "Stop") {
-                    break;
-                }
-            }
-        }
+        messageSystem->process();
 	}
     destroyGraphicsEngine(this);
+}
+
+void GraphicsEngine::stop() {
+    stopped = true;
+}
+void stopEngine() {
+
 }
 void GLAPIENTRY
 MessageCallback(GLenum source,

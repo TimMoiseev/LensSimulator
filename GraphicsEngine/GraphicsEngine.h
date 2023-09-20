@@ -36,16 +36,18 @@ private:
 	Camera camera{ vec3(200.0, 200.0, 200.0) };
 	Renderer renderer{&shaderSystem};
 	MessageProcessingSystem* messageSystem = MessageProcessingSystem::create();
+	bool stopped = false;
 	void beginMainLoop();
 	
 	
 
 public :
+	
 	/*void draw(GraphicsObject obj);*/
 	GraphicsEngine(HWND hWND);
 	~GraphicsEngine();
 	void run();
-
+	void stop();
 };
 
 extern "C" __declspec(dllexport) void* createGraphicsEngine(HWND hWND);

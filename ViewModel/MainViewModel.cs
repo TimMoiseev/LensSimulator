@@ -76,20 +76,20 @@ namespace LensSimulator.ViewModel
                 Priority = 1.0f
             };
             string json_stopCommand = JsonSerializer.Serialize(offCommand);
-            engine?.messageSystem.transmitMessage(json_stopCommand);
+            engine?.messageSystem?.transmitMessage(json_stopCommand);
         }
 
-        private RelayCommand addCommand1;
+        private RelayCommand? addCommand1;
         public ICommand addCommand => addCommand1 ??= new RelayCommand(add);
 
         private void add(object commandParameter)
         {
             string s = "AddLensCommand";
             
-            engine.messageSystem.transmitMessage(s);
+            engine?.messageSystem?.transmitMessage(s);
         }
 
-        private RelayCommand menuBarMouseDownCommand;
+        private RelayCommand? menuBarMouseDownCommand;
         public ICommand MenuBarMouseDownCommand => menuBarMouseDownCommand ??= new RelayCommand(MenuBarMouseDown);
 
         private void MenuBarMouseDown(object commandParameter)
@@ -149,5 +149,6 @@ namespace LensSimulator.ViewModel
                 }
             }
         }
+
     }
 }

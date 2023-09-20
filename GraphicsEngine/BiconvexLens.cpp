@@ -68,6 +68,11 @@ void BiconvexLens::createModel()
 			}
 		}
 	}
+	mat4 moveToZero = glm::translate(mat4(1.f), vec3(-R + h, 0.0, 0.0));
+	for (int i = 0; i < vertices->size(); ++i) {
+		auto newPos = moveToZero * vec4(vertices->at(i).vert[0], vertices->at(i).vert[1], vertices->at(i).vert[2], 1.0);
+		vertices->at(i).vert = { newPos.x, newPos.y, newPos.z };
+	}
 }
 
 BiconvexLens::BiconvexLens(GLfloat R, GLfloat diameter, GLfloat m, int uCount, int vCount) :

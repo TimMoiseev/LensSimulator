@@ -24,11 +24,12 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Name="MenuBar" Background="#1e1e1e">
+
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDown">
+                    <i:EventTrigger EventName="PreviewMouseDown">
                         <i:InvokeCommandAction Command="{Binding MenuBarMouseDownCommand}" PassEventArgsToCommand="True"/>
                     </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                         <i:InvokeCommandAction Command="{Binding MenuBarMouseLeftButtonDownCommand}" PassEventArgsToCommand="True" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
@@ -36,6 +37,9 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="0.08*"/>
                 </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    
+                </Grid>
                 <Grid Grid.Column="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -51,7 +55,8 @@
                         <Line X1="15" Y1="15" X2="5" Y2="15" Stroke="White" StrokeThickness="0.5"></Line>
                         <Line X1="15" Y1="5" X2="5" Y2="5" Stroke="White" StrokeThickness="0.5"></Line>
                     </Grid>
-                    <Grid Grid.Column="2">
+                    <Grid Grid.Column="2" >
+                        <Rectangle Fill="Red"></Rectangle>
                         <Line X1="5" Y1="5" X2="15" Y2="15" Stroke="White" StrokeThickness="0.5"></Line>
                         <Line X1="15" Y1="5" X2="5" Y2="15" Stroke="White" StrokeThickness="0.5"></Line>
                         <i:Interaction.Triggers>

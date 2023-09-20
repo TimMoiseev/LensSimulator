@@ -39,7 +39,7 @@ namespace LensSimulator.Model.Graphics
         public void StopEngine()
         {
             GetEngineState().IsRunning = false;
-            graphicEngineWrapper.Dispose();
+            graphicEngineWrapper?.Dispose();
         }
         
         async private void AsyncRun()
@@ -53,8 +53,8 @@ namespace LensSimulator.Model.Graphics
             System.Windows.Application.Current.Shutdown();
         }
         
-        private GraphicEngineWrapper graphicEngineWrapper;
-        public MessageProcessingSystem messageSystem;
+        private GraphicEngineWrapper? graphicEngineWrapper;
+        public MessageProcessingSystem? messageSystem;
     }
     public sealed class EngineState 
     {
@@ -92,7 +92,7 @@ namespace LensSimulator.Model.Graphics
             }
         }
         public delegate void StateUpdateHandler(string message);
-        public event StateUpdateHandler StateUpdate;
+        public event StateUpdateHandler? StateUpdate;
         public static EngineState GetEngineState()
         {
             if(state == null) { state  = new EngineState(); return state; }

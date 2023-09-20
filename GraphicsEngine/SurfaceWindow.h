@@ -1,5 +1,6 @@
 #pragma once
 #include "Windows.h"
+#include "Windowsx.h"
 #include "MessageProcessingSystem.h"
 #include "nlohmann/json.hpp"
 extern "C" __declspec(dllexport) bool registerSurfaceWindowClassExport();
