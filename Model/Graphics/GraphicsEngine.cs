@@ -47,9 +47,7 @@ namespace LensSimulator.Model.Graphics
             await Task.Run(() => {
                 graphicEngineWrapper = new GraphicEngineWrapper();
                 messageSystem = new MessageProcessingSystem();
-                graphicEngineWrapper.runEngine();
-
-            });
+                graphicEngineWrapper.runEngine();});
             System.Windows.Application.Current.Shutdown();
         }
         

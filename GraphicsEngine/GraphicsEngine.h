@@ -17,6 +17,7 @@
 #include "Camera.h"
 #include "ShaderProgramManager.h"
 #include "MessageProcessingSystem.h"
+#include "HIDInputSystem.h"
 #pragma comment(lib, "glew32.lib")
 #pragma comment (lib, "opengl32.lib")
 #pragma comment (lib, "glfw3dll.lib")
@@ -33,12 +34,15 @@ private:
 	std::vector<Shader*> shaders{&vertexShader, &fragShader};
 	ShaderProgramManager shaderProgram{&shaders};
 	ShaderSystem shaderSystem{&shaderProgram};
-	Camera camera{ vec3(200.0, 200.0, 200.0) };
-	Renderer renderer{&shaderSystem};
 	MessageProcessingSystem* messageSystem = MessageProcessingSystem::create();
+	Camera camera{ vec3(200.0, 200.0, 200.0) };
+	HIDInputSystem inputSystem{ messageSystem };
+	Renderer renderer{&shaderSystem};
+	
 	bool stopped = false;
 	void beginMainLoop();
-	
+	int X = 0;
+	int Y = 0;
 	
 
 public :

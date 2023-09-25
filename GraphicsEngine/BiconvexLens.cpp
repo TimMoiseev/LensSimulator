@@ -89,6 +89,7 @@ BiconvexLens::BiconvexLens(GLfloat R, GLfloat diameter, GLfloat m, int uCount, i
 {
 	createModel();
 	createBuffer(vertices, indices);
+
 }
 
 void BiconvexLens::update(float dTime){}

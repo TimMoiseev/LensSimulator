@@ -27,7 +27,8 @@ void GraphicsEngine::beginMainLoop()
     auto lastTime = std::chrono::high_resolution_clock::now();
 
     messageSystem->setResizeCallback(resize);
-    messageSystem->setStopCallback([=]() { stopped = true; });
+    messageSystem->setStopCallback([&]() { stopped = true; });
+    
 	while (!stopped) {
 
         auto currentTime = std::chrono::high_resolution_clock::now();
@@ -40,7 +41,7 @@ void GraphicsEngine::beginMainLoop()
         
         renderer.draw(lens);
         
-        camera.update((float)duration);
+        camera.update(&inputSystem);
         renderer.setCamera(&camera);
         renderer.draw(&grid);
         renderer.draw(&axisX);

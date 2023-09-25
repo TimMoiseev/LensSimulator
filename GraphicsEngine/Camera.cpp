@@ -27,15 +27,37 @@ zFar{ zFar } {
 Camera::Camera()
 {
 }
-void Camera::rotate(glm::vec3 axis, GLfloat angle) {
+void Camera::rotate(glm::vec3 axis, GLfloat angle, mat4 matrix) {
 	viewMatrix = glm::rotate(viewMatrix, glm::radians(angle), axis);
 }
 void Camera::update(float duration)
 {
 
 	cameraMatrix = projectionMatrix * viewMatrix;
-	rotate(vec3(0.0, 0.0, 1.0), 0.00000001f * duration);
+	rotate(vec3(0.0, 0.0, 1.0), 0.00000001f * duration, viewMatrix);
 
+}
+
+void Camera::update(HIDInputSystem* system)
+{
+	int dx = 0, dy = 0;
+	static int oldDx = 0, oldDy = 0;
+	int w = 30, h = 20;
+	static float angleX = 0;
+	static float angleY = 0;
+	system->getActualdXdY(dx, dy);
+	if (((dx != 0) || (dy != 0)) && ((dx != oldDx) || (dy != oldDy))) {
+		auto axisX = vec3(1, 0, 0);
+		auto axisY = vec3(0, 1, 0);
+		angleX = static_cast<float>(dx) / w;
+		angleY = static_cast<float>(dy) / h;
+		rotate(axisX, angleX, viewMatrix);
+		rotate(axisY, angleY, viewMatrix);
+		cameraMatrix = projectionMatrix * viewMatrix;
+		oldDx = dx;
+		oldDy = dy;
+
+	}
 }
 
 mat4 Camera::getCameraMatrix()

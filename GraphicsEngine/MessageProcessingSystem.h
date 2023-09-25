@@ -5,7 +5,6 @@
 #include <queue>
 
 
-
 using RESIZEFUNPOINTER = void (*)(int, int);
 using std::string;
 using std::mutex;
@@ -13,7 +12,6 @@ using json = nlohmann::json;
 using std::queue;
 using std::list;
 using std::function;
-
 
 
 enum MessageType {
@@ -30,10 +28,13 @@ class MessageProcessingSystem
 	mutex mtx;
 	MessageProcessingSystem();
 	function<void(void)> stopFunPointer = nullptr;
+	function<void(int, int)> mouseDragPointer = nullptr;
 	RESIZEFUNPOINTER resizeFunPointer = nullptr;
 public:
 	void setStopCallback(function<void(void)> f);
 	void setResizeCallback(void (*)(int, int));
+	
+	void mouseDragFun(function<void(int,int)> f);
 	bool process();
 	json getCurrentMessage();
 	static MessageProcessingSystem* create();
@@ -43,3 +44,5 @@ public:
 
 extern "C" __declspec(dllexport) MessageProcessingSystem* createMessageProcessingSystem();
 extern "C" __declspec(dllexport) void reciveMessageInternal(MessageProcessingSystem * target, char* message);
+
+

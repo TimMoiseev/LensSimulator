@@ -191,6 +191,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="HIDInputSystem.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="MessageProcessingSystem.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="HIDInputSystem.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="MessageProcessingSystem.cpp" />

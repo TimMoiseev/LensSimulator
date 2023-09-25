@@ -25,14 +25,33 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
         break;
     case WM_MOUSEMOVE:
     {
+        static int oldX = 0;
+        static int oldY = 0;
+        int step = 5;
+        int newX = GET_X_LPARAM(lParam);
+        int newY = GET_Y_LPARAM(lParam);
         if (wParam == MK_LBUTTON) {
-            json mouseMoveMessage = {
-            {"Type", "MouseDrag"},
-            {"Priority", 0.8f},
-            {"X", GET_X_LPARAM(lParam)},
-            {"Y", GET_Y_LPARAM(lParam)},
-            };
-            MessageProcessingSystem::create()->reciveMessage(mouseMoveMessage);
+           
+            if ((newX != oldX) || (newY != oldY)) {
+                if ((abs(newX - oldX) > step) || (abs(newY - oldY) > step)) {
+                    json mouseDragMessage = {
+                    {"Type", "MouseDrag"},
+                    {"Priority", 0.8f},
+                    {"X", newX - oldX},
+                    {"Y", newY - oldY},
+                    };
+                    oldX = newX;
+                    oldY = newY;
+                    MessageProcessingSystem::create()->reciveMessage(mouseDragMessage);
+                }
+                
+                
+            }
+            
+        }
+        else {
+            oldX = newX;
+            oldY = newY;
         }
     }
         break;

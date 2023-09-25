@@ -3,6 +3,11 @@
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include "Primitive.h"
+#include "HIDInputSystem.h"
+
+using glm::inverse;
+using glm::vec4;
+
 
 class Camera:
 	public Primitive
@@ -16,6 +21,7 @@ class Camera:
 	mat4 cameraMatrix;
 	mat4 projectionMatrix;
 	mat4 viewMatrix;
+
 public:
 	Camera(
 		vec3 position = vec3(1, 1, 1),
@@ -28,8 +34,9 @@ public:
 	Camera();
 	Camera(Camera&) = delete;
 	Camera(Camera&&) = delete;
-	void rotate(glm::vec3 axis, GLfloat angle) override;
+	void rotate(glm::vec3 axis, GLfloat angle, mat4 matrix);
 	void update(float duration) override;
+	void update(HIDInputSystem* system);
 	mat4 getCameraMatrix();
 };
 

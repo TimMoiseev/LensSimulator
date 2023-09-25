@@ -24,6 +24,11 @@ void MessageProcessingSystem::setResizeCallback(void (*f)(int, int))
 	resizeFunPointer = f;
 }
 
+void MessageProcessingSystem::mouseDragFun(function<void(int, int)> f)
+{
+	mouseDragPointer = f;
+}
+
 bool MessageProcessingSystem::process()
 {
 
@@ -34,8 +39,17 @@ bool MessageProcessingSystem::process()
 			return true;
 		}
 		else if (message["Type"].template get<std::string>() == "OnOffCommand") {
-			if ((message["CommandType"].template get<std::string>() == "Stop") ){
-				stopFunPointer();
+			if (message["CommandType"].template get<std::string>() == "Stop"){
+				if (stopFunPointer != nullptr) {
+					stopFunPointer();
+				}
+			}
+		}
+		else if (message["Type"].template get<std::string>() == "MouseDrag") {
+			int x = message["X"].template get<UINT>();
+			int y = message["Y"].template get<UINT>();
+			if (stopFunPointer != nullptr) {
+				mouseDragPointer(x, y);
 			}
 		}
 	}
@@ -48,7 +62,7 @@ json MessageProcessingSystem::getCurrentMessage() {
 		messages.pop();
 	}
 	else {
-
+		currentMessage = nullptr;
 	}
 	
 	return MessageProcessingSystem::currentMessage;
