@@ -55,6 +55,19 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
         }
     }
         break;
+    case WM_MOUSEWHEEL:
+    {
+        int zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+        if (zDelta != 0) {
+            json mouseWheelMessage = {
+                    {"Type", "MouseWheel"},
+                    {"Priority", 0.8f},
+                    {"zDelta", zDelta}
+            };
+            MessageProcessingSystem::create()->reciveMessage(mouseWheelMessage);
+        }
+    }
+        break;
     default:
         return DefWindowProc(hWnd, msg, wParam, lParam);
     }

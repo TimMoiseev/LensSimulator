@@ -41,23 +41,42 @@ void Camera::update(float duration)
 void Camera::update(HIDInputSystem* system)
 {
 	int dx = 0, dy = 0;
+	int zDelta = 0;
 	static int oldDx = 0, oldDy = 0;
-	int w = 30, h = 20;
+	int w = 600, h = 400;
 	static float angleX = 0;
 	static float angleY = 0;
 	system->getActualdXdY(dx, dy);
+	system->getActualZDelta(zDelta);
+	if (zDelta != 0) {
+		zDelta > 0 ? (position *= 1.035f) : (position /= 1.035f);
+		viewMatrix = glm::lookAt(
+			position,
+			target,
+			vec3(1.0, 0.0, 0.0));
+	}
 	if (((dx != 0) || (dy != 0)) && ((dx != oldDx) || (dy != oldDy))) {
 		auto axisX = vec3(1, 0, 0);
 		auto axisY = vec3(0, 1, 0);
 		angleX = static_cast<float>(dx) / w;
 		angleY = static_cast<float>(dy) / h;
-		rotate(axisX, angleX, viewMatrix);
-		rotate(axisY, angleY, viewMatrix);
-		cameraMatrix = projectionMatrix * viewMatrix;
+		/*rotate(axisX, angleX, viewMatrix);
+		rotate(axisY, angleY, viewMatrix);*/
+		/*cameraMatrix = projectionMatrix * viewMatrix;*/
+		position = glm::rotateX(position, angleX);
+		position = glm::rotateY(position, angleY);
+		
+		viewMatrix = glm::lookAt(
+			position,
+			target,
+			vec3(1.0, 0.0, 0.0));
+		
+
 		oldDx = dx;
 		oldDy = dy;
 
 	}
+	update(0.0f);
 }
 
 mat4 Camera::getCameraMatrix()

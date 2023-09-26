@@ -29,11 +29,12 @@ class MessageProcessingSystem
 	MessageProcessingSystem();
 	function<void(void)> stopFunPointer = nullptr;
 	function<void(int, int)> mouseDragPointer = nullptr;
+	function<void(int)> mouseWheelPointer = nullptr;
 	RESIZEFUNPOINTER resizeFunPointer = nullptr;
 public:
 	void setStopCallback(function<void(void)> f);
 	void setResizeCallback(void (*)(int, int));
-	
+	void setMouseWheelCallback(function<void(int)> f);
 	void mouseDragFun(function<void(int,int)> f);
 	bool process();
 	json getCurrentMessage();

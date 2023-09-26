@@ -24,10 +24,17 @@ void MessageProcessingSystem::setResizeCallback(void (*f)(int, int))
 	resizeFunPointer = f;
 }
 
+void MessageProcessingSystem::setMouseWheelCallback(function<void(int)> f)
+{
+	mouseWheelPointer = f;
+}
+
 void MessageProcessingSystem::mouseDragFun(function<void(int, int)> f)
 {
 	mouseDragPointer = f;
 }
+
+
 
 bool MessageProcessingSystem::process()
 {
@@ -51,6 +58,13 @@ bool MessageProcessingSystem::process()
 			if (stopFunPointer != nullptr) {
 				mouseDragPointer(x, y);
 			}
+		}
+		else if (message["Type"].template get<std::string>() == "MouseWheel") {
+			int z = message["zDelta"].template get<UINT>();
+			if (z != 0) {
+				mouseWheelPointer(z);
+			}
+			
 		}
 	}
 	
