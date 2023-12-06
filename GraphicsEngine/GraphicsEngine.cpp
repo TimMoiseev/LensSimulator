@@ -4,7 +4,7 @@
 #include "ShaderProgramManager.h"
 #include "ShaderSystem.h"
 #include "Cube.h"
-#include "BiconvexLens.h"
+#include "SphericalCap.h"
 #include "Line.h"
 #include "Grid.h"
 
@@ -18,7 +18,7 @@ void GraphicsEngine::beginMainLoop()
     vec3 green = vec3(0.0f, 255.0f, 0.0f);
     vec3 blue = vec3(0.0f, 0.0f, 255.0f);
 
-    BiconvexLens* lens = new BiconvexLens();
+    SphericalCap* lens = new SphericalCap();
     Line axisX(vec3(0, 0, 0), vec3(100, 0, 0), red);
     Line axisY(vec3(0, 0, 0), vec3(0, 100, 0), green);
     Line axisZ(vec3(0, 0, 0), vec3(0, 0, 100), blue);

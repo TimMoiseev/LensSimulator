@@ -1,9 +1,11 @@
 ﻿using LensSimulator.Commands;
 using LensSimulator.Model.Graphics;
+using LensSimulator.View.OpticElement;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
@@ -12,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using static LensSimulator.Model.Graphics.EngineState;
 namespace LensSimulator.ViewModel
 {
@@ -150,5 +153,45 @@ namespace LensSimulator.ViewModel
             }
         }
 
+
+        private RelayCommand opticSchemeDragOverCommand1;
+        public ICommand opticSchemeDragOverCommand => opticSchemeDragOverCommand1 ??= new RelayCommand(opticSchemeDragOver);
+
+        private void opticSchemeDragOver(object commandParameter)
+        {
+            if (commandParameter!=null)
+            {
+                if (commandParameter is DragEventArgs e)
+                {
+                    if (e.Data.GetDataPresent("Object"))
+                    {
+                        if (e.KeyStates == DragDropKeyStates.ControlKey)
+                        {
+                            e.Effects = DragDropEffects.Copy;
+                        }
+                        else
+                        {
+                            e.Effects = DragDropEffects.Move;
+                        }
+                    }
+                }
+            }
+        }
+
+        private RelayCommand opticSchemeDropCommand1;
+        public ICommand opticSchemeDropCommand => opticSchemeDropCommand1 ??= new RelayCommand(opticSchemeDrop);
+
+        private void opticSchemeDrop(object commandParameter)
+        {
+            if (commandParameter != null)
+            {
+                if (commandParameter is DragEventArgs e)
+                {
+                    var sp = e.Source as StackPanel;
+                    UIElement _element = (UIElement)e.Data.GetData("Object");
+                    sp.Children.Add(new OpticElement((OpticElement)_element));
+                }
+            }
+        }
     }
 }

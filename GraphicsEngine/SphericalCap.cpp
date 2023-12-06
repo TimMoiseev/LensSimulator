@@ -1,9 +1,11 @@
 #include "pch.h"
-#include "BiconvexLens.h"
+#include "SphericalCap.h"
+
 using glm::vec3;
 using glm::quat;
 using glm::vec4;
-void BiconvexLens::createModel()
+
+void SphericalCap::createModel()
 {
 	vec3 aroundZ = vec3(0.0f, 0.0f, 1.0f);
 	vec3 aroundX = vec3(1.0f, 0.0f, 0.0f);
@@ -63,19 +65,19 @@ void BiconvexLens::createModel()
 				if (v == uCount - 2) {
 					indices->push_back(vertices->size() - uCount - 2 + 1);
 					indices->push_back(vertices->size() - uCount);
-					indices->push_back(vertices->size() - 2*uCount);
+					indices->push_back(vertices->size() - 2 * uCount);
 				}
 			}
 		}
 	}
-	mat4 moveToZero = glm::translate(mat4(1.f), vec3(-R + h, 0.0, 0.0));
+	mat4 moveToZero = glm::translate(mat4(1.f), vec3(-R, 0.0, 0.0));
 	for (int i = 0; i < vertices->size(); ++i) {
 		auto newPos = moveToZero * vec4(vertices->at(i).vert[0], vertices->at(i).vert[1], vertices->at(i).vert[2], 1.0);
 		vertices->at(i).vert = { newPos.x, newPos.y, newPos.z };
 	}
 }
 
-BiconvexLens::BiconvexLens(GLfloat R, GLfloat diameter, GLfloat m, int uCount, int vCount) :
+SphericalCap::SphericalCap(GLfloat R, GLfloat diameter, GLfloat m, int uCount, int vCount) :
 	R{ R },
 	diameter{ diameter },
 	m{ m },
@@ -92,4 +94,4 @@ BiconvexLens::BiconvexLens(GLfloat R, GLfloat diameter, GLfloat m, int uCount, i
 
 }
 
-void BiconvexLens::update(float dTime){}
+void SphericalCap::update(float dTime){}

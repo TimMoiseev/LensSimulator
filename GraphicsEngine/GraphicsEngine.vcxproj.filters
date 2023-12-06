@@ -63,7 +63,7 @@
     <ClInclude Include="Primitive.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="BiconvexLens.h">
+    <ClInclude Include="SphericalCap.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Line.h">
@@ -125,7 +125,7 @@
     <ClCompile Include="Primitive.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="BiconvexLens.cpp">
+    <ClCompile Include="SphericalCap.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Line.cpp">

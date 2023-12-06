@@ -3,7 +3,7 @@
 #include "math.h"
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
-class BiconvexLens
+class SphericalCap
 	: public Primitive
 {
 private:
@@ -21,7 +21,7 @@ private:
 	GLfloat dBeta = 0.0f;
 
 public:
-	BiconvexLens(
+	SphericalCap(
 		GLfloat R = 30.0f, 
 		GLfloat diameter = 60.0f, 
 		GLfloat m = 0.0f, 

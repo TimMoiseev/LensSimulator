@@ -38,6 +38,7 @@ void Scene::bindArrayAttrib()
 Scene::~Scene()
 {
 	delete buff;
+	delete indexBuffer;
 }
 
 const IndexBuffer* Scene::IndicesView()
