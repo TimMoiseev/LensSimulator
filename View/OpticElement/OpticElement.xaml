@@ -5,9 +5,5 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LensSimulator.View.OpticElement"
              mc:Ignorable="d">
-    <Grid>
-        <Ellipse x:Name="circleUI" 
-         Height="10" Width="10"
-         Fill="Blue"/>
-    </Grid>
+    <Image x:Name="LensIcon" Margin="2"/>
 </UserControl>

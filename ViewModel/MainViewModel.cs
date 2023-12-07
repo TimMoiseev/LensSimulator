@@ -189,7 +189,10 @@ namespace LensSimulator.ViewModel
                 {
                     var sp = e.Source as StackPanel;
                     UIElement _element = (UIElement)e.Data.GetData("Object");
-                    sp.Children.Add(new OpticElement((OpticElement)_element));
+                    var FullSizeOpticElement = new OpticElement(true, (OpticElement)_element);
+                    FullSizeOpticElement.Width = 100;
+                    FullSizeOpticElement.Height = 100;
+                    sp?.Children.Add(FullSizeOpticElement);
                 }
             }
         }

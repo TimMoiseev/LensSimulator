@@ -8,7 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resource\lens\convexLens1.png" />
+    <None Remove="Resource\lens\BiConvexLens.png" />
+    <None Remove="Resource\lens\DoubleConcaveLens.png" />
+    <None Remove="Resource\lens\FullSizeImage\DoubleConcaveLensFull.png" />
+    <None Remove="Resource\lens\FullSizeImage\DoubleConvexLensFull.png" />
+    <None Remove="Resource\lens\FullSizeImage\NegativeMeniscusLensFull.png" />
+    <None Remove="Resource\lens\FullSizeImage\PlanoConcaveLensFull.png" />
+    <None Remove="Resource\lens\FullSizeImage\PlanoConvexLensFull.png" />
+    <None Remove="Resource\lens\FullSizeImage\PositiveMeniscusLensFull.png" />
+    <None Remove="Resource\lens\NegativeMeniscusLens.png" />
+    <None Remove="Resource\lens\PlanoConcaveLens.png" />
+    <None Remove="Resource\lens\PlanoConvexLens.png" />
+    <None Remove="Resource\lens\PositiveMeniscusLens.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,7 +31,40 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resource\lens\convexLens1.png">
+    <Resource Include="Resource\lens\BiConvexLens.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\lens\DoubleConcaveLens.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\lens\FullSizeImage\DoubleConcaveLensFull.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\lens\FullSizeImage\DoubleConvexLensFull.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\lens\FullSizeImage\NegativeMeniscusLensFull.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\lens\FullSizeImage\PlanoConcaveLensFull.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\lens\FullSizeImage\PlanoConvexLensFull.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\lens\FullSizeImage\PositiveMeniscusLensFull.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\lens\NegativeMeniscusLens.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\lens\PlanoConcaveLens.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\lens\PlanoConvexLens.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\lens\PositiveMeniscusLens.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

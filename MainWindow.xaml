@@ -29,10 +29,12 @@
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewMouseDown">
-                        <i:InvokeCommandAction Command="{Binding MenuBarMouseDownCommand}" PassEventArgsToCommand="True"/>
+                        <i:InvokeCommandAction Command="{Binding MenuBarMouseDownCommand}" 
+                                               PassEventArgsToCommand="True"/>
                     </i:EventTrigger>
                     <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                        <i:InvokeCommandAction Command="{Binding MenuBarMouseLeftButtonDownCommand}" PassEventArgsToCommand="True" />
+                        <i:InvokeCommandAction Command="{Binding MenuBarMouseLeftButtonDownCommand}" 
+                                               PassEventArgsToCommand="True" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <Grid.ColumnDefinitions>
@@ -84,17 +86,17 @@
                 <Grid Grid.Row="1">
                     <StackPanel x:Name="OpticSchemeElemntSource" 
                                 AllowDrop="True"
-                                Background="#4f4f4f">
-                        <TextBox/>
-                        <oe:OpticElement/>
-                        <oe:OpticElement/>
+                                Background="#4f4f4f"
+                                Orientation="Vertical">
+                        <oe:OpticElement x:Name="lens1" Type="DoubleConvexLens" Width="22" Height="22"/>
+                        <oe:OpticElement x:Name="lens2" Type="PlanoConvexLens" Width="22" Height="22"/>
+                        <oe:OpticElement x:Name="lens3" Type="DoubleConcaveLens" Width="22" Height="22"/>
+                        <oe:OpticElement x:Name="lens4" Type="NegativeMeniscusLens" Width="22" Height="22"/>
+                        <oe:OpticElement x:Name="lens5" Type="PlanoConcaveLens" Width="22" Height="22"/>
+                        <oe:OpticElement x:Name="lens6" Type="PositiveMeniscusLens" Width="22" Height="22"/>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="DragOver">
                                 <i:InvokeCommandAction Command="{Binding opticSchemeDragOverCommand}" 
-                                                       PassEventArgsToCommand="True"/>
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="Drop">
-                                <i:InvokeCommandAction Command="{Binding opticSchemeDropCommand}" 
                                                        PassEventArgsToCommand="True"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
@@ -123,13 +125,9 @@
                 <Grid Grid.Row="1">
                     <StackPanel x:Name="opticScheme_stackPannel" 
                                 AllowDrop="True"
-                                Background="#5f5f5f">
-                        <TextBox/>
+                                Background="#5f5f5f"
+                                Orientation="Horizontal">
                         <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="DragOver">
-                                <i:InvokeCommandAction Command="{Binding opticSchemeDragOverCommand}" 
-                                                       PassEventArgsToCommand="True"/>
-                            </i:EventTrigger>
                             <i:EventTrigger EventName="Drop">
                                 <i:InvokeCommandAction Command="{Binding opticSchemeDropCommand}" 
                                                        PassEventArgsToCommand="True"/>
