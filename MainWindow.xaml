@@ -6,12 +6,13 @@
         xmlns:local="clr-namespace:LensSimulator"
         xmlns:vm ="clr-namespace:LensSimulator.ViewModel"
         xmlns:rs ="clr-namespace:LensSimulator.View.SurfaceView"
+        xmlns:p2d ="clr-namespace:LensSimulator.View._2DPlot"
         xmlns:oep ="clr-namespace:LensSimulator.View.OpticElementPicker"
         xmlns:oe ="clr-namespace:LensSimulator.View.OpticElement"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="LensSimulator" Height="450" Width="800"
-        WindowStyle="None" ResizeMode="NoResize"
+        WindowStyle="None" ResizeMode="CanResize"
         >
 
     <Grid Background="#1e1e1e">
@@ -123,7 +124,7 @@
                     </rs:RenderSurface>
                 </Grid>
                 <Grid Grid.Row="1">
-                    <StackPanel x:Name="opticScheme_stackPannel" 
+                    <!--<StackPanel x:Name="opticScheme_stackPannel" 
                                 AllowDrop="True"
                                 Background="#5f5f5f"
                                 Orientation="Horizontal">
@@ -133,7 +134,10 @@
                                                        PassEventArgsToCommand="True"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                    </StackPanel>
+                    </StackPanel>-->
+                    <p2d:Plot2D x:Name="MainPlot2d" Width="Auto" Height="Auto">
+                        
+                    </p2d:Plot2D>
                 </Grid>
             </Grid>
         </Grid>

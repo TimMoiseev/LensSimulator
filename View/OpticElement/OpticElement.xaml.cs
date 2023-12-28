@@ -55,7 +55,7 @@ namespace LensSimulator.View.OpticElement
             get { return type; }
             set {
                 type = value;
-                LensIcon.Source = (ImageSource)new ImageSourceConverter().ConvertFromString(TypeToIconPath[type]);
+                LensIcon.Source = (ImageSource?)new ImageSourceConverter().ConvertFromString(TypeToIconPath[type]);
             } }
         public OpticElement(bool FullSize, OpticElement oe)
         {
@@ -63,8 +63,8 @@ namespace LensSimulator.View.OpticElement
             this.Width = oe.Width;
             this.Height = oe.Height;
             this.LensIcon.Source = FullSize ? 
-                (ImageSource)new ImageSourceConverter().ConvertFromString(TypeToImagePath[oe.type]) :
-                (ImageSource)new ImageSourceConverter().ConvertFromString(TypeToIconPath[oe.type]);
+                (ImageSource?)new ImageSourceConverter().ConvertFromString(TypeToImagePath[oe.type]) :
+                (ImageSource?)new ImageSourceConverter().ConvertFromString(TypeToIconPath[oe.type]);
         }
         protected override void OnMouseMove(MouseEventArgs e)
         {

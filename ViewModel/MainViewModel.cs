@@ -188,11 +188,14 @@ namespace LensSimulator.ViewModel
                 if (commandParameter is DragEventArgs e)
                 {
                     var sp = e.Source as StackPanel;
-                    UIElement _element = (UIElement)e.Data.GetData("Object");
-                    var FullSizeOpticElement = new OpticElement(true, (OpticElement)_element);
-                    FullSizeOpticElement.Width = 100;
-                    FullSizeOpticElement.Height = 100;
-                    sp?.Children.Add(FullSizeOpticElement);
+                    OpticElement? _element = e.Data.GetData("Object") as OpticElement;
+                    if (_element != null)
+                    {
+                        var FullSizeOpticElement = new OpticElement(true, _element);
+                        FullSizeOpticElement.Width = 100;
+                        FullSizeOpticElement.Height = 100;
+                        sp?.Children.Add(FullSizeOpticElement);
+                    }
                 }
             }
         }
