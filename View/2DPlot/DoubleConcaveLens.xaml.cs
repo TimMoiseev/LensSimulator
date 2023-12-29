@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LensSimulator.Commands;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace LensSimulator.View._2DPlot
 {
@@ -31,6 +33,7 @@ namespace LensSimulator.View._2DPlot
         private double _D = 40;
         private double _R = 40;
         private double _h = 10;
+        private Point oldPosition = new (0, 0);
         public double ElementWidth
         {
             get
@@ -61,14 +64,15 @@ namespace LensSimulator.View._2DPlot
 
         public void Move(double x, double y)
         {
-            Canvas.SetLeft(this, x);
-            Canvas.SetTop(this, y);
+            Vector offset = VisualTreeHelper.GetOffset(this);
+            Canvas.SetLeft(this, offset.X + x);
+            Canvas.SetTop(this, offset.Y + y);
+
         }
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }
