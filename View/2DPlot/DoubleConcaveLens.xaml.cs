@@ -22,17 +22,18 @@ namespace LensSimulator.View._2DPlot
     /// <summary>
     /// Логика взаимодействия для DoubleConcaveLens.xaml
     /// </summary>
-    public partial class DoubleConcaveLens : UserControl, IPlotObject, INotifyPropertyChanged
+    public partial class DoubleConcaveLens : UserControl, INotifyPropertyChanged
     {
         public DoubleConcaveLens()
         {
             InitializeComponent();
         }
-        private double _Width = 100.0;
-        private double _Height = 100.0;
-        private double _D = 40;
+        
+        private double _D = 50;
         private double _R = 40;
         private double _h = 10;
+        private double _Width = 100.0;
+        private double _Height = 100.0;
         private Point oldPosition = new (0, 0);
         public double ElementWidth
         {
@@ -41,7 +42,7 @@ namespace LensSimulator.View._2DPlot
                 return _Width;
             }
         }
-        public double ElementHeight { get { return _Height; } }
+        public double ElementHeight { get { return _D; } }
         public double D { get { return _D; } set { _D = value; OnPropertyChanged(); } }
         public double R { get { return _R; } set { _R = value; OnPropertyChanged(); } }
         public double H { get { return _h; } set { _h = value; OnPropertyChanged(); } }
@@ -59,16 +60,7 @@ namespace LensSimulator.View._2DPlot
             this._h = h;
             OnPropertyChanged();
         }
-
-        public (double, double) Position => (ActualWidth, ActualHeight);
-
-        public void Move(double x, double y)
-        {
-            Vector offset = VisualTreeHelper.GetOffset(this);
-            Canvas.SetLeft(this, offset.X + x);
-            Canvas.SetTop(this, offset.Y + y);
-
-        }
+               
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {

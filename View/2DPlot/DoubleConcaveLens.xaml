@@ -10,7 +10,7 @@
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid Width="Auto" Height="Auto">
         
-        <Path Stroke="SkyBlue" Fill="Khaki">
+        <Path Stroke="SkyBlue" Fill="Khaki" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Path.Data>
                 <PathGeometry>
                     <PathFigure IsClosed="False" StartPoint="{Binding RStartPoint}">

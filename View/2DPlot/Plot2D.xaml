@@ -8,6 +8,9 @@
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <local:HalfValueConverter x:Key="HalfValueConverter"/>
+    </UserControl.Resources>
     <Canvas x:Name="MainCanvas" Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Visible">
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="MouseMove">
@@ -27,5 +30,8 @@
             </i:EventTrigger>
         </i:Interaction.Triggers>
         <local:DoubleConcaveLens></local:DoubleConcaveLens>
+        <local:AxisLine2D 
+            Width="{Binding ElementName=MainCanvas, Path=ActualWidth}" 
+            Height="{Binding ElementName=MainCanvas, Path=ActualHeight}"></local:AxisLine2D>
     </Canvas>
 </UserControl>

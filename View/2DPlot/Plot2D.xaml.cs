@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,7 +22,7 @@ namespace LensSimulator.View._2DPlot
     /// <summary>
     /// Логика взаимодействия для Plot2D.xaml
     /// </summary>
-    public partial class Plot2D : UserControl
+    public partial class Plot2D : UserControl, IPlotObject, INotifyPropertyChanged
     {
         public Plot2D()
         {
@@ -29,7 +30,7 @@ namespace LensSimulator.View._2DPlot
         }
         private bool PlotObjectCanMove = false;
         private Point MouseOldCoord { get; set; }
-
+        public double AxisWidth = 50.0;
         private RelayCommand? plot2DMouseDownCommand;
         public ICommand Plot2DMouseDownCommand => plot2DMouseDownCommand ??= new RelayCommand(Plot2DMouseDown);
         private void Plot2DMouseDown(object commandParameter)
@@ -37,6 +38,7 @@ namespace LensSimulator.View._2DPlot
             PlotObjectCanMove = true;
             if (commandParameter is MouseButtonEventArgs e && e.Source is IInputElement target)
             {
+                this.Cursor = Cursors.SizeAll;
                 e.MouseDevice.Capture(target);
             }
         }
@@ -48,11 +50,47 @@ namespace LensSimulator.View._2DPlot
             PlotObjectCanMove = false;
             if (commandParameter is MouseButtonEventArgs e)
             {
+                this.Cursor = null;
                 e.MouseDevice.Capture(null);
             }
         }
+        public bool Move(UIElement target, double x, double y)
+        {
+            if(target != null)
+            {
+                Vector offset = VisualTreeHelper.GetOffset(target);
+                Vector newOffset = new(offset.X + x, offset.Y + y);
+                if (newOffset.X >= 0.0 && newOffset.Y >= 0.0 && newOffset.X<this.ActualWidth && newOffset.Y<this.ActualHeight)
+                {
+                    Canvas.SetLeft(target, offset.X + x);
+                    Canvas.SetTop(target, offset.Y + y);
+                    return true;
+                }
+                else
+                {
+                    this.Cursor = null;
+                    PlotObjectCanMove = false;
+                    return false;
+                }
+            }
+            else
+            {
+                
+                return false;
+            }
+            
+
+
+        }
 
         private RelayCommand plot2DMouseMoveCommand;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+
         public ICommand Plot2DMouseMoveCommand => plot2DMouseMoveCommand ??= new RelayCommand(Plot2DMouseMove);
         private void Plot2DMouseMove(object commandParameter)
         {
@@ -60,16 +98,21 @@ namespace LensSimulator.View._2DPlot
             {
                 if (PlotObjectCanMove)
                 {
-                    if(e.Source is IPlotObject && e.Source is UIElement target)
+                    if(e.Source is UIElement target)
                     {
                         Point CurrentMousePoint = e.GetPosition(this);
-                        ((IPlotObject)target).Move(CurrentMousePoint.X-MouseOldCoord.X, CurrentMousePoint.Y - MouseOldCoord.Y);
-                        MouseOldCoord = CurrentMousePoint;
+                        if (Move(target, CurrentMousePoint.X - MouseOldCoord.X, CurrentMousePoint.Y - MouseOldCoord.Y))
+                        {
+                            MouseOldCoord = CurrentMousePoint;
+                        }
+                        else {
+                            e.MouseDevice.Capture(null);
+                        };
+                        
                     }
                 }
                 else
                 {
-                    var target = e.Source as UIElement;
                     MouseOldCoord = e.GetPosition(this);
                 }
             }
