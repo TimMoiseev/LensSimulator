@@ -1,5 +1,7 @@
-﻿using System;
+﻿using LensSimulator.Model.Lens;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,14 +10,7 @@ using System.Windows.Controls;
 
 namespace LensSimulator.View._2DPlot
 {
-    public interface IPlotObject
+    public interface IPlotObject : IObjectMover
     {
-        public enum Type
-        {
-            Lens,
-            Pivot
-        }
-        public bool Move(UIElement target, double x, double y);
-        //(double?, double?) getPosition();
     }
 }

@@ -8,25 +8,34 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    <Grid Width="Auto" Height="Auto">
-        
-        <Path Stroke="SkyBlue" Fill="Khaki" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Grid>
+        <Path Stroke="SkyBlue" Fill="Khaki" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeThickness="0.5">
             <Path.Data>
                 <PathGeometry>
                     <PathFigure IsClosed="False" StartPoint="{Binding RStartPoint}">
-                        <ArcSegment Point="{Binding RPoint}" Size="{Binding RSize}" SweepDirection="Clockwise" IsLargeArc="False"/>
+                        <ArcSegment Point="{Binding RPoint}" 
+                                    Size="{Binding RSize}" 
+                                    SweepDirection="Clockwise" 
+                                    IsLargeArc="False"/>
                     </PathFigure>
                     <PathFigure IsClosed="False" StartPoint="{Binding LStartPoint}">
-                        <ArcSegment Point="{Binding LPoint}" Size="{Binding LSize}" SweepDirection="Counterclockwise" IsLargeArc="False"/>
+                        <ArcSegment Point="{Binding LPoint}" 
+                                    Size="{Binding LSize}" 
+                                    SweepDirection="Counterclockwise" 
+                                    IsLargeArc="False"/>
                     </PathFigure>
                     <PathFigure StartPoint="{Binding RStartPoint}">
                         <LineSegment Point="{Binding LStartPoint}" ></LineSegment>
                         <LineSegment Point="{Binding LPoint}" ></LineSegment>
                         <LineSegment Point="{Binding RPoint}" ></LineSegment>
                         <LineSegment Point="{Binding RStartPoint}" ></LineSegment>
+                        
                     </PathFigure>
+                    
                 </PathGeometry>
+                
             </Path.Data>
+            
         </Path>
     </Grid>
 </UserControl>

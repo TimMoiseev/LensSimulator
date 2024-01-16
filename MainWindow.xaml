@@ -85,28 +85,42 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="1">
-                    <StackPanel x:Name="OpticSchemeElemntSource" 
-                                AllowDrop="True"
-                                Background="#4f4f4f"
-                                Orientation="Vertical">
-                        <oe:OpticElement x:Name="lens1" Type="DoubleConvexLens" Width="22" Height="22"/>
-                        <oe:OpticElement x:Name="lens2" Type="PlanoConvexLens" Width="22" Height="22"/>
-                        <oe:OpticElement x:Name="lens3" Type="DoubleConcaveLens" Width="22" Height="22"/>
-                        <oe:OpticElement x:Name="lens4" Type="NegativeMeniscusLens" Width="22" Height="22"/>
-                        <oe:OpticElement x:Name="lens5" Type="PlanoConcaveLens" Width="22" Height="22"/>
-                        <oe:OpticElement x:Name="lens6" Type="PositiveMeniscusLens" Width="22" Height="22"/>
+                    <Border Background="#4f4f4f">
+                        <TabControl Background="#4f4f4f">
+                            <TabItem Background="#4f4f4f">
+                                <TabItem.Header>
+                                    <TextBlock Text="Lenses"/>
+                                </TabItem.Header>
+                            </TabItem>
+                            <TabItem Background="#4f4f4f">
+                                <TabItem.Header>
+                                    <TextBlock Text="Settings"/>
+                                </TabItem.Header>
+                                <TabItem.Content>
+                                    <oe:OpticElementSettingsControl OpticElement="{Binding CurrentLens}"></oe:OpticElementSettingsControl>
+                                </TabItem.Content>
+                            </TabItem>
+                            
+                        </TabControl>
+                    </Border>
+                    
+                </Grid>
+                <Grid Grid.Row="0">
+                    <StackPanel 
+                        x:Name="OpticSchemeElemntSource" 
+                        AllowDrop="True"
+                        Background="#4f4f4f"
+                        Orientation="Vertical">
+                        
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="DragOver">
                                 <i:InvokeCommandAction Command="{Binding opticSchemeDragOverCommand}" 
-                                                       PassEventArgsToCommand="True"/>
+                                   PassEventArgsToCommand="True"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </StackPanel>
                 </Grid>
                 
-                <Button Content="add" Command="{Binding addCommand}" >
-
-                </Button>
 
             </Grid>
             <Grid Grid.Column="1">
@@ -135,7 +149,7 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </StackPanel>-->
-                    <p2d:Plot2D x:Name="MainPlot2d" Width="Auto" Height="Auto">
+                    <p2d:Plot2D Lenses="{Binding LensesViews}" CurrentPickedObject="{Binding CurrentLens, Mode=TwoWay}" x:Name="MainPlot2d" Width="Auto" Height="Auto">
                     </p2d:Plot2D>
                 </Grid>
             </Grid>
@@ -147,7 +161,8 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="1">
                 <StackPanel Orientation="Horizontal" Background="#434345">
-                    <TextBlock x:Name="statusBar" Foreground="White" Text="{Binding StringFormat=Engine status: {0}, Path=EngineState }"/>
+                    <TextBlock x:Name="statusBar" Foreground="White" Text="{Binding StringFormat=Engine status: {0} , Path=EngineState }"/>
+                    <TextBlock Foreground="White" Text="Element pos"></TextBlock>
                 </StackPanel>
             </Grid>
         </Grid>

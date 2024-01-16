@@ -1,8 +1,11 @@
 ﻿using LensSimulator.Commands;
 using LensSimulator.Model.Graphics;
+using LensSimulator.Model.Lens;
 using LensSimulator.View.OpticElement;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -20,8 +23,45 @@ namespace LensSimulator.ViewModel
 {
     internal class MainViewModel : INotifyPropertyChanged
     {
-        private GraphicsEngine? engine;
+        private LensView? _currentLens = null;
+        public LensView? CurrentLens { 
+            get { return _currentLens; } 
+            set { _currentLens = value; OnPropertyChanged(nameof(CurrentLens)); } 
+        }
+        private ObservableCollection<LensModel> _lensesModels = new();
+        public ObservableCollection<LensModel> LensesModels {
+            get { return _lensesModels; }
+            set { _lensesModels = value;}
+        }
+        private ObservableCollection<LensView> _lensesViews = new();
+        public ObservableCollection<LensView> LensesViews
+        {
+            get { return _lensesViews; }
+            set { _lensesViews = value;}
+        }
 
+        static void CreateLensesViewsFromLensesModels(ObservableCollection<LensView> views, IEnumerable<LensModel> models)
+        {
+            foreach (var model in models)
+            {
+                views.Add(LensViewFromLensModel(model));
+            }
+        }
+        static LensView LensViewFromLensModel(LensModel model)
+        {
+            return new LensView()
+            {
+                Id = model.Id,
+                R1 = model.R1,
+                R2 = model.R2,
+                D = model.D,
+                H = model.H,
+                X = model.X,
+                Y = model.Y,
+                Z = model.Z
+            };
+        }
+        private GraphicsEngine? engine;
         public string EngineState
         {
             get
@@ -34,8 +74,43 @@ namespace LensSimulator.ViewModel
         }
         public MainViewModel() 
         {
+            CreateLensesViewsFromLensesModels(LensesViews, LensesModels);
             
+
+            LensesModels.CollectionChanged += ModelsCollectionChanged;
+            LensesViews.CollectionChanged += LensViewCollectionChanged;
+         }
+
+        private void LensViewCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(LensesViews));
         }
+
+        private void ModelsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if(e.NewItems != null)
+            {
+                foreach (LensModel newModel in e.NewItems) {
+                    
+                    LensesViews.Add(LensViewFromLensModel(newModel));
+                    newModel.PropertyChanged += LensModel_PropertyChanged;
+                }
+            }
+            if(e.OldItems != null)
+            {
+                foreach(LensModel oldModel in e.OldItems)
+                {
+                    LensesViews.Remove(LensViewFromLensModel(oldModel));
+                    oldModel.PropertyChanged -= LensModel_PropertyChanged;
+                }
+            }
+        }
+
+        private void LensModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+
+        }
+
         private RelayCommand? surfaceLoaded = null;
         public RelayCommand SurfaceLoaded
         {
@@ -58,14 +133,13 @@ namespace LensSimulator.ViewModel
 
         private void State_StateUpdate(string message)
         {
-            OnPropertyChanged("");
+            OnPropertyChanged(message);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
         private RelayCommand windowClosingCommand;
@@ -111,6 +185,7 @@ namespace LensSimulator.ViewModel
                     Grid? grid3 = grid2?.Parent as Grid;
                     Window? window = grid3?.Parent as Window;
                     window?.DragMove();
+                    LensesModels.Add(new LensModel(LensModel.LensTypes.DoubleConvexLens, 30.0, 30.0));
                 }
 
             }

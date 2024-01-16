@@ -21,8 +21,9 @@ namespace LensSimulator.View._2DPlot
     /// <summary>
     /// Логика взаимодействия для AxisLine2D.xaml
     /// </summary>
-    public partial class AxisLine2D : UserControl, IPlotObject, INotifyPropertyChanged
+    public partial class AxisLine2D : UserControl, ISupportingGraphicsObject, IMoveableObject, INotifyPropertyChanged
     {
+        public Point ZeroPointOffset { get { return new Point(-ActualWidth/2.0, -ActualHeight/2.0); } }
         public AxisLine2D()
         {
             InitializeComponent();
@@ -34,6 +35,24 @@ namespace LensSimulator.View._2DPlot
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
-        public bool Move(UIElement target, double x, double y) { return false; }
+        public bool Draw()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Hide()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Delete()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Scale(double factor)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
