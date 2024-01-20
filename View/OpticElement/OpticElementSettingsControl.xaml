@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LensSimulator.View.OpticElement"
+             xmlns:udc ="clr-namespace:LensSimulator.View.UpDownButton"
              Name="OpticElementSettingsControlView"
              mc:Ignorable="d" 
              d:DesignHeight="180" d:DesignWidth="180">
@@ -32,33 +33,19 @@
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Diameter = " Foreground="#f1f1f1"/>
-                    <TextBlock Text="{Binding ElementName=OpticElementSettingsControlView, Path=D}" Foreground="#f1f1f1"/>
-                    <Grid Width="20">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="0.5*"/>
-                            <RowDefinition Height="0.5*"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
-                            <Button Content="+" TextBlock.FontSize="4" MaxHeight="8">
-                            </Button>
-                        </Grid>
-                        <Grid Grid.Row="1">
-                            <Button Content="-" TextBlock.FontSize="4" MaxHeight="8">
-                            </Button>
-                        </Grid>
-                    </Grid>
+                    <udc:NumericUpDownButton Number="{Binding ElementName=OpticElementSettingsControlView, Path=D, Mode=TwoWay}"></udc:NumericUpDownButton>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="R1 = " Foreground="#f1f1f1"/>
-                    <TextBlock Text="{Binding ElementName=OpticElementSettingsControlView, Path=R1}" Foreground="#f1f1f1"/>
+                    <udc:NumericUpDownButton Number="{Binding ElementName=OpticElementSettingsControlView, Path=R1, Mode=TwoWay}"></udc:NumericUpDownButton>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="R2 = " Foreground="#f1f1f1"/>
-                    <TextBlock Text="{Binding ElementName=OpticElementSettingsControlView, Path=R2}" Foreground="#f1f1f1"/>
+                    <udc:NumericUpDownButton Number="{Binding ElementName=OpticElementSettingsControlView, Path=R2, Mode=TwoWay}"></udc:NumericUpDownButton>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Flat height = " Foreground="#f1f1f1"/>
-                    <TextBlock Text="{Binding ElementName=OpticElementSettingsControlView, Path=H}" Foreground="#f1f1f1"/>
+                    <udc:NumericUpDownButton Number="{Binding ElementName=OpticElementSettingsControlView, Path=H, Mode=TwoWay}"></udc:NumericUpDownButton>
                 </StackPanel>
             </StackPanel>
         </Grid>
@@ -74,19 +61,19 @@
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="X: " Foreground="#f1f1f1"></TextBlock>
-                        <TextBlock Text="{Binding ElementName=OpticElementSettingsControlView, Path=X}" Foreground="#f1f1f1"/>
+                        <udc:NumericUpDownButton Number="{Binding ElementName=OpticElementSettingsControlView, Path=X, Mode=TwoWay}"></udc:NumericUpDownButton>
                         <Button Content="Lock" Margin="4 0 4 0"></Button>
                         <Button Content="Zero"></Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Y: " Foreground="#f1f1f1"></TextBlock>
-                        <TextBlock Text="{Binding ElementName=OpticElementSettingsControlView, Path=Y}" Foreground="#f1f1f1"/>
+                        <udc:NumericUpDownButton Number="{Binding ElementName=OpticElementSettingsControlView, Path=Y, Mode=TwoWay}"></udc:NumericUpDownButton>
                         <Button Content="Lock" Margin="4 0 4 0"></Button>
                         <Button Content="Zero"></Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Z: " Foreground="#f1f1f1"></TextBlock>
-                        <TextBlock Text="{Binding ElementName=OpticElementSettingsControlView, Path=Z}" Foreground="#f1f1f1"/>
+                        <udc:NumericUpDownButton Number="{Binding ElementName=OpticElementSettingsControlView, Path=Z, Mode=TwoWay}"></udc:NumericUpDownButton>
                         <Button Content="Lock" Margin="4 0 4 0"></Button>
                         <Button Content="Zero"></Button>
                     </StackPanel>

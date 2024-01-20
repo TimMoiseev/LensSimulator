@@ -72,37 +72,65 @@ namespace LensSimulator.View.OpticElement
         public double R1
         {
             get { return _r1; }
-            set { _r1 = value; }
+            set { 
+                _r1 = value;
+                OnPropertyChanged(nameof(R1));
+                OpticElement.R1 = value;
+            }
         }
         public double R2
         {
             get { return _r2; }
-            set { _r2 = value; }
+            set { 
+                _r2 = value;
+                OnPropertyChanged(nameof(R2));
+                OpticElement.R2 = value;
+            }
         }
         public double D
         {
             get { return _d; }
-            set { _d = value; }
+            set { 
+                _d = value; 
+                OnPropertyChanged(nameof(D));
+                OpticElement.D = value; 
+            }
         }
         public double H
         {
             get { return _h; }
-            set { _h = value; }
+            set { 
+                _h = value;
+                OnPropertyChanged(nameof(H));
+                OpticElement.H = value;
+            }
         }
         public double X
         {
             get { return _x; }
-            set { _x = value; }
+            set { 
+                _x = value;
+                OnPropertyChanged(nameof(X));
+                OpticElement.X = value;
+            }
         }
         public double Y
         {
             get { return _y; }
-            set { _y = value; }
+            set { 
+                _y = value;
+                OnPropertyChanged(nameof(Y));
+                OpticElement.Y = value;
+            }
         }
         public double Z
         {
             get { return _z; }
-            set { _z = value; }
+            set { 
+                _z = value;
+                OnPropertyChanged(nameof(Z));
+                OpticElement.Z = value;
+            }
         }
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

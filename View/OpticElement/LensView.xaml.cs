@@ -173,7 +173,7 @@ namespace LensSimulator.View.OpticElement
         }
         public Point RStartPoint { get { return new Point(H + R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), 0.0); } }
         public Point RPoint { get { return new Point(H + R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), D); } }
-        public Size RSize { get { return new Size(R1, R1); } }
+        public Size RSize { get { return new Size(R2, R2); } }
         public Point LStartPoint { get { return new Point(R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), 0.0); } }
         public Point LPoint { get { return new Point(R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), D); } }
         public Size LSize { get { return new Size(R1, R1); } }
@@ -182,7 +182,6 @@ namespace LensSimulator.View.OpticElement
         public LensView()
         {
             InitializeComponent();
-            //this.AddChild();
         }
     }
 }
