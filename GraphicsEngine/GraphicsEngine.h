@@ -38,7 +38,7 @@ private:
 	Camera camera{ vec3(200.0, 200.0, 200.0) };
 	HIDInputSystem inputSystem{ messageSystem };
 	Renderer renderer{&shaderSystem};
-	
+	void resizeCallback(int width, int height);
 	bool stopped = false;
 	void beginMainLoop();
 	int X = 0;

@@ -4,8 +4,6 @@
 #include <nlohmann/json.hpp>
 #include <queue>
 
-
-using RESIZEFUNPOINTER = void (*)(int, int);
 using std::string;
 using std::mutex;
 using json = nlohmann::json;
@@ -13,13 +11,11 @@ using std::queue;
 using std::list;
 using std::function;
 
-
 enum MessageType {
 	Stop = 1,
 	Resize = 2,
 	MouseDrag = 4
 };
-
 
 class MessageProcessingSystem
 {
@@ -30,10 +26,10 @@ class MessageProcessingSystem
 	function<void(void)> stopFunPointer = nullptr;
 	function<void(int, int)> mouseDragPointer = nullptr;
 	function<void(int)> mouseWheelPointer = nullptr;
-	RESIZEFUNPOINTER resizeFunPointer = nullptr;
+	function<void(int, int)> resizeFunPointer = nullptr;
 public:
 	void setStopCallback(function<void(void)> f);
-	void setResizeCallback(void (*)(int, int));
+	void setResizeCallback(function<void(int,int)> f);
 	void setMouseWheelCallback(function<void(int)> f);
 	void mouseDragFun(function<void(int,int)> f);
 	bool process();

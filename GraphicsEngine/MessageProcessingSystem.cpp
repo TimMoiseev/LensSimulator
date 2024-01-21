@@ -19,7 +19,7 @@ void MessageProcessingSystem::setStopCallback(function<void(void)> f)
 	stopFunPointer = f;
 }
 
-void MessageProcessingSystem::setResizeCallback(void (*f)(int, int))
+void MessageProcessingSystem::setResizeCallback(function<void(int, int)> f)
 {
 	resizeFunPointer = f;
 }

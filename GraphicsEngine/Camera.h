@@ -38,6 +38,7 @@ public:
 	void rotate(glm::vec3 axis, GLfloat angle, mat4 matrix);
 	void update(float duration) override;
 	void update(HIDInputSystem* system);
+	void changeAspectRatio(double newAspect);
 	mat4 getCameraMatrix();
 };
 

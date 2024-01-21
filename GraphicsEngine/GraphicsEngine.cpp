@@ -8,8 +8,9 @@
 #include "Line.h"
 #include "Grid.h"
 
-void resize(int width, int height) {
+void GraphicsEngine::resizeCallback(int width, int height) {
     glViewport(0, 0, width, height);
+    camera.changeAspectRatio((double)width / height);
 }
 
 void GraphicsEngine::beginMainLoop()
@@ -26,7 +27,7 @@ void GraphicsEngine::beginMainLoop()
 
     auto lastTime = std::chrono::high_resolution_clock::now();
 
-    messageSystem->setResizeCallback(resize);
+    messageSystem->setResizeCallback([&](int w, int h) { resizeCallback(w, h); });
     messageSystem->setStopCallback([&]() { stopped = true; });
     
 	while (!stopped) {

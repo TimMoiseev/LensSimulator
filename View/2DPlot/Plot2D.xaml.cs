@@ -113,8 +113,8 @@ namespace LensSimulator.View._2DPlot
         }
 
         private bool CoordinateSystemCanMove = false;
-        private double PlotScaleFactor = 1.0;
-        private double OffsetScaleFactor = 1.0;
+        private double AbsolutePlotScaleFactor = 1.0;
+        private double RelativePlotScaleFactor = 1.0;
         private double PlotZoomSpeed = 1.05;
         private Point PlotOrigin = new Point(0, 0); 
         private void Lenses_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -181,7 +181,7 @@ namespace LensSimulator.View._2DPlot
             {
                 if (e.OriginalSource is LensView target)
                 {
-                    this.Move((target), -0.5 * PlotScaleFactor * (e.NewSize.Width - e.PreviousSize.Width), -0.5 * PlotScaleFactor * (e.NewSize.Height - e.PreviousSize.Height));
+                    this.Move((target), -0.5 * AbsolutePlotScaleFactor * (e.NewSize.Width - e.PreviousSize.Width), -0.5 * AbsolutePlotScaleFactor * (e.NewSize.Height - e.PreviousSize.Height));
                 }
             }
         }
@@ -299,23 +299,23 @@ namespace LensSimulator.View._2DPlot
                 
                 if (commandParameter is MouseWheelEventArgs wheelParam)
                 {
-                    OffsetScaleFactor = wheelParam.Delta > 0 ? PlotZoomSpeed : 1 / PlotZoomSpeed;
-                    PlotScaleFactor *= OffsetScaleFactor;
+                    RelativePlotScaleFactor = wheelParam.Delta > 0 ? PlotZoomSpeed : 1 / PlotZoomSpeed;
+                    AbsolutePlotScaleFactor *= RelativePlotScaleFactor;
                     foreach (var lens in Lenses)
                     {
                         Point oldOffset = new(Canvas.GetLeft(lens), Canvas.GetTop(lens));
-                        Point newOffset = new(oldOffset.X * OffsetScaleFactor, oldOffset.Y * OffsetScaleFactor);
+                        Point newOffset = new(oldOffset.X * RelativePlotScaleFactor, oldOffset.Y * RelativePlotScaleFactor);
                         Canvas.SetLeft(lens, newOffset.X);
                         Canvas.SetTop(lens, newOffset.Y);
-                        var newTransform = new ScaleTransform(PlotScaleFactor, PlotScaleFactor, lens.ActualWidth * 0.5, lens.ActualHeight * 0.5);
+                        var newTransform = new ScaleTransform(AbsolutePlotScaleFactor, AbsolutePlotScaleFactor, lens.ActualWidth * 0.5, lens.ActualHeight * 0.5);
                         lens.LayoutTransform = newTransform;
                     }
                     foreach (Line PlotAxis in BackgroundCanvas.Children)
                     {
-                        Point newOffset = new(Canvas.GetLeft(PlotAxis) * OffsetScaleFactor, Canvas.GetTop(PlotAxis) * OffsetScaleFactor);
+                        Point newOffset = new(Canvas.GetLeft(PlotAxis) * RelativePlotScaleFactor, Canvas.GetTop(PlotAxis) * RelativePlotScaleFactor);
                         Canvas.SetLeft(PlotAxis, newOffset.X);
                         Canvas.SetTop(PlotAxis, newOffset.Y);
-                        var newTransform = new ScaleTransform(PlotScaleFactor, PlotScaleFactor, PlotAxis.ActualWidth * 0.5, PlotAxis.ActualHeight * 0.5);
+                        var newTransform = new ScaleTransform(AbsolutePlotScaleFactor, AbsolutePlotScaleFactor, PlotAxis.ActualWidth * 0.5, PlotAxis.ActualHeight * 0.5);
                         PlotAxis.LayoutTransform = newTransform;
                     }
                 }

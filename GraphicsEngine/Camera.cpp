@@ -79,6 +79,13 @@ void Camera::update(HIDInputSystem* system)
 	update(0.0f);
 }
 
+void Camera::changeAspectRatio(double newAspect)
+{
+	aspect = newAspect;
+	projectionMatrix = glm::perspective(fovy, aspect, zNear, zFar);
+	update(0.0f);
+}
+
 mat4 Camera::getCameraMatrix()
 {
 	return cameraMatrix;
