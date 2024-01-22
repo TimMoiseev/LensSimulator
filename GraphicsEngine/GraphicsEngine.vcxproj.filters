@@ -78,6 +78,9 @@
     <ClInclude Include="HIDInputSystem.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="RingStrip.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -138,6 +141,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="HIDInputSystem.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="RingStrip.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

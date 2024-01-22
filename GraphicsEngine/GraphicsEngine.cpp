@@ -7,6 +7,7 @@
 #include "SphericalCap.h"
 #include "Line.h"
 #include "Grid.h"
+#include "RingStrip.h"
 
 void GraphicsEngine::resizeCallback(int width, int height) {
     glViewport(0, 0, width, height);
@@ -24,7 +25,7 @@ void GraphicsEngine::beginMainLoop()
     Line axisY(vec3(0, 0, 0), vec3(0, 100, 0), green);
     Line axisZ(vec3(0, 0, 0), vec3(0, 0, 100), blue);
     Grid grid(20, 20);
-    Cube* cube = new Cube();
+    RingStrip* strip = new RingStrip(20, 10, 666, vec3(0, 0, 1));
     auto lastTime = std::chrono::high_resolution_clock::now();
 
     messageSystem->setResizeCallback([&](int w, int h) { resizeCallback(w, h); });
@@ -39,11 +40,7 @@ void GraphicsEngine::beginMainLoop()
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        
-        /*renderer.draw(lens);*/
-        
-        renderer.draw(cube);
-        cube->update(duration);
+        renderer.draw(strip);
         camera.update(&inputSystem);
         renderer.setCamera(&camera);
         renderer.draw(&grid);
@@ -53,7 +50,7 @@ void GraphicsEngine::beginMainLoop()
 		SwapBuffers(dc);
         messageSystem->process();
 	}
-    delete cube;
+    delete strip;
     destroyGraphicsEngine(this);
 }
 
