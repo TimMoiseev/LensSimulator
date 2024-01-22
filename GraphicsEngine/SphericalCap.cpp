@@ -95,3 +95,16 @@ SphericalCap::SphericalCap(GLfloat R, GLfloat diameter, GLfloat m, int uCount, i
 }
 
 void SphericalCap::update(float dTime){}
+
+void SphericalCap::update(GLfloat r, GLfloat d, GLfloat h)
+{
+	R = r;
+	diameter = d;
+	m = h;
+	delete indices;
+	delete vertices;
+	vertices = new std::vector<Vertex>();
+	indices = new std::vector<GLuint>();
+	createModel();
+	createBuffer(vertices, indices);
+}

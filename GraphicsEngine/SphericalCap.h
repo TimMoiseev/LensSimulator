@@ -28,5 +28,6 @@ public:
 		int uCount = 128,
 		int vCount = 128);
 	void update(float dTime) override;
+	void update(GLfloat r, GLfloat d, GLfloat h);
 };
 

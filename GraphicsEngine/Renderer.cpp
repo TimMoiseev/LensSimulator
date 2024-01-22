@@ -19,7 +19,7 @@ void Renderer::draw(Primitive* primitive)
 	shaderSystem->bindUniformParameters("objectMatrix", primitive->getObjectMatrix());
 	primitive->bindArrayAttrib();
 	
-	bindIndexBuffer(primitive->IndicesView());
+	/*bindIndexBuffer(primitive->IndicesView());*/
 	glDrawElements(
 		primitive->getGeometryType() == Scene::GeometryType::Triangles ? GL_TRIANGLES : GL_LINES,
 		primitive->IndicesView()->getSize(),
@@ -33,8 +33,8 @@ void Renderer::draw(std::vector<Primitive*> primitives)
 	for (auto scene : primitives) { draw(scene); };
 }
 
-void Renderer::bindIndexBuffer(const IndexBuffer* buf)
-{
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buf->getIndex());
-
-}
+//void Renderer::bindIndexBuffer(const IndexBuffer* buf)
+//{
+//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buf->getIndex());
+//
+//}

@@ -8,6 +8,7 @@ class VertexBuffer
     GLuint index = 0;
 public:
     VertexBuffer(GLuint size, const void* data);
+    void updateVertexBuffer(GLuint size, const void* data);
     GLuint getIndex() const;
     GLuint getSize() const;
     ~VertexBuffer();

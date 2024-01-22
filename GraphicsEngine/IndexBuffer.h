@@ -8,6 +8,7 @@ public:
 	GLuint getIndex() const { return index; };
 	GLuint getSize() const { return size; }
 	IndexBuffer(GLuint size, const void* data);
+	void updateIndexBuffer(GLuint size, const void* data);
 	~IndexBuffer();
 };
 

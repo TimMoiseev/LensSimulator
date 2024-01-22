@@ -13,5 +13,4 @@ public:
 	Renderer() = delete;
 	void draw(Primitive* primitive);
 	void draw(std::vector<Primitive*> primitives);
-	void bindIndexBuffer(const IndexBuffer* buf);
 };

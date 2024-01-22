@@ -19,12 +19,12 @@ void GraphicsEngine::beginMainLoop()
     vec3 green = vec3(0.0f, 255.0f, 0.0f);
     vec3 blue = vec3(0.0f, 0.0f, 255.0f);
 
-    SphericalCap* lens = new SphericalCap();
+    /*SphericalCap* lens = new SphericalCap();*/
     Line axisX(vec3(0, 0, 0), vec3(100, 0, 0), red);
     Line axisY(vec3(0, 0, 0), vec3(0, 100, 0), green);
     Line axisZ(vec3(0, 0, 0), vec3(0, 0, 100), blue);
     Grid grid(20, 20);
-
+    Cube* cube = new Cube();
     auto lastTime = std::chrono::high_resolution_clock::now();
 
     messageSystem->setResizeCallback([&](int w, int h) { resizeCallback(w, h); });
@@ -40,8 +40,10 @@ void GraphicsEngine::beginMainLoop()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         
-        renderer.draw(lens);
+        /*renderer.draw(lens);*/
         
+        renderer.draw(cube);
+        cube->update(duration);
         camera.update(&inputSystem);
         renderer.setCamera(&camera);
         renderer.draw(&grid);
@@ -51,6 +53,7 @@ void GraphicsEngine::beginMainLoop()
 		SwapBuffers(dc);
         messageSystem->process();
 	}
+    delete cube;
     destroyGraphicsEngine(this);
 }
 

@@ -75,5 +75,11 @@ Cube::Cube(GLfloat A, GLfloat x, GLfloat y, GLfloat z) : a{ A }, x{ x }, y{ y },
 
 void Cube::update(float dTime)
 {
-    rotate(glm::vec3(1.0, 1.0, 1.0), 0.0000001f * dTime);
+    delete indices;
+    delete vertices;
+    a += 0.00000001f * dTime;
+    vertices = new std::vector<Vertex>();
+    indices = new std::vector<GLuint>();
+    createModel();
+    createBuffer(vertices, indices);
 }

@@ -15,18 +15,21 @@ class Scene
 public:
 	enum GeometryType {
 		Triangles = 3,
-		Lines = 2
+		Lines = 2,
+		Dots  = 1
 	};
 protected:
 	void createBuffer(std::vector<Vertex>* vertexArray, std::vector<GLuint>* indexArray);
-	GeometryType geometryType = Lines;
+	void updateBufferData(std::vector<Vertex>* vertexArray, std::vector<GLuint>* indexArray);
+	GeometryType geometryType = Triangles;
 private:
-	VertexBuffer* buff = nullptr;
+	VertexBuffer* vertexBuffer = nullptr;
 	IndexBuffer* indexBuffer = nullptr;
 	VertexType type;
 public:
 	Scene(VertexType type = Coordinate | Color, GeometryType geometryType = Triangles);
 	void bindArrayAttrib();
+	
 	virtual void update(float duration) = 0;
 	GeometryType getGeometryType() { return geometryType; }
 	~Scene();
