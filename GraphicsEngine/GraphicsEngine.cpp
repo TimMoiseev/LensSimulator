@@ -25,7 +25,7 @@ void GraphicsEngine::beginMainLoop()
     Line axisY(vec3(0, 0, 0), vec3(0, 100, 0), green);
     Line axisZ(vec3(0, 0, 0), vec3(0, 0, 100), blue);
     Grid grid(20, 20);
-    RingStrip* strip = new RingStrip(20, 10, 666, vec3(0, 0, 1));
+    RingStrip* strip = new RingStrip(20, 10, 666, vec3(1.0f, 1.0f, 1.0f), vec3(10.0, 20.0, 30.0));
     auto lastTime = std::chrono::high_resolution_clock::now();
 
     messageSystem->setResizeCallback([&](int w, int h) { resizeCallback(w, h); });
