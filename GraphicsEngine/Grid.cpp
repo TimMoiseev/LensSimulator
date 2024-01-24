@@ -22,7 +22,7 @@ void Grid::createModel()
 
 Grid::Grid(int n, float step): n{n}, step{step}
 {
-	geometryType = Lines;
+	geometryType = GL_LINES;
 	createModel();
 	createBuffer(vertices, indices);
 }

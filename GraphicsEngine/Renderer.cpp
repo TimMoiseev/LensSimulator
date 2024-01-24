@@ -21,7 +21,7 @@ void Renderer::draw(Primitive* primitive)
 	
 	/*bindIndexBuffer(primitive->IndicesView());*/
 	glDrawElements(
-		primitive->getGeometryType() == Scene::GeometryType::Triangles ? GL_TRIANGLES : GL_LINES,
+		primitive->getGeometryType(),
 		primitive->IndicesView()->getSize(),
 		GL_UNSIGNED_INT,
 		(void*)0

@@ -13,7 +13,7 @@ void Scene::updateBufferData(std::vector<Vertex>* vertexArray, std::vector<GLuin
 	indexBuffer->updateIndexBuffer((GLuint)indexArray->size(), indexArray->data());
 }
 
-Scene::Scene(VertexType type, GeometryType geometryType) : type{type}, geometryType{ geometryType }
+Scene::Scene(VertexType type, int geometryType) : type{type}, geometryType{ geometryType }
 {
 	
 }

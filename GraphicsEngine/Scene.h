@@ -13,25 +13,21 @@ using mat4 = glm::mat4;
 class Scene
 {
 public:
-	enum GeometryType {
-		Triangles = 3,
-		Lines = 2,
-		Dots  = 1
-	};
+	
 protected:
 	void createBuffer(std::vector<Vertex>* vertexArray, std::vector<GLuint>* indexArray);
 	void updateBufferData(std::vector<Vertex>* vertexArray, std::vector<GLuint>* indexArray);
-	GeometryType geometryType = Triangles;
+	int geometryType = GL_TRIANGLES;
 private:
 	VertexBuffer* vertexBuffer = nullptr;
 	IndexBuffer* indexBuffer = nullptr;
 	VertexType type;
 public:
-	Scene(VertexType type = Coordinate | Color, GeometryType geometryType = Triangles);
+	Scene(VertexType type = Coordinate | Color, int geometryType = GL_TRIANGLES);
 	void bindArrayAttrib();
 	
-	virtual void update(float duration) = 0;
-	GeometryType getGeometryType() { return geometryType; }
+	virtual void update(float duration) {};
+	int getGeometryType() { return geometryType; }
 	~Scene();
 	const IndexBuffer* IndicesView();
 };

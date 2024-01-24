@@ -5,7 +5,7 @@ Line::Line(glm::vec3 point1, glm::vec3 point2, glm::vec3 color) :
 	firstPoint{ point1 }, 
 	secondPoint{ point2 },
 	color{color} {
-	geometryType = Lines;
+	geometryType = GL_LINES;
 	createModel();
 	createBuffer(vertices, indices);
 }
