@@ -6,5 +6,5 @@ uniform mat4 cameraMatrix;
 uniform mat4 objectMatrix;
 void main(){
     gl_Position = cameraMatrix * (objectMatrix * vec4(aPos, 1.0));
-    vColor = vec4(aColor, 0.5);
+    vColor = vec4(aColor, 0.9);
  }

@@ -8,6 +8,7 @@
 #include "Line.h"
 #include "Grid.h"
 #include "RingStrip.h"
+#include "BiConvexLens.h"
 
 void GraphicsEngine::resizeCallback(int width, int height) {
     glViewport(0, 0, width, height);
@@ -25,7 +26,7 @@ void GraphicsEngine::beginMainLoop()
     Line axisY(vec3(0, 0, 0), vec3(0, 100, 0), green);
     Line axisZ(vec3(0, 0, 0), vec3(0, 0, 100), blue);
     Grid grid(20, 20);
-    RingStrip* strip = new RingStrip(20, 10, 666, vec3(1.0f, 1.0f, 1.0f), vec3(10.0, 20.0, 30.0));
+    BiConvexLens lens = BiConvexLens(60, 30, 40, 10.0, vec3{ 0.0, 1.0, 0.0 }, vec3{ 0.0, 0.0, 0.0 });
     auto lastTime = std::chrono::high_resolution_clock::now();
 
     messageSystem->setResizeCallback([&](int w, int h) { resizeCallback(w, h); });
@@ -40,7 +41,7 @@ void GraphicsEngine::beginMainLoop()
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        renderer.draw(strip);
+        renderer.draw(lens.getModels());
         camera.update(&inputSystem);
         renderer.setCamera(&camera);
         renderer.draw(&grid);
@@ -50,7 +51,7 @@ void GraphicsEngine::beginMainLoop()
 		SwapBuffers(dc);
         messageSystem->process();
 	}
-    delete strip;
+    
     destroyGraphicsEngine(this);
 }
 
