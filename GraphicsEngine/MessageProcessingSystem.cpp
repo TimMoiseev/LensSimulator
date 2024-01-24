@@ -71,6 +71,7 @@ bool MessageProcessingSystem::process()
 	return false;
 }
 json MessageProcessingSystem::getCurrentMessage() {
+	mtx.lock();
 	if (!messages.empty()) {
 		currentMessage = messages.front();
 		messages.pop();
@@ -78,7 +79,7 @@ json MessageProcessingSystem::getCurrentMessage() {
 	else {
 		currentMessage = nullptr;
 	}
-	
+	mtx.unlock();
 	return MessageProcessingSystem::currentMessage;
 }
 MessageProcessingSystem* createMessageProcessingSystem()
