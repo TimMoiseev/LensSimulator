@@ -4,12 +4,14 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace LensSimulator.Model.Lens
 {
     public class LensModel : INotifyPropertyChanged
     {
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public enum LensTypes
         {
             DoubleConvexLens = 0,
@@ -19,8 +21,20 @@ namespace LensSimulator.Model.Lens
             PlanoConcaveLens = 4,
             DoubleConcaveLens = 5
         }
-        private Guid _id = Guid.NewGuid();
-        public Guid Id { get { return _id; } }
+        
+        private int? _id = null;
+        public int Id { get {
+                if(_id == null)
+                {
+                    _id = GetRandInt();
+                    return (int)_id;
+                }
+                else
+                {
+                    return (int)_id;
+                }
+            }
+        }
 
         private LensTypes _type;
         public LensTypes LensType
@@ -85,6 +99,11 @@ namespace LensSimulator.Model.Lens
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+        private static int GetRandInt()
+        {
+            Random random = new Random();
+            return random.Next(int.MinValue, int.MaxValue);
         }
     }
 }

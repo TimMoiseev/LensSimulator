@@ -33,7 +33,7 @@ namespace LensSimulator.View.OpticElement
         public static readonly DependencyProperty IdProperty =
             DependencyProperty.Register(
                 nameof(Id),
-                typeof(Guid?),
+                typeof(int?),
                 typeof(LensView),
                 new FrameworkPropertyMetadata(
                     null,
@@ -50,9 +50,9 @@ namespace LensSimulator.View.OpticElement
             (d as LensView).OnPropertyChanged(nameof(LSize));
         }
 
-        public Guid? Id
+        public int? Id
         {
-            get => (Guid?)GetValue(IdProperty);
+            get => (int?)GetValue(IdProperty);
             set { SetValue(IdProperty, value); }
         }
         public static readonly DependencyProperty LensTypeProperty =

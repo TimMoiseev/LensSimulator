@@ -29,6 +29,11 @@ void MessageProcessingSystem::setMouseWheelCallback(function<void(int)> f)
 	mouseWheelPointer = f;
 }
 
+void MessageProcessingSystem::setChangeLensCallBack(function<void(string, int, float, float, float, float, float, float, float)> f)
+{
+	changeLensFunPointer = f;
+}
+
 void MessageProcessingSystem::mouseDragFun(function<void(int, int)> f)
 {
 	mouseDragPointer = f;
@@ -64,6 +69,20 @@ bool MessageProcessingSystem::process()
 			if (z != 0) {
 				mouseWheelPointer(z);
 			}
+			
+		}
+		else if (message["Type"].template get<std::string>() == "ChangeLensMessage") {
+			string mt = message["MessageType"].template get<string>();
+			int id = message["ID"].template get<int>();
+			float d = message["D"].template get<float>();
+			float r1 = message["R1"].template get<float>();
+			float r2 = message["R2"].template get<float>();
+			float h = message["H"].template get<float>();
+			float x = message["X"].template get<float>();
+			float y = message["Y"].template get<float>();
+			float z = message["Z"].template get<float>();
+			changeLensFunPointer(mt, id, d, r1, r2, h, x, y, z);
+			
 			
 		}
 	}

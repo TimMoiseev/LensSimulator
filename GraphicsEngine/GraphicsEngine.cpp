@@ -26,17 +26,31 @@ void GraphicsEngine::beginMainLoop()
     Line axisY(vec3(0, 0, 0), vec3(0, 100, 0), green);
     Line axisZ(vec3(0, 0, 0), vec3(0, 0, 100), blue);
     Grid grid(20, 20);
-    vec3 orientation = vec3{5.45, -0.68, 0.35};
-    vec3 position = vec3{10.0, -20.0, 10.0};
-   /* SphericalCap* cap = new SphericalCap(40, 60, orientation, position);
-    SphericalCap* cap2 = new SphericalCap(40, 60, -orientation, position);*/
-    BiConvexLens lens = BiConvexLens(40, 30, 40, 10, orientation, position);
-
+    vec3 orientation = vec3{0.0, 0.0, 1.0};
+    vec3 position = vec3{0.0, 0.0, 60.0};
+    BiConvexLens lens = BiConvexLens(40, 30, 40, 2, orientation, position);
+    BiConvexLens lens2 = BiConvexLens(80, 50, 60, 10, orientation, vec3{0.0, 0.0, 120.0});
+    lensSystem.push_back(&lens);
+    lensSystem.push_back(&lens2);
     auto lastTime = std::chrono::high_resolution_clock::now();
 
     messageSystem->setResizeCallback([&](int w, int h) { resizeCallback(w, h); });
     messageSystem->setStopCallback([&]() { stopped = true; });
-    
+    messageSystem->setChangeLensCallBack([&](string operationType, int id, float d, float r1, float r2, float h, float x, float y, float z)
+        {
+            if (operationType == "Add") {
+                lensSystem.push_back(new BiConvexLens(d, r1, r2, h, vec3{ 0.0, 0.0, 1.0 }, vec3{ x, y, z }, id));
+            }
+            else if (operationType == "Change") {
+                for (auto* lens : lensSystem) {
+                    if (lens->id == id) 
+                    {
+                        lens->changeProperties(d, r1, r2, h);
+                    }
+                }
+            }
+        }
+    );
 	while (!stopped) {
 
         auto currentTime = std::chrono::high_resolution_clock::now();
@@ -45,10 +59,9 @@ void GraphicsEngine::beginMainLoop()
         
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
-        /*renderer.draw(cap);
-        renderer.draw(cap2);*/
-        renderer.draw(lens.getModels());
+        for (auto lens : lensSystem) {
+            renderer.draw(lens->getModels());
+        }
         camera.update(&inputSystem);
         renderer.setCamera(&camera);
         renderer.draw(&grid);
@@ -89,8 +102,8 @@ GraphicsEngine::GraphicsEngine(HWND hWND) : hWND{ hWND }, dc{ GetDC(hWND) } {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     glEnable(GL_DEBUG_OUTPUT);
-    /*glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_SRC_ALPHA);*/
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_SRC_ALPHA);
     glDebugMessageCallback(MessageCallback, 0);
 }
 

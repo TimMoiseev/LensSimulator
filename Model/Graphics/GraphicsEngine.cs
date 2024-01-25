@@ -4,31 +4,18 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using static LensSimulator.Model.Graphics.EngineState;
 
 namespace LensSimulator.Model.Graphics
-{
-    //public class OnOffCommand
-    //{
-    //    private const string commandType = "OnOffCommand" 
-    //    public OnOffCommandType type;
-    //    public float priority;
-    //}
-
-    public struct OnOffCommand
-    {
-        public string Type { get { return "OnOffCommand"; } }
-        public string CommandType { get; set; }
-        public float Priority { get; set; }
-    }
-    
+{   
     internal class GraphicsEngine
     {
         public GraphicsEngine(StateUpdateHandler eventHandler)
         {
-
+            messageSystem = MessageProcessingSystem.getSystem();
             GetEngineState().StateUpdate += eventHandler;
             
         }
@@ -46,7 +33,7 @@ namespace LensSimulator.Model.Graphics
         {
             await Task.Run(() => {
                 graphicEngineWrapper = new GraphicEngineWrapper();
-                messageSystem = new MessageProcessingSystem();
+                
                 graphicEngineWrapper.runEngine();});
             System.Windows.Application.Current.Shutdown();
         }

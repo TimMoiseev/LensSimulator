@@ -19,6 +19,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using static LensSimulator.Model.Graphics.EngineState;
+using static LensSimulator.Model.Graphics.MessageProcessingSystem;
 namespace LensSimulator.ViewModel
 {
     internal class MainViewModel : INotifyPropertyChanged
@@ -77,16 +78,30 @@ namespace LensSimulator.ViewModel
             CreateLensesViewsFromLensesModels(LensesViews, LensesModels);
             
 
-            LensesModels.CollectionChanged += ModelsCollectionChanged;
+            LensesModels.CollectionChanged += LensesModelsCollectionChanged;
             LensesViews.CollectionChanged += LensViewCollectionChanged;
          }
 
         private void LensViewCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(LensesViews));
+            if (e.NewItems != null) {
+                foreach (LensView newView in e.NewItems)
+                {
+                    newView.PropertyChanged += LensView_PropertyChanged;
+                }
+            }
+            if(e.OldItems != null)
+            {
+                foreach (LensView oldView in e.OldItems)
+                {
+                    oldView.PropertyChanged -= LensView_PropertyChanged;
+                }
+            }
+            
         }
 
-        private void ModelsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private void LensesModelsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             if(e.NewItems != null)
             {
@@ -94,6 +109,8 @@ namespace LensSimulator.ViewModel
                     
                     LensesViews.Add(LensViewFromLensModel(newModel));
                     newModel.PropertyChanged += LensModel_PropertyChanged;
+                    MessageProcessingSystem MessageSystem = MessageProcessingSystem.getSystem();
+                    ChangeLensModelIn3DViewport(newModel, ChangeLensMessageType.Add);
                 }
             }
             if(e.OldItems != null)
@@ -102,15 +119,34 @@ namespace LensSimulator.ViewModel
                 {
                     LensesViews.Remove(LensViewFromLensModel(oldModel));
                     oldModel.PropertyChanged -= LensModel_PropertyChanged;
+                    
                 }
             }
         }
 
         private void LensModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-
+            if(sender != null)
+            {
+                ChangeLensModelIn3DViewport(sender as LensModel, ChangeLensMessageType.Change);
+            }
         }
-
+        private void LensView_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if(sender != null)
+            {
+                LensView lv = sender as LensView;
+                var foundModel = LensesModels.FirstOrDefault(item => item.Id == lv.Id);
+                if(foundModel.D != lv.D) { foundModel.D = lv.D; };
+                if (foundModel.R1 != lv.R1) { foundModel.R1 = lv.R1; };
+                if (foundModel.R2 != lv.D) { foundModel.R2 = lv.R2; };
+                if (foundModel.H != lv.H) { foundModel.H = lv.H; };
+                if (foundModel.X != lv.X) { foundModel.X = lv.X; };
+                if (foundModel.Y != lv.Y) { foundModel.Y = lv.Y; };
+                if (foundModel.Z != lv.Z) { foundModel.Z = lv.Z; };
+            }
+            
+        }
         private RelayCommand? surfaceLoaded = null;
         public RelayCommand SurfaceLoaded
         {
@@ -147,7 +183,7 @@ namespace LensSimulator.ViewModel
 
         private void WindowClosing(object commandParameter)
         {
-            OnOffCommand offCommand = new()
+            MessageProcessingSystem.OnOffCommand offCommand = new()
             {
                 CommandType = "Stop",
                 Priority = 1.0f
@@ -156,16 +192,36 @@ namespace LensSimulator.ViewModel
             engine?.messageSystem?.transmitMessage(json_stopCommand);
         }
 
-        private RelayCommand? addCommand1;
-        public ICommand addCommand => addCommand1 ??= new RelayCommand(add);
+        //private RelayCommand? _AddLensTo3DViewportCommand;
+        //public ICommand AddLensTo3DViewportCommand => _AddLensTo3DViewportCommand ??= new RelayCommand(AddLensTo3DViewportFunc);
 
-        private void add(object commandParameter)
-        {
-            string s = "AddLensCommand";
+        //private void AddLensTo3DViewportFunc(object commandParameter)
+        //{
+        //    string s = "AddLensMessage";
             
-            engine?.messageSystem?.transmitMessage(s);
+        //    engine?.messageSystem?.transmitMessage(s);
+        //}
+        private static void ChangeLensModelIn3DViewport(LensModel model, ChangeLensMessageType messageType)
+        {
+            MessageProcessingSystem.ChangeLensMessage message =
+                new()
+                {
+                    MessageType = messageType,
+                    ID = model.Id,
+                    LensType = model.LensType,
+                    D = (float)model.D,
+                    R1 = (float)model.R1,
+                    R2 = (float)model.R2,
+                    H = (float)model.H,
+                    X = (float)model.X,
+                    Y = (float)model.Y,
+                    Z = (float)model.Z
+                };
+            MessageProcessingSystem system = MessageProcessingSystem.getSystem();
+            string addLensJson = JsonSerializer.Serialize(message);
+            system.transmitMessage(addLensJson);
+            
         }
-
         private RelayCommand? menuBarMouseDownCommand;
         public ICommand MenuBarMouseDownCommand => menuBarMouseDownCommand ??= new RelayCommand(MenuBarMouseDown);
 
