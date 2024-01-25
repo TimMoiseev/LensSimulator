@@ -14,6 +14,7 @@ private:
 	float diameter = 0.0f;
 	vec3 o{ 0.0f, 0.0f, 0.0f };
 	vec3 p{ 0.0f, 0.0f, 0.0f };
+	float h{ 0.0 };
 	float alpha = 0.0f;
 	float maxAlpha = 0.0f;
 	float maxBeta = 360.0f;
@@ -26,7 +27,6 @@ public:
 		float diameter = 60.0f,
 		vec3 orientation = vec3{ 1.0f, 0.0f, 0.0f },
 		vec3 position = vec3{ 0.0f, 0.0f, 0.0f },
-		bool forwardDirecton = true,
 		int uCount = 128,
 		int vCount = 128);
 	void update(float dTime) override;

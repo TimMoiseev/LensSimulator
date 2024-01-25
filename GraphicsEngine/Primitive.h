@@ -6,6 +6,7 @@ class Primitive:
 	public Scene
 {
 public:
+	Primitive(VertexType type = Coordinate | Color, int geometryType = GL_TRIANGLES);
 	void virtual createModel() {};
 	const GLfloat* getObjectMatrix();
 	std::vector<Vertex>* vertices = new std::vector<Vertex>();

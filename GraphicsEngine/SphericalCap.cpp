@@ -27,7 +27,11 @@ void SphericalCap::createModel()
 	
 	vec3 rotAxis = glm::cross(xAxis, o);
 	float angle = glm::angle(xAxis, o);
-	quat rot = glm::angleAxis(angle, glm::normalize(rotAxis));
+	quat rot = quat();
+	if (rotAxis != vec3(0.0, 0.0, 0.0)) {
+		rot = glm::angleAxis(angle, glm::normalize(rotAxis));
+	}
+	
 	for (GLint u = 0; u < uCount; u += 1) {
 		auto vec4Z = (mat4Z * vec4(vec3(
 			(vertices->begin() + (u == 0 ? u * uCount : vertices->size() - uCount))->vert[0],
@@ -75,16 +79,22 @@ void SphericalCap::createModel()
 	}
 	mat4 moveToZero = glm::translate(mat4(1.f), vec3(-R, 0.0, 0.0));
 	for (int i = 0; i < vertices->size(); ++i) {
+		vec3 hOffset = o * h;
 		auto newPos = rot*(moveToZero * vec4(vertices->at(i).vert[0], vertices->at(i).vert[1], vertices->at(i).vert[2], 1.0));
-		vertices->at(i).vert = { newPos.x + p.x, newPos.y + p.y, newPos.z + p.z };
+		vertices->at(i).vert = { newPos.x + p.x + hOffset.x, newPos.y + p.y + hOffset.y, newPos.z + p.z + hOffset.z };
+		auto normal = glm::normalize(vec3(newPos) + hOffset);
+		
+		vertices->at(i).normal = {normal.x, normal.y, normal.z};
 	}
 }
 
-SphericalCap::SphericalCap(float R, float diameter, vec3 orientation, vec3 position, bool forwardDirection, int uCount, int vCount) :
+SphericalCap::SphericalCap(float R, float diameter, vec3 orientation, vec3 position, int uCount, int vCount) :
+	Primitive(Coordinate | Color | Normal),
 	R{ R },
 	diameter{ diameter },
-	o{ glm::normalize(forwardDirection ? orientation : -orientation) },
-	p{ position + vec3{0.0, (R - glm::sqrt(glm::pow(R, 2.0) - glm::pow(diameter, 2.0) / 4.0))*((forwardDirection ? 1.0 : -1.0)), 0.0}},
+	o{ glm::normalize(orientation) },
+	p{ position},
+	h{ (R - glm::sqrt(glm::pow(R, 2.0f) - glm::pow(diameter, 2.0f) / 4.0f)) },
 	alpha{ (180.f / glm::pi<float>()) * 2.0f * std::asinf(diameter / (2.0f * R)) },
 	maxAlpha{ alpha / 2.0f },
 	uCount{ uCount },

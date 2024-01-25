@@ -39,6 +39,10 @@ void Scene::bindArrayAttrib()
 		void* p2 = reinterpret_cast<void*>(offsetof(Vertex, normal));
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), p2);
 	}
+	else {
+		glDisableVertexAttribArray(2);
+		glVertexAttrib3f(2, 0.0f, 0.0f, 0.0f);
+	}
 	if (indexBuffer != nullptr) {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer->getIndex());
 	}

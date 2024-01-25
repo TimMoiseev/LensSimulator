@@ -12,6 +12,10 @@ void Primitive::rotate(glm::vec3 axis, GLfloat angle)
 	objectMatrix = glm::rotate(objectMatrix, glm::radians(angle), axis);
 }
 
+Primitive::Primitive(VertexType type, int geometryType) :Scene(type, geometryType)
+{
+}
+
 const GLfloat* Primitive::getObjectMatrix()
 {
 	return &objectMatrix[0][0];

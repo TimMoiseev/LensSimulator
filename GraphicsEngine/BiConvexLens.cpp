@@ -6,12 +6,13 @@ BiConvexLens::BiConvexLens(float diameter, float radius1, float radius2, float f
 	r1{radius1},
 	r2{radius2}, 
 	h{flatSegmentLength}, 
-	o{orientation}, 
+	o{glm::normalize(orientation)}, 
 	p{position}
 {
-	leftCap = new SphericalCap(r1, d, o, p + vec3{0.0, -h/2.0, 0.0}, false);
-	rightCap = new SphericalCap(r2, d, o, p + vec3{0.0, h/2.0, 0.0}, true);
-	ringStrip = new RingStrip(d, h, 100, o, vec3{0.0, 0.0, 0.0} + p);
+	vec3 hOffset = h / 2.0f * o;
+	leftCap = new SphericalCap(r1, d, o, p + hOffset);
+	rightCap = new SphericalCap(r2, d, -o, p - hOffset);
+	ringStrip = new RingStrip(d, h, 100, o, p);
 }
 
 BiConvexLens::~BiConvexLens()

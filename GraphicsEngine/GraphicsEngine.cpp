@@ -26,7 +26,12 @@ void GraphicsEngine::beginMainLoop()
     Line axisY(vec3(0, 0, 0), vec3(0, 100, 0), green);
     Line axisZ(vec3(0, 0, 0), vec3(0, 0, 100), blue);
     Grid grid(20, 20);
-    BiConvexLens lens = BiConvexLens(60, 30, 40, 10.0, vec3{ 0.0, 1.0, 0.0 }, vec3{ 0.0, 0.0, 0.0 });
+    vec3 orientation = vec3{5.45, -0.68, 0.35};
+    vec3 position = vec3{10.0, -20.0, 10.0};
+   /* SphericalCap* cap = new SphericalCap(40, 60, orientation, position);
+    SphericalCap* cap2 = new SphericalCap(40, 60, -orientation, position);*/
+    BiConvexLens lens = BiConvexLens(40, 30, 40, 10, orientation, position);
+
     auto lastTime = std::chrono::high_resolution_clock::now();
 
     messageSystem->setResizeCallback([&](int w, int h) { resizeCallback(w, h); });
@@ -41,6 +46,8 @@ void GraphicsEngine::beginMainLoop()
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
+        /*renderer.draw(cap);
+        renderer.draw(cap2);*/
         renderer.draw(lens.getModels());
         camera.update(&inputSystem);
         renderer.setCamera(&camera);
@@ -81,10 +88,9 @@ GraphicsEngine::GraphicsEngine(HWND hWND) : hWND{ hWND }, dc{ GetDC(hWND) } {
     glBindVertexArray(VertexArrayID);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
-    
     glEnable(GL_DEBUG_OUTPUT);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_SRC_ALPHA);
+    /*glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_SRC_ALPHA);*/
     glDebugMessageCallback(MessageCallback, 0);
 }
 
