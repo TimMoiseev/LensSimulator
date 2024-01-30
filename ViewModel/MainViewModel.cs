@@ -41,26 +41,26 @@ namespace LensSimulator.ViewModel
             set { _lensesViews = value;}
         }
 
-        static void CreateLensesViewsFromLensesModels(ObservableCollection<LensView> views, IEnumerable<LensModel> models)
+        private void CreateLensesViewsFromLensesModels(ObservableCollection<LensView> views, IEnumerable<LensModel> models)
         {
             foreach (var model in models)
             {
                 views.Add(LensViewFromLensModel(model));
             }
         }
-        static LensView LensViewFromLensModel(LensModel model)
+        private LensView LensViewFromLensModel(LensModel model)
         {
-            return new LensView()
-            {
-                Id = model.Id,
-                R1 = model.R1,
-                R2 = model.R2,
-                D = model.D,
-                H = model.H,
-                X = model.X,
-                Y = model.Y,
-                Z = model.Z
-            };
+             return new LensView()
+             {
+                 Id = model.Id,
+                 R1 = model.R1,
+                 R2 = model.R2,
+                 D = model.D,
+                 H = model.H,
+                 X = model.X,
+                 Y = model.Y,
+                 Z = model.Z
+             };
         }
         private GraphicsEngine? engine;
         public string EngineState
@@ -75,12 +75,9 @@ namespace LensSimulator.ViewModel
         }
         public MainViewModel() 
         {
-            CreateLensesViewsFromLensesModels(LensesViews, LensesModels);
-            
-
             LensesModels.CollectionChanged += LensesModelsCollectionChanged;
             LensesViews.CollectionChanged += LensViewCollectionChanged;
-         }
+        }
 
         private void LensViewCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
@@ -128,7 +125,18 @@ namespace LensSimulator.ViewModel
         {
             if(sender != null)
             {
-                ChangeLensModelIn3DViewport(sender as LensModel, ChangeLensMessageType.Change);
+                var model = sender as LensModel;
+                var propertyName = e.PropertyName;
+                if(propertyName == nameof(LensModel.X) || propertyName == nameof(LensModel.Y) || propertyName == nameof(LensModel.Z))
+                {
+                    ChangeLensModelIn3DViewport(model, ChangeLensMessageType.Move);
+                }
+                else
+                {
+                    ChangeLensModelIn3DViewport(model, ChangeLensMessageType.Change);
+                }
+                
+                
             }
         }
         private void LensView_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -137,9 +145,9 @@ namespace LensSimulator.ViewModel
             {
                 LensView lv = sender as LensView;
                 var foundModel = LensesModels.FirstOrDefault(item => item.Id == lv.Id);
-                if(foundModel.D != lv.D) { foundModel.D = lv.D; };
+                if (foundModel.D != lv.D) { foundModel.D = lv.D; };
                 if (foundModel.R1 != lv.R1) { foundModel.R1 = lv.R1; };
-                if (foundModel.R2 != lv.D) { foundModel.R2 = lv.R2; };
+                if (foundModel.R2 != lv.R2) { foundModel.R2 = lv.R2; };
                 if (foundModel.H != lv.H) { foundModel.H = lv.H; };
                 if (foundModel.X != lv.X) { foundModel.X = lv.X; };
                 if (foundModel.Y != lv.Y) { foundModel.Y = lv.Y; };
@@ -191,16 +199,6 @@ namespace LensSimulator.ViewModel
             string json_stopCommand = JsonSerializer.Serialize(offCommand);
             engine?.messageSystem?.transmitMessage(json_stopCommand);
         }
-
-        //private RelayCommand? _AddLensTo3DViewportCommand;
-        //public ICommand AddLensTo3DViewportCommand => _AddLensTo3DViewportCommand ??= new RelayCommand(AddLensTo3DViewportFunc);
-
-        //private void AddLensTo3DViewportFunc(object commandParameter)
-        //{
-        //    string s = "AddLensMessage";
-            
-        //    engine?.messageSystem?.transmitMessage(s);
-        //}
         private static void ChangeLensModelIn3DViewport(LensModel model, ChangeLensMessageType messageType)
         {
             MessageProcessingSystem.ChangeLensMessage message =
@@ -216,6 +214,7 @@ namespace LensSimulator.ViewModel
                     X = (float)model.X,
                     Y = (float)model.Y,
                     Z = (float)model.Z
+                    
                 };
             MessageProcessingSystem system = MessageProcessingSystem.getSystem();
             string addLensJson = JsonSerializer.Serialize(message);
@@ -241,7 +240,6 @@ namespace LensSimulator.ViewModel
                     Grid? grid3 = grid2?.Parent as Grid;
                     Window? window = grid3?.Parent as Window;
                     window?.DragMove();
-                    LensesModels.Add(new LensModel(LensModel.LensTypes.DoubleConvexLens, 30.0, 30.0));
                 }
 
             }
@@ -284,51 +282,5 @@ namespace LensSimulator.ViewModel
             }
         }
 
-
-        private RelayCommand opticSchemeDragOverCommand1;
-        public ICommand opticSchemeDragOverCommand => opticSchemeDragOverCommand1 ??= new RelayCommand(opticSchemeDragOver);
-
-        private void opticSchemeDragOver(object commandParameter)
-        {
-            if (commandParameter!=null)
-            {
-                if (commandParameter is DragEventArgs e)
-                {
-                    if (e.Data.GetDataPresent("Object"))
-                    {
-                        if (e.KeyStates == DragDropKeyStates.ControlKey)
-                        {
-                            e.Effects = DragDropEffects.Copy;
-                        }
-                        else
-                        {
-                            e.Effects = DragDropEffects.Move;
-                        }
-                    }
-                }
-            }
-        }
-
-        private RelayCommand opticSchemeDropCommand1;
-        public ICommand opticSchemeDropCommand => opticSchemeDropCommand1 ??= new RelayCommand(opticSchemeDrop);
-
-        private void opticSchemeDrop(object commandParameter)
-        {
-            if (commandParameter != null)
-            {
-                if (commandParameter is DragEventArgs e)
-                {
-                    var sp = e.Source as StackPanel;
-                    OpticElement? _element = e.Data.GetData("Object") as OpticElement;
-                    if (_element != null)
-                    {
-                        var FullSizeOpticElement = new OpticElement(true, _element);
-                        FullSizeOpticElement.Width = 100;
-                        FullSizeOpticElement.Height = 100;
-                        sp?.Children.Add(FullSizeOpticElement);
-                    }
-                }
-            }
-        }
     }
 }

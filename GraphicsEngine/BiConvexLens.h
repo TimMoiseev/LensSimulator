@@ -25,5 +25,6 @@ public:
 	~BiConvexLens();
 	const std::vector<Primitive*> getModels() override;
 	bool changeProperties(float d, float r1, float r2, float h, OpticElementType type = OpticElementType::DoubleConvex) override;
+	void move(vec3 pos) override;
 };
 

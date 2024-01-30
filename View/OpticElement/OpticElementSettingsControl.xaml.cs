@@ -41,26 +41,48 @@ namespace LensSimulator.View.OpticElement
             get { return (LensView)GetValue(CurrentOpticElementProperty); }
             set {  SetValue(CurrentOpticElementProperty, value);}
         }
+        private void UpdateLensViewProperty(LensView newLens)
+        {
+            this.D = newLens.D;
+            this.R1 = newLens.R1;
+            this.R2 = newLens.R2;
+            this.H = newLens.H;
+            this.X = newLens.X;
+            this.Y = newLens.Y;
+            this.Z = newLens.Z;
+            this.OnPropertyChanged(nameof(D));
+            this.OnPropertyChanged(nameof(R1));
+            this.OnPropertyChanged(nameof(R2));
+            this.OnPropertyChanged(nameof(H));
+            this.OnPropertyChanged(nameof(X));
+            this.OnPropertyChanged(nameof(Y));
+            this.OnPropertyChanged(nameof(Z));
+        }
         private static void CurrentOpticElementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is LensView newLens && d is OpticElementSettingsControl control)
+
+            if (e.NewValue is LensView newLens)
             {
-                control.D = newLens.D;
-                control.R1 = newLens.R1;
-                control.R2 = newLens.R2;
-                control.H = newLens.H;
-                control.X = newLens.X;
-                control.Y = newLens.Y;
-                control.Z = newLens.Z;
-                control.OnPropertyChanged(nameof(D));
-                control.OnPropertyChanged(nameof(R1));
-                control.OnPropertyChanged(nameof(R2));
-                control.OnPropertyChanged(nameof(H));
-                control.OnPropertyChanged(nameof(X));
-                control.OnPropertyChanged(nameof(Y));
-                control.OnPropertyChanged(nameof(Z));
+                if(d is OpticElementSettingsControl control)
+                {
+                    control.UpdateLensViewProperty(newLens);
+                    PropertyChangedEventHandler handler = (sender, e) => {
+                        control.UpdateLensViewProperty(newLens);
+                    };
+
+                    newLens.PropertyChanged += handler;
+                    if (e.OldValue is LensView oldLens)
+                    {
+                        oldLens.PropertyChanged -= handler;
+                    }
+                }
+                
             }
+
         }
+
+        
+
         private double _r1 = 0.0;
         private double _r2 = 0.0;
         private double _h = 0.0;
@@ -137,8 +159,5 @@ namespace LensSimulator.View.OpticElement
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
-        
-
-        
     }
 }

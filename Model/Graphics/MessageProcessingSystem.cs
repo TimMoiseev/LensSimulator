@@ -14,7 +14,7 @@ namespace LensSimulator.Model.Graphics
     {
         public struct OnOffCommand
         {
-            public string Type { get { return "OnOffCommand"; } }
+            public string Type { get { return nameof(OnOffCommand); } }
             public string CommandType { get; set; }
             public float Priority { get; set; }
         }
@@ -23,7 +23,8 @@ namespace LensSimulator.Model.Graphics
         {
             Add,
             Change,
-            Delete
+            Delete,
+            Move
         }
         public struct ChangeLensMessage
         {

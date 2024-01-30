@@ -47,7 +47,8 @@ namespace LensSimulator.View.UpDownButton
             }
             else
             {
-                Number += 0.1;
+                Double num = Math.Round(Number + .1, 3);
+                Number = num;
             }
         }
 

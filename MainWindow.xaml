@@ -7,11 +7,10 @@
         xmlns:vm ="clr-namespace:LensSimulator.ViewModel"
         xmlns:rs ="clr-namespace:LensSimulator.View.SurfaceView"
         xmlns:p2d ="clr-namespace:LensSimulator.View._2DPlot"
-        xmlns:oep ="clr-namespace:LensSimulator.View.OpticElementPicker"
         xmlns:oe ="clr-namespace:LensSimulator.View.OpticElement"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="LensSimulator" Height="450" Width="800"
+        Title="LensSimulator" Height="720" Width="1280"
         WindowStyle="None" ResizeMode="CanResize"
         >
 
@@ -91,6 +90,11 @@
                                 <TabItem.Header>
                                     <TextBlock Text="Lenses"/>
                                 </TabItem.Header>
+                                <TabItem.Content>
+                                    <oe:OpticElementButton>
+                                        
+                                    </oe:OpticElementButton>
+                                </TabItem.Content>
                             </TabItem>
                             <TabItem Background="#4f4f4f">
                                 <TabItem.Header>
@@ -162,7 +166,8 @@
             <Grid Grid.Row="1">
                 <StackPanel Orientation="Horizontal" Background="#434345">
                     <TextBlock x:Name="statusBar" Foreground="White" Text="{Binding StringFormat=Engine status: {0} , Path=EngineState }"/>
-                    <TextBlock Foreground="White" Text="Element pos"></TextBlock>
+                    <TextBlock x:Name="CurrentElementXCoordinate" Foreground="White" Text="{Binding StringFormat=X: {0} , Path=CurrentLens.X}"/>
+                    <TextBlock x:Name="CurrentElementYCoordinate" Foreground="White" Text="{Binding StringFormat=Y: {0} , Path=CurrentLens.Y}"/>
                 </StackPanel>
             </Grid>
         </Grid>

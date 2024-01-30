@@ -13,19 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace LensSimulator.View.OpticElementPicker
+namespace LensSimulator.View.OpticElement
 {
     /// <summary>
-    /// Логика взаимодействия для OpticElementPicker.xaml
+    /// Логика взаимодействия для OpticElementButton.xaml
     /// </summary>
-    public partial class OpticElementPicker : UserControl
+    public partial class OpticElementButton : UserControl
     {
-        public ImageSource? ImageSource { get; set; }
-        public string? Text { get; set; }
-        public OpticElementPicker()
+        public OpticElementButton()
         {
             InitializeComponent();
-            DataContext = this;
         }
     }
 }

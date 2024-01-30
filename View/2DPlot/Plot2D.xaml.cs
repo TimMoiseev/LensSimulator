@@ -106,20 +106,40 @@ namespace LensSimulator.View._2DPlot
         }
         private void Plot2D_Loaded(object sender, RoutedEventArgs e)
         {
-            Size HalfSize = new Size(ActualWidth * 0.5, ActualHeight * 0.5);
-            PlotOrigin = (Point)HalfSize;
             CreateGrid(BackgroundCanvas, 50, 200, 200, new SolidColorBrush(Color.FromRgb(64,32, 0)), 1);
-
+            PlotOrigin = new(ActualWidth*0.5, ActualHeight*0.5);
         }
 
         private bool CoordinateSystemCanMove = false;
         private double AbsolutePlotScaleFactor = 1.0;
         private double RelativePlotScaleFactor = 1.0;
         private double PlotZoomSpeed = 1.05;
-        private Point PlotOrigin = new Point(0, 0); 
+        private Point PlotOrigin = new Point(0, 0);
         private void Lenses_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            OnPropertyChanged();
+            if (e.NewItems != null && e.NewItems.Count > 0)
+            {
+                foreach (LensView? lens in e.NewItems)
+                {
+                    if (lens != null)
+                    {
+                        lens.Loaded += Lens_Loaded;
+                        
+                    }
+                }
+            }
+            OnPropertyChanged(nameof(Lenses));
+        }
+
+        private void Lens_Loaded(object sender, RoutedEventArgs e)
+        {
+            LensView? lens = sender as LensView;
+            if (lens != null)
+            {
+
+                Canvas.SetLeft(lens,-lens.ActualWidth * .5f + PlotOrigin.X);
+                Canvas.SetTop(lens, -lens.ActualHeight * .5f + PlotOrigin.Y);
+            }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -161,30 +181,7 @@ namespace LensSimulator.View._2DPlot
             nameof(CurrentPickedObject), 
             typeof(LensView),
             typeof(Plot2D), 
-            new PropertyMetadata(null, CurrentPickedObjectChangedCallback));
-
-        private static void CurrentPickedObjectChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if(e.NewValue != null && d is Plot2D && d != null)
-            {
-                (e.NewValue as LensView).SizeChanged += (d as Plot2D).CurrentPickedObjectSizeChanged;
-            }
-            if(e.OldValue != null && d is Plot2D && d != null)
-            {
-                (e.OldValue as LensView).SizeChanged -= (d as Plot2D).CurrentPickedObjectSizeChanged;
-            }
-        }
-
-        private void CurrentPickedObjectSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (sender != null && e != null)
-            {
-                if (e.OriginalSource is LensView target)
-                {
-                    this.Move((target), -0.5 * AbsolutePlotScaleFactor * (e.NewSize.Width - e.PreviousSize.Width), -0.5 * AbsolutePlotScaleFactor * (e.NewSize.Height - e.PreviousSize.Height));
-                }
-            }
-        }
+            new PropertyMetadata(null));
 
         private bool PlotObjectCanMove = false;
         private Point MouseOldCoord { get; set; }
@@ -204,7 +201,7 @@ namespace LensSimulator.View._2DPlot
                         if(((e.OriginalSource as Path).Parent as Grid).Parent is LensView targetLens)
                         {
                             CurrentPickedObject = targetLens;
-                            MouseOldCoord = e.GetPosition(this);
+                            MouseOldCoord = new (e.GetPosition(this).X / AbsolutePlotScaleFactor, e.GetPosition(this).Y / AbsolutePlotScaleFactor);
                             CurrentPickedObjectPosition = MouseOldCoord;
                             this.Cursor = Cursors.SizeAll;
                             e.MouseDevice.Capture(targetLens);
@@ -248,45 +245,44 @@ namespace LensSimulator.View._2DPlot
                 return false;
             }
         }
-        public Point? ElementCoordinateToPlotCoordinate(IDrawableObject element)
-        {
-            if (element != null)
-            {
-                Point HalfElementSize = new Point(((UserControl)element).ActualWidth / 2.0, ((UserControl)element).ActualHeight / 2.0);
-                Point ElementOffset = new Point(Canvas.GetLeft((UIElement)element), Canvas.GetTop((UIElement)element));
-                return (Point)((Vector)ElementOffset + (Vector)HalfElementSize);
-            }
-            else { return null; }
-        }
         private RelayCommand plot2DMouseMoveCommand;
-
         public ICommand Plot2DMouseMoveCommand => plot2DMouseMoveCommand ??= new RelayCommand(Plot2DMouseMove);
         private void Plot2DMouseMove(object commandParameter)
         {
             if (commandParameter is MouseEventArgs e)
             {
                 CurrentPickedObjectPosition = e.GetPosition(this);
-                Point offset = e.GetPosition(this);
+                Point offset = new(e.GetPosition(this).X / AbsolutePlotScaleFactor, e.GetPosition(this).Y / AbsolutePlotScaleFactor); 
+                var mouseOffset = new Point(offset.X - MouseOldCoord.X, offset.Y - MouseOldCoord.Y);
                 if (e.MouseDevice.Captured is IMoveableObject target && PlotObjectCanMove)
                 {
-
                     if (target is ILensViewObject)
                     {
-                        Move((UIElement)target, offset.X - MouseOldCoord.X, offset.Y - MouseOldCoord.Y);
+                        var lensObject = (UserControl)target;
+
+                        Move(lensObject, mouseOffset.X, mouseOffset.Y);
+
+                        if (target is LensView lens)
+                        {
+                            lens.X += mouseOffset.X;
+                            lens.Y += mouseOffset.Y;
+                        };
                     }
                 }else if (CoordinateSystemCanMove)
                 {
                     foreach (var lens in Lenses) 
                     {
-                        Move(lens, offset.X - MouseOldCoord.X, offset.Y - MouseOldCoord.Y);
+                        Move(lens, mouseOffset.X, mouseOffset.Y);
                     }
                     foreach (Line PlotAxis in BackgroundCanvas.Children)
                     {
-                        Move(PlotAxis, offset.X - MouseOldCoord.X, offset.Y - MouseOldCoord.Y);
+                        Move(PlotAxis, mouseOffset.X, mouseOffset.Y);
                     }
+                    PlotOrigin.X += mouseOffset.X;
+                    PlotOrigin.Y += mouseOffset.Y;
                 }
-                MouseOldCoord = e.GetPosition(this);
-                
+                MouseOldCoord = offset;
+
             }
         }
         private RelayCommand plot2DMouseWheelCommand;
@@ -296,30 +292,15 @@ namespace LensSimulator.View._2DPlot
         {
             if(Lenses != null)
             {
-                
                 if (commandParameter is MouseWheelEventArgs wheelParam)
                 {
                     RelativePlotScaleFactor = wheelParam.Delta > 0 ? PlotZoomSpeed : 1 / PlotZoomSpeed;
                     AbsolutePlotScaleFactor *= RelativePlotScaleFactor;
-                    foreach (var lens in Lenses)
-                    {
-                        Point oldOffset = new(Canvas.GetLeft(lens), Canvas.GetTop(lens));
-                        Point newOffset = new(oldOffset.X * RelativePlotScaleFactor, oldOffset.Y * RelativePlotScaleFactor);
-                        Canvas.SetLeft(lens, newOffset.X);
-                        Canvas.SetTop(lens, newOffset.Y);
-                        var newTransform = new ScaleTransform(AbsolutePlotScaleFactor, AbsolutePlotScaleFactor, lens.ActualWidth * 0.5, lens.ActualHeight * 0.5);
-                        lens.LayoutTransform = newTransform;
-                    }
-                    foreach (Line PlotAxis in BackgroundCanvas.Children)
-                    {
-                        Point newOffset = new(Canvas.GetLeft(PlotAxis) * RelativePlotScaleFactor, Canvas.GetTop(PlotAxis) * RelativePlotScaleFactor);
-                        Canvas.SetLeft(PlotAxis, newOffset.X);
-                        Canvas.SetTop(PlotAxis, newOffset.Y);
-                        var newTransform = new ScaleTransform(AbsolutePlotScaleFactor, AbsolutePlotScaleFactor, PlotAxis.ActualWidth * 0.5, PlotAxis.ActualHeight * 0.5);
-                        PlotAxis.LayoutTransform = newTransform;
-                    }
+                    var frontCanvasTransform = new ScaleTransform(AbsolutePlotScaleFactor, AbsolutePlotScaleFactor, 0.0, 0.0);
+                    var backgroundCanvasTransform = new ScaleTransform(AbsolutePlotScaleFactor, AbsolutePlotScaleFactor, 0.0,0.0);
+                    FrontCanvas.LayoutTransform = frontCanvasTransform;
+                    BackgroundCanvas.LayoutTransform = backgroundCanvasTransform;
                 }
-                
             }
         }
     }

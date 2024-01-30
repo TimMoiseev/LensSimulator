@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "WindowSystem.h"
 #include <GL/glew.h>
+#include <cassert>
 
 void WindowSystem::createGLContext()
 {
@@ -28,11 +29,8 @@ void WindowSystem::createGLContext()
 	if (auto pf = ChoosePixelFormat(dc, &pfd)) {
 		if (SetPixelFormat(dc, pf, &pfd)) {
 			renderContext = wglCreateContext(dc);
-
 			if (wglMakeCurrent(dc, renderContext)) {
-				if (glewInit() == GLEW_OK) {
-					int a = 5;
-				}
+				assert((glewInit() == GLEW_OK) && "glew init error");
 			}
 		}
 	}

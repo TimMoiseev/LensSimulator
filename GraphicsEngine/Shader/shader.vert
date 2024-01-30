@@ -9,7 +9,8 @@ uniform mat4 cameraMatrix;
 uniform mat4 objectMatrix;
 void main(){
     gl_Position = cameraMatrix * (objectMatrix * vec4(aPos, 1.0));
-    fragPos = vec3(gl_Position);
+    vec4 p = objectMatrix * vec4(aPos, 1.0);
+    fragPos = vec3(p.x, p.y, p.z);
     vColor = vec4(aColor, 1.0);
     normal = aNormal;
  }
