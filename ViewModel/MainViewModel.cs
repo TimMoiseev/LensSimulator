@@ -52,6 +52,7 @@ namespace LensSimulator.ViewModel
         {
              return new LensView()
              {
+                 LensType = model.LensType,
                  Id = model.Id,
                  R1 = model.R1,
                  R2 = model.R2,
@@ -145,6 +146,7 @@ namespace LensSimulator.ViewModel
             {
                 LensView lv = sender as LensView;
                 var foundModel = LensesModels.FirstOrDefault(item => item.Id == lv.Id);
+                if (foundModel.LensType != lv.LensType) { foundModel.LensType = lv.LensType; };
                 if (foundModel.D != lv.D) { foundModel.D = lv.D; };
                 if (foundModel.R1 != lv.R1) { foundModel.R1 = lv.R1; };
                 if (foundModel.R2 != lv.R2) { foundModel.R2 = lv.R2; };
@@ -170,7 +172,6 @@ namespace LensSimulator.ViewModel
                             GetEngineState().IsRunning = true;
                         }
                     }
-                    
                 })); 
             }
         }
@@ -282,5 +283,70 @@ namespace LensSimulator.ViewModel
             }
         }
 
+        private RelayCommand biConvexLensClickCommand;
+        public ICommand BiConvexLensClickCommand => biConvexLensClickCommand ??= new RelayCommand(BiConvexLensClick);
+
+        private void BiConvexLensClick(object commandParameter)
+        {
+            if (commandParameter != null)
+            {
+                LensesModels.Add(new LensModel(LensModel.LensTypes.DoubleConvexLens));
+            }
+        }
+
+        private RelayCommand doubleConcaveLensClickCommand;
+        public ICommand DoubleConcaveLensClickCommand => doubleConcaveLensClickCommand ??= new RelayCommand(DoubleConcaveLensClick);
+
+        private void DoubleConcaveLensClick(object commandParameter)
+        {
+            if (commandParameter != null)
+            {
+                LensesModels.Add(new LensModel(LensModel.LensTypes.DoubleConcaveLens));
+            }
+        }
+
+        private RelayCommand negativeMeniscusLensClickCommand;
+        public ICommand NegativeMeniscusLensClickCommand => negativeMeniscusLensClickCommand ??= new RelayCommand(NegativeMeniscusLensClick);
+
+        private void NegativeMeniscusLensClick(object commandParameter)
+        {
+            if (commandParameter != null)
+            {
+                LensesModels.Add(new LensModel(LensModel.LensTypes.NegativeMeniscusLens));
+            }
+        }
+
+        private RelayCommand planoConvexLensClickCommand;
+        public ICommand PlanoConvexLensClickCommand => planoConvexLensClickCommand ??= new RelayCommand(PlanoConvexLensClick);
+
+        private void PlanoConvexLensClick(object commandParameter)
+        {
+            if (commandParameter != null)
+            {
+                LensesModels.Add(new LensModel(LensModel.LensTypes.PlanoConvexLens));
+            }
+        }
+
+        private RelayCommand planoConcaveLensClickCommand;
+        public ICommand PlanoConcaveLensClickCommand => planoConcaveLensClickCommand ??= new RelayCommand(PlanoConcaveLensClick);
+
+        private void PlanoConcaveLensClick(object commandParameter)
+        {
+            if (commandParameter != null)
+            {
+                LensesModels.Add(new LensModel(LensModel.LensTypes.PlanoConcaveLens));
+            }
+        }
+
+        private RelayCommand positiveMeniscusLensClickCommand;
+        public ICommand PositiveMeniscusLensClickCommand => positiveMeniscusLensClickCommand ??= new RelayCommand(PositiveMeniscusLensClick);
+
+        private void PositiveMeniscusLensClick(object commandParameter)
+        {
+            if (commandParameter != null)
+            {
+                LensesModels.Add(new LensModel(LensModel.LensTypes.PositiveMeniscusLens));
+            }
+        }
     }
 }

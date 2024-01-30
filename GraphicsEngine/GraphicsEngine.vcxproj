@@ -185,7 +185,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BiConvexLens.h" />
+    <ClInclude Include="Lens.h" />
+    <ClInclude Include="FlatDisk.h" />
     <ClInclude Include="OpticElement.h" />
     <ClInclude Include="RingStrip.h" />
     <ClInclude Include="SphericalCap.h" />
@@ -211,7 +212,8 @@
     <ClInclude Include="WindowSystem.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BiConvexLens.cpp" />
+    <ClCompile Include="Lens.cpp" />
+    <ClCompile Include="FlatDisk.cpp" />
     <ClCompile Include="OpticElement.cpp" />
     <ClCompile Include="RingStrip.cpp" />
     <ClCompile Include="SphericalCap.cpp" />

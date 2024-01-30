@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LensSimulator.View.OpticElement"
-             xmlns:udc ="clr-namespace:LensSimulator.View.UpDownButton"
+             xmlns:udc ="clr-namespace:LensSimulator.View.UpDownButton" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              Name="OpticElementSettingsControlView"
              mc:Ignorable="d" 
              d:DesignHeight="180" d:DesignWidth="180">
@@ -62,7 +62,13 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="X: " Foreground="#f1f1f1"></TextBlock>
                         <udc:NumericUpDownButton Number="{Binding ElementName=OpticElementSettingsControlView, Path=X, Mode=TwoWay}"></udc:NumericUpDownButton>
-                        <Button Content="Lock" Margin="4 0 4 0"></Button>
+                        <Button Content="Lock" Margin="4 0 4 0">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding ElementName=OpticElementSettingsControlView, Path=XLockCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
                         <Button Content="Zero"></Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">

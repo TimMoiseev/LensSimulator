@@ -42,12 +42,18 @@ namespace LensSimulator.View.OpticElement
 
         private static void OnLensViewPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            (d as LensView).OnPropertyChanged(nameof(LensType));
+            (d as LensView).OnPropertyChanged(nameof(RDirection));
+            (d as LensView).OnPropertyChanged(nameof(LDirection));
             (d as LensView).OnPropertyChanged(nameof(RStartPoint));
             (d as LensView).OnPropertyChanged(nameof(RPoint));
             (d as LensView).OnPropertyChanged(nameof(LStartPoint));
             (d as LensView).OnPropertyChanged(nameof(LPoint));
             (d as LensView).OnPropertyChanged(nameof(RSize));
             (d as LensView).OnPropertyChanged(nameof(LSize));
+            (d as LensView).OnPropertyChanged(nameof(X));
+            (d as LensView).OnPropertyChanged(nameof(Y));
+            (d as LensView).OnPropertyChanged(nameof(Z));
         }
 
         public int? Id
@@ -61,13 +67,10 @@ namespace LensSimulator.View.OpticElement
                 typeof(LensModel.LensTypes), 
                 typeof(LensView), 
                 new FrameworkPropertyMetadata(
-                    LensModel.LensTypes.DoubleConcaveLens, 
+                    LensModel.LensTypes.DoubleConvexLens, 
                     FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender, 
-                    new PropertyChangedCallback(OnLensTypeChanged)));
-        private static void OnLensTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-        }
-
+                    OnLensViewPropertyChanged));
+        
         public LensModel.LensTypes LensType
         {
             get { return (LensModel.LensTypes)GetValue(LensTypeProperty); }
@@ -171,14 +174,127 @@ namespace LensSimulator.View.OpticElement
             get => (double)GetValue(ZProperty);
             set { SetValue(ZProperty, value); }
         }
-        public Point RStartPoint { get { return new Point(H + R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), 0.0); } }
-        public Point RPoint { get { return new Point(H + R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), D); } }
-        public Size RSize { get { return new Size(R2, R2); } }
-        public Point LStartPoint { get { return new Point(R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), 0.0); } }
-        public Point LPoint { get { return new Point(R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), D); } }
-        public Size LSize { get { return new Size(R1, R1); } }
-        public SweepDirection RDirection { get { return SweepDirection.Clockwise; } }
-        public SweepDirection LDirection { get { return SweepDirection.Counterclockwise; } }
+        public Point RStartPoint { 
+            get 
+            {
+                //return new Point(H + R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), 0.0); 
+                return LensType switch
+                {
+                    LensModel.LensTypes.DoubleConvexLens => new Point(H + R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), 0.0),
+                    LensModel.LensTypes.DoubleConcaveLens => new Point(H, 0.0),
+                    LensModel.LensTypes.PlanoConcaveLens => new Point(H, 0.0),
+                    LensModel.LensTypes.PlanoConvexLens => new Point(H, 0.0),
+                    LensModel.LensTypes.PositiveMeniscusLens => new Point(H + R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), 0.0),
+                    LensModel.LensTypes.NegativeMeniscusLens => new Point(H + R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), 0.0),
+                    _ => new Point(0.0, 0.0)
+                };
+            } 
+        }
+        public Point RPoint { 
+            get 
+            {
+                return LensType switch
+                {
+                    LensModel.LensTypes.DoubleConvexLens => new Point(H + R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), D),
+                    LensModel.LensTypes.DoubleConcaveLens => new Point(H, D),
+                    LensModel.LensTypes.PlanoConcaveLens => new Point(H, D),
+                    LensModel.LensTypes.PlanoConvexLens => new Point(H, D),
+                    LensModel.LensTypes.PositiveMeniscusLens => new Point(H + R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), D),
+                    LensModel.LensTypes.NegativeMeniscusLens => new Point(H + R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), D),
+                    _ => new Point(0.0, 0.0)
+                };
+            } 
+        }
+        public Size RSize { 
+            get 
+            {
+                return LensType switch
+                {
+                    LensModel.LensTypes.DoubleConvexLens => new Size(R2, R2),
+                    LensModel.LensTypes.DoubleConcaveLens => new Size(R2, R2),
+                    LensModel.LensTypes.PlanoConcaveLens => new Size(R2, R2),
+                    LensModel.LensTypes.PlanoConvexLens => new Size(R2, R2),
+                    LensModel.LensTypes.PositiveMeniscusLens => new Size(R2, R2),
+                    LensModel.LensTypes.NegativeMeniscusLens => new Size(R2, R2),
+                    _ => new Size(0.0, 0.0)
+                };
+            } 
+        }
+        public Point LStartPoint { 
+            get 
+            {
+                return LensType switch
+                {
+                    LensModel.LensTypes.DoubleConvexLens => new Point(R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), 0.0),
+                    LensModel.LensTypes.DoubleConcaveLens => new Point(0.0, 0.0),
+                    LensModel.LensTypes.PlanoConcaveLens => new Point(0.0, 0.0),
+                    LensModel.LensTypes.PlanoConvexLens => new Point(0.0, 0.0),
+                    LensModel.LensTypes.PositiveMeniscusLens => new Point(R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), 0.0),
+                    LensModel.LensTypes.NegativeMeniscusLens => new Point(R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), 0.0),
+                    _ => new Point(0.0, 0.0)
+                };
+            } 
+        }
+        public Point LPoint { 
+            get 
+            {
+                return LensType switch
+                {
+                    LensModel.LensTypes.DoubleConvexLens => new Point(R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), D),
+                    LensModel.LensTypes.DoubleConcaveLens => new Point(0.0, D),
+                    LensModel.LensTypes.PlanoConcaveLens => new Point(0.0, D),
+                    LensModel.LensTypes.PlanoConvexLens => new Point(0.0, D),
+                    LensModel.LensTypes.PositiveMeniscusLens => new Point(R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), D),
+                    LensModel.LensTypes.NegativeMeniscusLens => new Point(R1 - Math.Sqrt(Math.Pow(R1, 2.0) - Math.Pow(D, 2.0) / 4.0), D),
+                    _ => new Point(0.0, 0.0)
+                };
+            } 
+        }
+        public Size LSize { 
+            get 
+            {
+                return LensType switch
+                {
+                    LensModel.LensTypes.DoubleConvexLens => new Size(R1, R1),
+                    LensModel.LensTypes.DoubleConcaveLens => new Size(R1, R1),
+                    LensModel.LensTypes.PlanoConcaveLens => new Size(1000, 1000),
+                    LensModel.LensTypes.PlanoConvexLens => new Size(1000, 1000),
+                    LensModel.LensTypes.PositiveMeniscusLens => new Size(R1, R1),
+                    LensModel.LensTypes.NegativeMeniscusLens => new Size(R1, R1),
+                    _ => new Size(0.0, 0.0)
+                };
+            } 
+        }
+        public SweepDirection RDirection { 
+            get 
+            {
+                return LensType switch
+                {
+                    LensModel.LensTypes.DoubleConvexLens => SweepDirection.Clockwise,
+                    LensModel.LensTypes.DoubleConcaveLens => SweepDirection.Counterclockwise,
+                    LensModel.LensTypes.PlanoConcaveLens => SweepDirection.Counterclockwise,
+                    LensModel.LensTypes.PlanoConvexLens => SweepDirection.Clockwise,
+                    LensModel.LensTypes.PositiveMeniscusLens => SweepDirection.Clockwise,
+                    LensModel.LensTypes.NegativeMeniscusLens => SweepDirection.Clockwise,
+                    _ => SweepDirection.Clockwise
+                };
+            } 
+        }
+        public SweepDirection LDirection { 
+            get 
+            {
+                return LensType switch
+                {
+                    LensModel.LensTypes.DoubleConvexLens => SweepDirection.Counterclockwise,
+                    LensModel.LensTypes.DoubleConcaveLens => SweepDirection.Clockwise,
+                    LensModel.LensTypes.PlanoConcaveLens => SweepDirection.Counterclockwise,
+                    LensModel.LensTypes.PlanoConvexLens => SweepDirection.Clockwise,
+                    LensModel.LensTypes.PositiveMeniscusLens => SweepDirection.Clockwise,
+                    LensModel.LensTypes.NegativeMeniscusLens => SweepDirection.Clockwise,
+                    _ => SweepDirection.Clockwise
+                };
+            } 
+        }
         public LensView()
         {
             InitializeComponent();

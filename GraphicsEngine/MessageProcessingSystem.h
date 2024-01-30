@@ -3,6 +3,7 @@
 #include <mutex>
 #include <nlohmann/json.hpp>
 #include <queue>
+#include <map>
 #include "OpticElement.h"
 
 using std::string;
@@ -28,12 +29,13 @@ class MessageProcessingSystem
 	function<void(int, int)> mouseDragPointer = nullptr;
 	function<void(int)> mouseWheelPointer = nullptr;
 	function<void(int, int)> resizeFunPointer = nullptr;
-	function<void(string, int, float, float, float, float, float, float, float)> changeLensFunPointer = nullptr;
+	function<void(string, int, float, float, float, float, float, float, float, OpticElementType)> changeLensFunPointer = nullptr;
+	std::map<string, OpticElementType> lensTypeStringToEnum;
 public:
 	void setStopCallback(function<void(void)> f);
 	void setResizeCallback(function<void(int,int)> f);
 	void setMouseWheelCallback(function<void(int)> f);
-	void setChangeLensCallBack(function<void(string, int, float, float, float, float, float, float, float)> f);
+	void setChangeLensCallBack(function<void(string, int, float, float, float, float, float, float, float, OpticElementType)> f);
 	void mouseDragFun(function<void(int,int)> f);
 	bool process();
 	json getCurrentMessage();

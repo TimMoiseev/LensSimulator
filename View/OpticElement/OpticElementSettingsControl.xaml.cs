@@ -1,4 +1,5 @@
-﻿using LensSimulator.View._2DPlot;
+﻿using LensSimulator.Commands;
+using LensSimulator.View._2DPlot;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -60,7 +61,6 @@ namespace LensSimulator.View.OpticElement
         }
         private static void CurrentOpticElementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-
             if (e.NewValue is LensView newLens)
             {
                 if(d is OpticElementSettingsControl control)
@@ -69,20 +69,14 @@ namespace LensSimulator.View.OpticElement
                     PropertyChangedEventHandler handler = (sender, e) => {
                         control.UpdateLensViewProperty(newLens);
                     };
-
                     newLens.PropertyChanged += handler;
                     if (e.OldValue is LensView oldLens)
                     {
                         oldLens.PropertyChanged -= handler;
                     }
                 }
-                
             }
-
         }
-
-        
-
         private double _r1 = 0.0;
         private double _r2 = 0.0;
         private double _h = 0.0;
@@ -90,7 +84,6 @@ namespace LensSimulator.View.OpticElement
         private double _x = 0.0;
         private double _y = 0.0;
         private double _z = 0.0;
-
         public double R1
         {
             get { return _r1; }
@@ -158,6 +151,12 @@ namespace LensSimulator.View.OpticElement
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+        private RelayCommand xLockCommand;
+        public ICommand XLockCommand => xLockCommand ??= new RelayCommand(XLock);
+
+        private void XLock(object commandParameter)
+        {
         }
     }
 }

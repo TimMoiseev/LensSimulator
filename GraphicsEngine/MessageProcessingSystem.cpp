@@ -3,6 +3,18 @@
 
 MessageProcessingSystem::MessageProcessingSystem()
 {
+	//DoubleConvexLens = 0,
+	//	PlanoConvexLens = 1,
+	//	PositiveMeniscusLens = 2,
+	//	NegativeMeniscusLens = 3,
+	//	PlanoConcaveLens = 4,
+	//	DoubleConcaveLens = 5
+	lensTypeStringToEnum["DoubleConvexLens"] = OpticElementType::DoubleConvex;
+	lensTypeStringToEnum["PlanoConvexLens"] = OpticElementType::PlanoConvex;
+	lensTypeStringToEnum["PositiveMeniscusLens"] = OpticElementType::PositiveMeniscus;
+	lensTypeStringToEnum["NegativeMeniscusLens"] = OpticElementType::NegativeMeniscus;
+	lensTypeStringToEnum["PlanoConcaveLens"] = OpticElementType::PlanoConcave;
+	lensTypeStringToEnum["DoubleConcaveLens"] = OpticElementType::DoubleConcave;
 }
 void MessageProcessingSystem::destroyMessageProcessingSystem(MessageProcessingSystem* target)
 {
@@ -29,7 +41,7 @@ void MessageProcessingSystem::setMouseWheelCallback(function<void(int)> f)
 	mouseWheelPointer = f;
 }
 
-void MessageProcessingSystem::setChangeLensCallBack(function<void(string, int, float, float, float, float, float, float, float)> f)
+void MessageProcessingSystem::setChangeLensCallBack(function<void(string, int, float, float, float, float, float, float, float, OpticElementType)> f)
 {
 	changeLensFunPointer = f;
 }
@@ -73,6 +85,7 @@ bool MessageProcessingSystem::process()
 		}
 		else if (message["Type"].template get<std::string>() == "ChangeLensMessage") {
 			string mt = message["MessageType"].template get<string>();
+			OpticElementType type = lensTypeStringToEnum[message["LensType"].template get<string>()];
 			int id = message["ID"].template get<int>();
 			float d = message["D"].template get<float>();
 			float r1 = message["R1"].template get<float>();
@@ -81,7 +94,7 @@ bool MessageProcessingSystem::process()
 			float x = message["X"].template get<float>();
 			float y = message["Y"].template get<float>();
 			float z = message["Z"].template get<float>();
-			changeLensFunPointer(mt, id, d, r1, r2, h, x, y, z);
+			changeLensFunPointer(mt, id, d, r1, r2, h, x, y, z, type);
 			
 			
 		}

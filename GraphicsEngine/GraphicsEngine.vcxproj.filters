@@ -81,10 +81,13 @@
     <ClInclude Include="RingStrip.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="BiConvexLens.h">
+    <ClInclude Include="Lens.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="OpticElement.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="FlatDisk.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -152,10 +155,13 @@
     <ClCompile Include="RingStrip.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="BiConvexLens.cpp">
+    <ClCompile Include="Lens.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="OpticElement.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="FlatDisk.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

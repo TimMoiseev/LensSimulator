@@ -124,11 +124,25 @@ namespace LensSimulator.View._2DPlot
                     if (lens != null)
                     {
                         lens.Loaded += Lens_Loaded;
-                        
                     }
                 }
             }
             OnPropertyChanged(nameof(Lenses));
+        }
+
+        private void Lens_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Size oldSize = e.PreviousSize;
+            Size newSize = e.NewSize;
+            LensView? lens = sender as LensView;
+            if (oldSize != newSize && lens != null)
+            {
+                Point sizeDelta = new Point(newSize.Width-oldSize.Width, newSize.Height-oldSize.Height);
+                Point oldCoord = new Point(Canvas.GetLeft(lens), Canvas.GetTop(lens));
+                Point newCoord = new Point(oldCoord.X-sizeDelta.X*0.5, oldCoord.Y-sizeDelta.Y*0.5);
+                Canvas.SetLeft(lens, newCoord.X);
+                Canvas.SetTop(lens, newCoord.Y);
+            }
         }
 
         private void Lens_Loaded(object sender, RoutedEventArgs e)
@@ -136,10 +150,35 @@ namespace LensSimulator.View._2DPlot
             LensView? lens = sender as LensView;
             if (lens != null)
             {
-
                 Canvas.SetLeft(lens,-lens.ActualWidth * .5f + PlotOrigin.X);
                 Canvas.SetTop(lens, -lens.ActualHeight * .5f + PlotOrigin.Y);
+                lens.SizeChanged += Lens_SizeChanged;
+                lens.PropertyChanged += Lens_PropertyChanged;
             }
+        }
+
+
+        private Point? currentLensCord = null;
+        private void Lens_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (sender is LensView lens)
+            {
+                Point newCoordLens = new Point(lens.X, lens.Y);
+                if (currentLensCord == null)
+                {
+                    currentLensCord = newCoordLens;
+                }
+                if (currentLensCord != newCoordLens && currentLensCord != null)
+                {
+                    Point oldOffset = new Point(lens.X - currentLensCord.Value.X, lens.Y - currentLensCord.Value.Y);
+                    Point newOffset = new Point(Canvas.GetLeft(lens), Canvas.GetTop(lens));
+                    Point delta = new Point(newOffset.X + oldOffset.X, newOffset.Y + oldOffset.Y);
+                    Canvas.SetLeft(lens, delta.X);
+                    Canvas.SetTop(lens, delta.Y);
+                    currentLensCord = newCoordLens;
+                }
+            }
+
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -181,7 +220,15 @@ namespace LensSimulator.View._2DPlot
             nameof(CurrentPickedObject), 
             typeof(LensView),
             typeof(Plot2D), 
-            new PropertyMetadata(null));
+            new PropertyMetadata(null, CurrentPickedObjectChanged));
+
+        private static void CurrentPickedObjectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is Plot2D plot)
+            {
+                plot.currentLensCord = null;
+            }
+        }
 
         private bool PlotObjectCanMove = false;
         private Point MouseOldCoord { get; set; }
@@ -245,6 +292,14 @@ namespace LensSimulator.View._2DPlot
                 return false;
             }
         }
+        private void MoveLens(LensView? lens, double x, double y)
+        {
+            if (lens != null)
+            {
+                lens.X += x;
+                lens.Y += y;
+            }
+        }
         private RelayCommand plot2DMouseMoveCommand;
         public ICommand Plot2DMouseMoveCommand => plot2DMouseMoveCommand ??= new RelayCommand(Plot2DMouseMove);
         private void Plot2DMouseMove(object commandParameter)
@@ -260,13 +315,8 @@ namespace LensSimulator.View._2DPlot
                     {
                         var lensObject = (UserControl)target;
 
-                        Move(lensObject, mouseOffset.X, mouseOffset.Y);
+                        MoveLens(lensObject as LensView, mouseOffset.X, mouseOffset.Y);
 
-                        if (target is LensView lens)
-                        {
-                            lens.X += mouseOffset.X;
-                            lens.Y += mouseOffset.Y;
-                        };
                     }
                 }else if (CoordinateSystemCanMove)
                 {
@@ -296,8 +346,8 @@ namespace LensSimulator.View._2DPlot
                 {
                     RelativePlotScaleFactor = wheelParam.Delta > 0 ? PlotZoomSpeed : 1 / PlotZoomSpeed;
                     AbsolutePlotScaleFactor *= RelativePlotScaleFactor;
-                    var frontCanvasTransform = new ScaleTransform(AbsolutePlotScaleFactor, AbsolutePlotScaleFactor, 0.0, 0.0);
-                    var backgroundCanvasTransform = new ScaleTransform(AbsolutePlotScaleFactor, AbsolutePlotScaleFactor, 0.0,0.0);
+                    var frontCanvasTransform = new ScaleTransform(AbsolutePlotScaleFactor, AbsolutePlotScaleFactor, ActualWidth*0.5, ActualHeight*0.5);
+                    var backgroundCanvasTransform = new ScaleTransform(AbsolutePlotScaleFactor, AbsolutePlotScaleFactor, ActualWidth * 0.5, ActualHeight * 0.5);
                     FrontCanvas.LayoutTransform = frontCanvasTransform;
                     BackgroundCanvas.LayoutTransform = backgroundCanvasTransform;
                 }

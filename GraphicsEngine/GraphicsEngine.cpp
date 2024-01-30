@@ -8,7 +8,8 @@
 #include "Line.h"
 #include "Grid.h"
 #include "RingStrip.h"
-#include "BiConvexLens.h"
+#include "Lens.h"
+#include "FlatDisk.h"
 
 void GraphicsEngine::resizeCallback(int width, int height) {
     glViewport(0, 0, width, height);
@@ -27,19 +28,18 @@ void GraphicsEngine::beginMainLoop()
     Line axisZ(vec3(0, 0, 0), vec3(0, 0, 100), blue);
     Grid grid(20, 20);
     auto lastTime = std::chrono::high_resolution_clock::now();
-
     messageSystem->setResizeCallback([&](int w, int h) { resizeCallback(w, h); });
     messageSystem->setStopCallback([&]() { stopped = true; });
-    messageSystem->setChangeLensCallBack([&](string operationType, int id, float d, float r1, float r2, float h, float x, float y, float z)
+    messageSystem->setChangeLensCallBack([&](string operationType, int id, float d, float r1, float r2, float h, float x, float y, float z, OpticElementType type)
         {
             if (operationType == "Add") {
-                lensSystem.push_back(new BiConvexLens(d, r1, r2, h, vec3{ 0.0, 1.0, 0.0 }, vec3{ -y, -x, z }, id));
+                lensSystem.push_back(new Lens(d, r1, r2, h, vec3{ 0.0, 1.0, 0.0 }, vec3{ -y, -x, z }, type, id));
             }
             else if (operationType == "Change") {
                 for (auto* lens : lensSystem) {
                     if (lens->id == id) 
                     {
-                        lens->changeProperties(d, r1, r2, h);
+                        lens->changeProperties(d, r1, r2, h, type);
                     }
                 }
             }
@@ -54,11 +54,9 @@ void GraphicsEngine::beginMainLoop()
         }
     );
 	while (!stopped) {
-
         auto currentTime = std::chrono::high_resolution_clock::now();
         uint64_t duration = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - lastTime).count();
         lastTime = currentTime;
-        
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         for (auto lens : lensSystem) {
@@ -73,7 +71,6 @@ void GraphicsEngine::beginMainLoop()
 		SwapBuffers(dc);
         messageSystem->process();
 	}
-    
     destroyGraphicsEngine(this);
 }
 

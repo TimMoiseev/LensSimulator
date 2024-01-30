@@ -15,17 +15,18 @@ Renderer::Renderer(ShaderSystem* shaderSystem) : shaderSystem { shaderSystem }
 
 void Renderer::draw(Primitive* primitive)
 {
-	
-	shaderSystem->bindUniformParameters("objectMatrix", primitive->getObjectMatrix());
-	primitive->bindArrayAttrib();
-	
-	/*bindIndexBuffer(primitive->IndicesView());*/
-	glDrawElements(
-		primitive->getGeometryType(),
-		primitive->IndicesView()->getSize(),
-		GL_UNSIGNED_INT,
-		(void*)0
-	);
+	if (primitive != nullptr) {
+		shaderSystem->bindUniformParameters("objectMatrix", primitive->getObjectMatrix());
+		primitive->bindArrayAttrib();
+
+		/*bindIndexBuffer(primitive->IndicesView());*/
+		glDrawElements(
+			primitive->getGeometryType(),
+			primitive->IndicesView()->getSize(),
+			GL_UNSIGNED_INT,
+			(void*)0
+		);
+	}
 }
 
 void Renderer::draw(std::vector<Primitive*> primitives)

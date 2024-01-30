@@ -13,7 +13,6 @@
         Title="LensSimulator" Height="720" Width="1280"
         WindowStyle="None" ResizeMode="CanResize"
         >
-
     <Grid Background="#1e1e1e">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.12*"/>
@@ -26,7 +25,6 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Name="MenuBar" Background="#1e1e1e">
-
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewMouseDown">
                         <i:InvokeCommandAction Command="{Binding MenuBarMouseDownCommand}" 
@@ -42,7 +40,6 @@
                     <ColumnDefinition Width="0.08*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
-                    
                 </Grid>
                 <Grid Grid.Column="1">
                     <Grid.ColumnDefinitions>
@@ -67,7 +64,6 @@
                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding WindowClosingCommand, Mode=OneTime}" />
                             </i:EventTrigger>
-
                         </i:Interaction.Triggers>
                     </Grid>
                 </Grid>
@@ -91,9 +87,92 @@
                                     <TextBlock Text="Lenses"/>
                                 </TabItem.Header>
                                 <TabItem.Content>
-                                    <oe:OpticElementButton>
-                                        
-                                    </oe:OpticElementButton>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid Grid.Column="0">
+                                                    <Button x:Name="BiConvexLensButton">
+                                                        <Image Source="Resource\lens\BiConvexLens.png"></Image>
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Click">
+                                                                <i:InvokeCommandAction Command="{Binding BiConvexLensClickCommand}" PassEventArgsToCommand="True"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </Button>
+                                                </Grid>
+                                                <Grid Grid.Column="1">
+                                                    <Button x:Name="DoubleConcaveLensButton">
+                                                        <Image Source="Resource\lens\DoubleConcaveLens.png"></Image>
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Click">
+                                                                <i:InvokeCommandAction Command="{Binding DoubleConcaveLensClickCommand}" PassEventArgsToCommand="True"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </Button>
+                                                </Grid>
+                                                <Grid Grid.Column="2">
+                                                    <Button x:Name="NegativeMeniscusLensButton">
+                                                        <Image Source="Resource\lens\NegativeMeniscusLens.png"></Image>
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Click">
+                                                                <i:InvokeCommandAction Command="{Binding NegativeMeniscusLensClickCommand}" PassEventArgsToCommand="True"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid Grid.Row="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid Grid.Column="0">
+                                                    <Button x:Name="PlanoConvexLensButton">
+                                                        <Image Source="Resource\lens\PlanoConvexLens.png"></Image>
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Click">
+                                                                <i:InvokeCommandAction Command="{Binding PlanoConvexLensClickCommand}" PassEventArgsToCommand="True"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </Button>
+                                                </Grid>
+                                                <Grid Grid.Column="1">
+                                                    <Button x:Name="PlanoConcaveLensButton">
+                                                        <Image Source="Resource\lens\PlanoConcaveLens.png"></Image>
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Click">
+                                                                <i:InvokeCommandAction Command="{Binding PlanoConcaveLensClickCommand}" PassEventArgsToCommand="True"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </Button>
+                                                </Grid>
+                                                <Grid Grid.Column="2">
+                                                    <Button x:Name="PositiveMeniscusLensButton">
+                                                        <Image Source="Resource\lens\PositiveMeniscusLens.png"></Image>
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Click">
+                                                                <i:InvokeCommandAction Command="{Binding PositiveMeniscusLensClickCommand}" PassEventArgsToCommand="True"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
                                 </TabItem.Content>
                             </TabItem>
                             <TabItem Background="#4f4f4f">
@@ -101,13 +180,11 @@
                                     <TextBlock Text="Settings"/>
                                 </TabItem.Header>
                                 <TabItem.Content>
-                                    <oe:OpticElementSettingsControl OpticElement="{Binding CurrentLens}"></oe:OpticElementSettingsControl>
+                                    <oe:OpticElementSettingsControl OpticElement="{Binding CurrentLens, Mode=TwoWay}"></oe:OpticElementSettingsControl>
                                 </TabItem.Content>
                             </TabItem>
-                            
                         </TabControl>
                     </Border>
-                    
                 </Grid>
                 <Grid Grid.Row="0">
                     <StackPanel 
@@ -115,17 +192,8 @@
                         AllowDrop="True"
                         Background="#4f4f4f"
                         Orientation="Vertical">
-                        
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="DragOver">
-                                <i:InvokeCommandAction Command="{Binding opticSchemeDragOverCommand}" 
-                                   PassEventArgsToCommand="True"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
                     </StackPanel>
                 </Grid>
-                
-
             </Grid>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -142,17 +210,6 @@
                     </rs:RenderSurface>
                 </Grid>
                 <Grid Grid.Row="1">
-                    <!--<StackPanel x:Name="opticScheme_stackPannel" 
-                                AllowDrop="True"
-                                Background="#5f5f5f"
-                                Orientation="Horizontal">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Drop">
-                                <i:InvokeCommandAction Command="{Binding opticSchemeDropCommand}" 
-                                                       PassEventArgsToCommand="True"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </StackPanel>-->
                     <p2d:Plot2D Lenses="{Binding LensesViews}" CurrentPickedObject="{Binding CurrentLens, Mode=TwoWay}" x:Name="MainPlot2d" Width="Auto" Height="Auto">
                     </p2d:Plot2D>
                 </Grid>
@@ -171,12 +228,8 @@
                 </StackPanel>
             </Grid>
         </Grid>
-
-
     </Grid>
-    
     <Window.DataContext>
         <vm:MainViewModel></vm:MainViewModel>
     </Window.DataContext>
-    
 </Window>
